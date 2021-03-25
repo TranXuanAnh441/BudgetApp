@@ -10,12 +10,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class addExpenseActivity extends AppCompatActivity {
     private EditText addTitle;
     private EditText addAmount;
     private EditText addDescription;
     private EditText addDate;
+    public static final int ADD_REQUEST_CODE = 1;
+    public static final int UPDATE_REQUEST_CODE = 2;
+    public static final String EXTRA_ID = "com.example.budgetapp.EXTRA_ID";
     public static final String EXTRA_TITLE = "com.example.budgetapp.EXTRA_TITLE";
     public static final String EXTRA_AMOUNT = "com.example.budgetapp.EXTRA_AMOUNT";
     public static final String EXTRA_DATE = "com.example.budgetapp.EXTRA_DATE";
@@ -31,7 +35,14 @@ public class addExpenseActivity extends AppCompatActivity {
         addDate = findViewById(R.id.edit_text_date);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close);
-        setTitle("Add Expense");
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_ID)) {
+            setTitle("Edit Note");
+            addTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            addDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
+            addAmount.setText(String.valueOf(intent.getIntExtra(EXTRA_AMOUNT, 0)));
+            addDate.setText(intent.getStringExtra(EXTRA_DATE));
+        } else { setTitle("Add Expense");}
     }
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,13 +67,20 @@ public class addExpenseActivity extends AppCompatActivity {
         String title = addTitle.getText().toString();
         String description = addDescription.getText().toString();
         int amount = Integer.parseInt(addAmount.getText().toString());
-
+        if (title.trim().isEmpty() || String.valueOf(amount).trim().isEmpty() || date.trim().isEmpty()) {
+            Toast.makeText(this, "Please insert properly", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent data = new Intent(this,RecyclerViewActivity.class);
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_DATE, date);
         data.putExtra(EXTRA_DESCRIPTION, description);
         data.putExtra(EXTRA_AMOUNT, amount);
-        setResult(100,data);
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if (id != -1) {
+            data.putExtra(EXTRA_ID, id);
+        }
+        setResult(RecyclerViewActivity.RESULT_OK, data);
         finish();
     }
 }

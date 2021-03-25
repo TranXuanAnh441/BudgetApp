@@ -1,12 +1,18 @@
 package com.example.budgetapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,7 +24,8 @@ import java.util.List;
 
 public class RecyclerViewActivity extends AppCompatActivity {
     private ExpenseViewModel expenseViewModel;
-    public static final int REQUEST_CODE = 1;
+    public static final int RESULT_OK = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +36,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RecyclerViewActivity.this, addExpenseActivity.class);
-                startActivityForResult(intent, REQUEST_CODE);
+                startActivityForResult(intent, RESULT_OK);
             }
         });
         androidx.recyclerview.widget.RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -45,19 +52,79 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 expenseAdapter.setExpenses(expenses);
             }
         });
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                expenseViewModel.delete(expenseAdapter.getExpenseAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(RecyclerViewActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(recyclerView);
+
+        expenseAdapter.setOnItemClickListener(new ExpenseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Expense expense) {
+                Intent intent = new Intent(RecyclerViewActivity.this, addExpenseActivity.class);
+                intent.putExtra(addExpenseActivity.EXTRA_ID, expense.getId());
+                intent.putExtra(addExpenseActivity.EXTRA_AMOUNT, expense.getAmount());
+                intent.putExtra(addExpenseActivity.EXTRA_DATE, expense.getDate());
+                intent.putExtra(addExpenseActivity.EXTRA_TITLE, expense.getTitle());
+                intent.putExtra(addExpenseActivity.EXTRA_DESCRIPTION, expense.getDescription());
+                startActivityForResult(intent, addExpenseActivity.UPDATE_REQUEST_CODE);
+            }
+        });
     }
+
+
     @Override
     public void onActivityResult(int request_code, int result_code, Intent data) {
         super.onActivityResult(request_code, result_code, data);
-        if(request_code == REQUEST_CODE && result_code == 100){
+        if (request_code == addExpenseActivity.ADD_REQUEST_CODE && result_code == RESULT_OK) {
             String title = data.getStringExtra(addExpenseActivity.EXTRA_TITLE);
             String date = data.getStringExtra(addExpenseActivity.EXTRA_DATE);
-            int amount = data.getIntExtra(addExpenseActivity.EXTRA_AMOUNT,0);
+            int amount = data.getIntExtra(addExpenseActivity.EXTRA_AMOUNT, 0);
             String description = data.getStringExtra(addExpenseActivity.EXTRA_DESCRIPTION);
-            Expense expense = new Expense(title,description,amount,date);
+            Expense expense = new Expense(title, description, amount, date);
             expenseViewModel.insert(expense);
             Toast.makeText(this, " saved", Toast.LENGTH_SHORT).show();
+        } else if (request_code == addExpenseActivity.UPDATE_REQUEST_CODE && result_code == RESULT_OK) {
+            int id = data.getIntExtra(addExpenseActivity.EXTRA_ID, -1);
+            if (id == -1) {
+                Toast.makeText(this, "Can't be updated", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String title = data.getStringExtra(addExpenseActivity.EXTRA_TITLE);
+            String date = data.getStringExtra(addExpenseActivity.EXTRA_DATE);
+            String description = data.getStringExtra(addExpenseActivity.EXTRA_DESCRIPTION);
+            int amount = data.getIntExtra(addExpenseActivity.EXTRA_AMOUNT, 1);
+            Expense expense = new Expense(title, description, amount, date);
+            expense.setId(id);
+            expenseViewModel.update(expense);
+            Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "Not saved", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_all:
+                expenseViewModel.deleteAll();
+                Toast.makeText(this, "All deleted", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
+
 }
