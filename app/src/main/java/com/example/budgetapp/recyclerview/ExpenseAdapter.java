@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.R;
@@ -17,16 +19,28 @@ import com.example.budgetapp.database.Expense;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseHolder> {
-    private List<Expense> expenses = new ArrayList<>();
+public class ExpenseAdapter extends ListAdapter<Expense, ExpenseAdapter.ExpenseHolder> {
     private OnItemClickListener listener;
+    private static final DiffUtil.ItemCallback<Expense> DIFF_CALLBACK = new DiffUtil.ItemCallback<Expense>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Expense oldItem, @NonNull Expense newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
 
-    public void setExpenses(List<Expense> expenses){
-        this.expenses = expenses;
-        notifyDataSetChanged();
+        @Override
+        public boolean areContentsTheSame(@NonNull Expense oldItem, @NonNull Expense newItem) {
+            return oldItem.getDate().equals(newItem.getDate()) &&
+                    oldItem.getTitle().equals(newItem.getTitle()) &&
+                    oldItem.getDescription().equals(newItem.getDescription()) &&
+                    oldItem.getAmount() == newItem.getAmount();
+        }};
+
+    public ExpenseAdapter() {
+        super(DIFF_CALLBACK);
     }
+
     public Expense getExpenseAt(int position) {
-        return expenses.get(position);
+        return getItem(position);
     }
     @NonNull
     @Override
@@ -37,7 +51,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseH
 
     @Override
     public void onBindViewHolder(@NonNull ExpenseHolder holder, int position) {
-        Expense currentExpense = expenses.get(position);
+        Expense currentExpense = getItem(position);
         holder.textViewDate.setText(currentExpense.getDate());
         holder.textViewTitle.setText(currentExpense.getTitle());
         holder.textViewAmount.setText(String.valueOf(currentExpense.getAmount()));
@@ -46,10 +60,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseH
 
     }
 
-    @Override
-    public int getItemCount() {
-        return expenses.size();
-    }
 
     class ExpenseHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         private TextView textViewDate;
@@ -70,7 +80,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseH
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(expenses.get(position));
+                        listener.onItemClick(getItem(position));
                 }}
             });
     }}

@@ -49,7 +49,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         expenseViewModel.getAllExpense().observe(this, new Observer<List<Expense>>() {
             @Override
             public void onChanged(List<Expense> expenses) {
-                expenseAdapter.setExpenses(expenses);
+                expenseAdapter.submitList(expenses);
             }
         });
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
