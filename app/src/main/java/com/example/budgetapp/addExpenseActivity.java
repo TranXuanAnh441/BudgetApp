@@ -44,11 +44,11 @@ public class addExpenseActivity extends AppCompatActivity {
             addDate.setText(intent.getStringExtra(EXTRA_DATE));
         } else { setTitle("Add Expense");}
     }
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            MenuInflater menuInflater = getMenuInflater();
-            menuInflater.inflate(R.menu.add_expense_menu, menu);
-            return true;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.add_expense_menu, menu);
+        return true;
         }
 
     @Override
