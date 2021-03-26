@@ -42,6 +42,7 @@ public class ExpenseAdapter extends ListAdapter<Expense, ExpenseAdapter.ExpenseH
     public Expense getExpenseAt(int position) {
         return getItem(position);
     }
+
     @NonNull
     @Override
     public ExpenseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,8 +57,6 @@ public class ExpenseAdapter extends ListAdapter<Expense, ExpenseAdapter.ExpenseH
         holder.textViewTitle.setText(currentExpense.getTitle());
         holder.textViewAmount.setText(String.valueOf(currentExpense.getAmount()));
         holder.textViewDescription.setText(currentExpense.getDescription());
-
-
     }
 
 

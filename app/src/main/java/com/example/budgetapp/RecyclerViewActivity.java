@@ -24,7 +24,7 @@ import java.util.List;
 
 public class RecyclerViewActivity extends AppCompatActivity {
     private ExpenseViewModel expenseViewModel;
-    public static final int RESULT_OK = 1;
+    public static final int RESULT_OK = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RecyclerViewActivity.this, addExpenseActivity.class);
-                startActivityForResult(intent, RESULT_OK);
+                startActivityForResult(intent, addExpenseActivity.ADD_REQUEST_CODE);
             }
         });
         androidx.recyclerview.widget.RecyclerView recyclerView = findViewById(R.id.recycler_view);
