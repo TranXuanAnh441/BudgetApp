@@ -20,7 +20,7 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month,
                                             int dayOfMonth) {
-                String date =  String.valueOf(month + 1) + "/" + dayOfMonth + "/" + year;
+                String date =  dayOfMonth + "/" + String.valueOf(month + 1) + "/" + year;
                 Intent intent = new Intent(view.getContext(), RecyclerViewActivity.class);
                 intent.putExtra(DATE_VALUE, date);
                 startActivity(intent);

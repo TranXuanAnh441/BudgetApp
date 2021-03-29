@@ -16,7 +16,7 @@ public class addExpenseActivity extends AppCompatActivity {
     private EditText addTitle;
     private EditText addAmount;
     private EditText addDescription;
-    private EditText addDate;
+    private TextView addDate;
     public static final int ADD_REQUEST_CODE = 1;
     public static final int UPDATE_REQUEST_CODE = 2;
     public static final String EXTRA_ID = "com.example.budgetapp.EXTRA_ID";
@@ -34,6 +34,7 @@ public class addExpenseActivity extends AppCompatActivity {
         addDescription = findViewById(R.id.edit_text_description);
         addDate = findViewById(R.id.edit_text_date);
 
+
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close);
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_ID)) {
@@ -42,7 +43,7 @@ public class addExpenseActivity extends AppCompatActivity {
             addDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
             addAmount.setText(String.valueOf(intent.getIntExtra(EXTRA_AMOUNT, 0)));
             addDate.setText(intent.getStringExtra(EXTRA_DATE));
-        } else { setTitle("Add Expense");}
+        } else { addDate.setText(intent.getStringExtra(CalendarActivity.DATE_VALUE)); setTitle("Add Expense");}
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

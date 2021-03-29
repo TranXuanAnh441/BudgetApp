@@ -30,12 +30,15 @@ public class RecyclerViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
+        Intent dateIntent = getIntent();
+        String date = dateIntent.getStringExtra(CalendarActivity.DATE_VALUE);
 
         FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_expense);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RecyclerViewActivity.this, addExpenseActivity.class);
+                intent.putExtra(CalendarActivity.DATE_VALUE, date);
                 startActivityForResult(intent, addExpenseActivity.ADD_REQUEST_CODE);
             }
         });
@@ -46,7 +49,8 @@ public class RecyclerViewActivity extends AppCompatActivity {
         recyclerView.setAdapter(expenseAdapter);
 
         expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(ExpenseViewModel.class);
-        expenseViewModel.getAllExpense().observe(this, new Observer<List<Expense>>() {
+        expenseViewModel.setFilter(date);
+        expenseViewModel.getDateExpense().observe(this, new Observer<List<Expense>>() {
             @Override
             public void onChanged(List<Expense> expenses) {
                 expenseAdapter.submitList(expenses);

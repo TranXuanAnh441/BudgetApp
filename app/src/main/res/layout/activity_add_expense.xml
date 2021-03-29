@@ -7,6 +7,14 @@
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".addExpenseActivity">
+    <TextView
+        android:id="@+id/edit_text_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:textColor="@color/purple_700"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        />
     <EditText
         android:id="@+id/edit_text_title"
         android:layout_width="match_parent"
@@ -25,11 +33,6 @@
         android:layout_height="wrap_content"
         android:hint="Amount"
         android:inputType="number" />
-    <EditText
-        android:id="@+id/edit_text_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Date"
-        android:inputType="text"/>
+
 
 </LinearLayout>

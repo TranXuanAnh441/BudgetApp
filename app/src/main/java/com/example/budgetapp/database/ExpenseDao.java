@@ -21,4 +21,6 @@ public interface ExpenseDao {
     void deleteAll();
     @Query("SELECT * FROM expense_table")
     LiveData<List<Expense>> getAllExpense();
+    @Query("SELECT * FROM EXPENSE_TABLE WHERE date=:date")
+    LiveData<List<Expense>> getDateExpense(String date);
 }
