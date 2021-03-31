@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class addExpenseActivity extends AppCompatActivity {
+public class AddExpenseActivity extends AppCompatActivity {
     private EditText addTitle;
     private EditText addAmount;
     private EditText addDescription;
@@ -72,7 +72,7 @@ public class addExpenseActivity extends AppCompatActivity {
             Toast.makeText(this, "Please insert properly", Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent data = new Intent(this,RecyclerViewActivity.class);
+        Intent data = new Intent(this, ExpenseRecyclerViewActivity.class);
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_DATE, date);
         data.putExtra(EXTRA_DESCRIPTION, description);
@@ -81,7 +81,7 @@ public class addExpenseActivity extends AppCompatActivity {
         if (id != -1) {
             data.putExtra(EXTRA_ID, id);
         }
-        setResult(RecyclerViewActivity.RESULT_OK, data);
+        setResult(ExpenseRecyclerViewActivity.RESULT_OK, data);
         finish();
     }
 }

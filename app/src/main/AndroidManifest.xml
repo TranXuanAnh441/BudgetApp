@@ -9,12 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BudgetApp">
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".AddCategoryActivity"
+            android:parentActivityName=".CategoryRecyclerViewActivity" />
+        <activity android:name=".CategoryRecyclerViewActivity" />
+        <activity android:name=".CalendarActivity" />
         <activity
-            android:name=".addExpenseActivity"
-            android:parentActivityName=".RecyclerViewActivity" />
+            android:name=".AddExpenseActivity"
+            android:parentActivityName=".ExpenseRecyclerViewActivity" />
         <activity
-            android:name=".RecyclerViewActivity"
+            android:name=".ExpenseRecyclerViewActivity"
             android:launchMode="singleTop" />
         <activity android:name=".MainActivity">
             <intent-filter>

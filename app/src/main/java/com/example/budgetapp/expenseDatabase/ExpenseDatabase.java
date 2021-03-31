@@ -1,11 +1,14 @@
-package com.example.budgetapp.database;
+package com.example.budgetapp.expenseDatabase;
 
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-@Database(entities = {Expense.class}, version = 1)
+
+import com.example.budgetapp.categoryDatabase.Category;
+
+@Database(entities = {Expense.class, Category.class }, version = 2)
 public abstract class ExpenseDatabase extends RoomDatabase {
     private static ExpenseDatabase instance;
 

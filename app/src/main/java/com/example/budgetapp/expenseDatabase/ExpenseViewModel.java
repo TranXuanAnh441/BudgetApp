@@ -1,4 +1,4 @@
-package com.example.budgetapp;
+package com.example.budgetapp.expenseDatabase;
 
 import android.app.Application;
 
@@ -7,8 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
-
-import com.example.budgetapp.database.Expense;
 
 import java.util.List;
 
@@ -25,8 +23,8 @@ public class ExpenseViewModel extends AndroidViewModel {
         dateExpense = Transformations.switchMap(filterLiveData,
                 v -> expenseRepository.getDateExpense(v));
     }
-    LiveData<List<Expense>> getDateExpense() { return dateExpense; }
-    void setFilter(String filter) { filterLiveData.setValue(filter); expenseRepository.setDate(filter);}
+    public LiveData<List<Expense>> getDateExpense() { return dateExpense; }
+    public void setFilter(String filter) { filterLiveData.setValue(filter);}
     public void insert(Expense expense){
         expenseRepository.insert(expense);
     }

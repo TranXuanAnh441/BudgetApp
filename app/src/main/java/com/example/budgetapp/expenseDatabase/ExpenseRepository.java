@@ -1,13 +1,13 @@
-package com.example.budgetapp;
+package com.example.budgetapp.expenseDatabase;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.budgetapp.database.Expense;
-import com.example.budgetapp.database.ExpenseDao;
-import com.example.budgetapp.database.ExpenseDatabase;
+import com.example.budgetapp.expenseDatabase.Expense;
+import com.example.budgetapp.expenseDatabase.ExpenseDao;
+import com.example.budgetapp.expenseDatabase.ExpenseDatabase;
 
 import java.util.List;
 
@@ -16,18 +16,10 @@ public class ExpenseRepository {
     private LiveData<List<Expense>> allExpense;
     private LiveData<List<Expense>> dateExpense;
 
-    private String date ;
-
-    public void setDate(String date){
-        this.date = date;
-        dateExpense = expenseDao.getDateExpense(date);
-    }
-
     public ExpenseRepository(Application application){
         ExpenseDatabase expenseDatabase = ExpenseDatabase.getInstance(application);
         expenseDao = expenseDatabase.expenseDao();
         allExpense = expenseDao.getAllExpense();
-        dateExpense = expenseDao.getDateExpense(date);
     }
 
     public void insert(Expense expense){
@@ -48,6 +40,7 @@ public class ExpenseRepository {
     }
 
     public LiveData<List<Expense>> getDateExpense(String v){
+        dateExpense = expenseDao.getDateExpense(v);
         return dateExpense;
     }
 

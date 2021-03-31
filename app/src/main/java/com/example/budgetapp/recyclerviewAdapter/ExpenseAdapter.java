@@ -1,30 +1,25 @@
-package com.example.budgetapp.recyclerview;
+package com.example.budgetapp.recyclerviewAdapter;
 
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.R;
-import com.example.budgetapp.database.Expense;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.budgetapp.expenseDatabase.Expense;
 
 public class ExpenseAdapter extends ListAdapter<Expense, ExpenseAdapter.ExpenseHolder> {
     private OnItemClickListener listener;
     private static final DiffUtil.ItemCallback<Expense> DIFF_CALLBACK = new DiffUtil.ItemCallback<Expense>() {
         @Override
         public boolean areItemsTheSame(@NonNull Expense oldItem, @NonNull Expense newItem) {
-            return oldItem.getId() == newItem.getId();
+            return oldItem.getEid() == newItem.getEid();
         }
 
         @Override
