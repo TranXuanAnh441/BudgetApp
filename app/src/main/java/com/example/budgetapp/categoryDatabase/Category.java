@@ -1,10 +1,14 @@
 package com.example.budgetapp.categoryDatabase;
 
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
 
 import com.example.budgetapp.expenseDatabase.Expense;
+
+import java.util.List;
 
 import static androidx.room.ForeignKey.CASCADE;
 

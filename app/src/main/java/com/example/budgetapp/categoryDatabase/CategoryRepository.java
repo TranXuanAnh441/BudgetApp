@@ -2,9 +2,8 @@ package com.example.budgetapp.categoryDatabase;
 import android.app.Application;
 import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
-import com.example.budgetapp.categoryDatabase.Category;
-import com.example.budgetapp.categoryDatabase.CategoryDao;
-import com.example.budgetapp.categoryDatabase.CategoryDatabase;
+
+import com.example.budgetapp.AppDatabase;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class CategoryRepository {
     private LiveData<List<Category>> allCategory;
 
     public CategoryRepository(Application application) {
-        CategoryDatabase categoryDatabase = CategoryDatabase.getInstance(application);
+        AppDatabase categoryDatabase = AppDatabase.getInstance(application);
         categoryDao = categoryDatabase.categoryDao();
         allCategory = categoryDao.getAllCategory();
     }

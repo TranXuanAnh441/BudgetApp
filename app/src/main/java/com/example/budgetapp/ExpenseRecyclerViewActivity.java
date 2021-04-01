@@ -16,16 +16,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.budgetapp.CategoryExpense.CategoryExpense;
+import com.example.budgetapp.CategoryExpense.CategoryExpenseViewModel;
+import com.example.budgetapp.categoryDatabase.Category;
 import com.example.budgetapp.expenseDatabase.Expense;
 import com.example.budgetapp.expenseDatabase.ExpenseViewModel;
 import com.example.budgetapp.recyclerviewAdapter.ExpenseAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseRecyclerViewActivity extends AppCompatActivity {
     private ExpenseViewModel expenseViewModel;
     public static final int RESULT_OK = 100;
+    private CategoryExpenseViewModel categoryExpenseViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,7 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_expense_recycler_view);
         Intent dateIntent = getIntent();
         String date = dateIntent.getStringExtra(CalendarActivity.DATE_VALUE);
+        categoryExpenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(CategoryExpenseViewModel.class); ;
 
         FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_expense);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
@@ -96,8 +102,13 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             int amount = data.getIntExtra(AddExpenseActivity.EXTRA_AMOUNT, 0);
             String description = data.getStringExtra(AddExpenseActivity.EXTRA_DESCRIPTION);
             Expense expense = new Expense(title, description, amount, date);
+            Category category = new Category("doing");
+            List<Expense> expenses = new ArrayList<>();
+            expenses.add(expense);
+            CategoryExpense categoryExpense = new CategoryExpense(category, expenses);
+            categoryExpenseViewModel.InsertCategoryWithExpense(categoryExpense);
             expenseViewModel.insert(expense);
-            Toast.makeText(this, " saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         } else if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == RESULT_OK) {
             int id = data.getIntExtra(AddExpenseActivity.EXTRA_ID, -1);
             if (id == -1) {

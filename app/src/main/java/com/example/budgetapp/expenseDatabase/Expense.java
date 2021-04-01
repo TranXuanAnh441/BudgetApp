@@ -3,7 +3,12 @@ package com.example.budgetapp.expenseDatabase;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import com.example.budgetapp.categoryDatabase.Category;
+
+import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "expense_table")
 public class Expense {
@@ -26,16 +31,22 @@ public class Expense {
 
     private String date;
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
     }
 
-    public int getCategoryId() {
+    public long getCategoryId() {
         return categoryId;
     }
 
     @Nullable
-    private int categoryId;
+    private long categoryId;
+
+    @ForeignKey(entity = Category.class,
+            parentColumns = "cid",
+            childColumns = "categoryId",
+            onDelete = CASCADE
+    )
 
     public Expense(String title, String description, int amount, String date) {
         this.title = title;
