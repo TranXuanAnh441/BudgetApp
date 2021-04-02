@@ -11,14 +11,14 @@ public class CategoryExpenseRepository {
         AppDatabase database = AppDatabase.getInstance(application);
         this.categoryExpenseDao = database.categoryExpenseDao();
     }
-    public void insert(CategoryExpense categoryExpense) {
-        new CategoryExpenseAsyncTask(categoryExpenseDao).execute(categoryExpense);
+    public void SetCategoryExpense(CategoryExpense categoryExpense) {
+        new SetCategoryExpenseAsyncTask(categoryExpenseDao).execute(categoryExpense);
     }
 
 
-    private static class CategoryExpenseAsyncTask extends AsyncTask<CategoryExpense, Void, Void >{
+    private static class SetCategoryExpenseAsyncTask extends AsyncTask<CategoryExpense, Void, Void >{
         CategoryExpenseDao categoryExpenseDao;
-        public CategoryExpenseAsyncTask(CategoryExpenseDao categoryExpenseDao) { this.categoryExpenseDao = categoryExpenseDao; }
+        public SetCategoryExpenseAsyncTask(CategoryExpenseDao categoryExpenseDao) { this.categoryExpenseDao = categoryExpenseDao; }
         @Override
         protected Void doInBackground(CategoryExpense... categoryExpenses) {
             for (Expense expense : categoryExpenses[0].expenses) {

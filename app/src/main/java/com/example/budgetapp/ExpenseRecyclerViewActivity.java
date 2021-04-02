@@ -95,6 +95,7 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int request_code, int result_code, Intent data) {
         super.onActivityResult(request_code, result_code, data);
+        Category category;
         if (request_code == AddExpenseActivity.ADD_REQUEST_CODE && result_code == RESULT_OK) {
 
             String title = data.getStringExtra(AddExpenseActivity.EXTRA_TITLE);
@@ -102,12 +103,13 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             int amount = data.getIntExtra(AddExpenseActivity.EXTRA_AMOUNT, 0);
             String description = data.getStringExtra(AddExpenseActivity.EXTRA_DESCRIPTION);
             Expense expense = new Expense(title, description, amount, date);
-            ArrayList<Expense> expenses = new ArrayList<>();
+            category = (Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY);
+            if(category!=null){ ArrayList<Expense> expenses = new ArrayList<>();
             expenses.add(expense);
-            CategoryExpense categoryExpense = new CategoryExpense((Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY),expenses);
-            categoryExpenseViewModel.InsertCategoryWithExpense(categoryExpense);
+            CategoryExpense categoryExpense = new CategoryExpense(category,expenses);
+            categoryExpenseViewModel.SetCategoryWithExpense(categoryExpense);}
             expenseViewModel.insert(expense);
-            Toast.makeText(this, String.valueOf(expense.getCategoryId()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         } else if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == RESULT_OK) {
             int id = data.getIntExtra(AddExpenseActivity.EXTRA_ID, -1);
             if (id == -1) {
@@ -120,6 +122,10 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             int amount = data.getIntExtra(AddExpenseActivity.EXTRA_AMOUNT, 1);
             Expense expense = new Expense(title, description, amount, date);
             expense.setEid(id);
+            category = (Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY);
+            if(category!=null){ ArrayList<Expense> expenses = new ArrayList<>();
+                expenses.add(expense);
+                CategoryExpense categoryExpense = new CategoryExpense(category,expenses);}
             expenseViewModel.update(expense);
             Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
         } else Toast.makeText(this, "Not saved", Toast.LENGTH_SHORT).show();

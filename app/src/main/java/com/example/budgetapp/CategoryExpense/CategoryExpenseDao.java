@@ -13,12 +13,11 @@ import java.util.List;
 @Dao
 public interface CategoryExpenseDao {
 
-    @Transaction
-    @Query("SELECT * from category_table WHERE cid=:cid")
-    long setCategory(long cid);
+    @Query("SELECT * from expense_table WHERE categoryId=:cid")
+    Expense findExpense(long cid);
 
-    @Insert
-    void insertExpense(List<Expense> expenses);
+    @Query("SELECT * from category_table WHERE cid=:categoryId")
+    Category findCategory(long categoryId);
 
 
 }
