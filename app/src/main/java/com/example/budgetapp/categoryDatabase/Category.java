@@ -8,6 +8,7 @@ import androidx.room.Relation;
 
 import com.example.budgetapp.expenseDatabase.Expense;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static androidx.room.ForeignKey.CASCADE;
@@ -15,7 +16,7 @@ import static androidx.room.ForeignKey.CASCADE;
 
 
 @Entity(tableName = "category_table")
-public class Category {
+public class Category implements Serializable {
 
     public int getCid() {
         return cid;

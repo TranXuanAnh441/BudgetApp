@@ -34,5 +34,17 @@
         android:hint="Amount"
         android:inputType="number" />
 
+    <TextView
+        android:id="@+id/categoryTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Category is..."/>
+
+    <Button
+        android:id="@+id/addCategoryBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADD CATEGORY" />
+
 
 </LinearLayout>

@@ -102,13 +102,11 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             int amount = data.getIntExtra(AddExpenseActivity.EXTRA_AMOUNT, 0);
             String description = data.getStringExtra(AddExpenseActivity.EXTRA_DESCRIPTION);
             Expense expense = new Expense(title, description, amount, date);
-            Category category = new Category("doing");
-            List<Expense> expenses = new ArrayList<>();
+            ArrayList<Expense> expenses = new ArrayList<>();
             expenses.add(expense);
-            CategoryExpense categoryExpense = new CategoryExpense(category, expenses);
-            categoryExpenseViewModel.InsertCategoryWithExpense(categoryExpense);
+            Category category = (Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY);
             expenseViewModel.insert(expense);
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, String.valueOf(category.getCid()), Toast.LENGTH_SHORT).show();
         } else if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == RESULT_OK) {
             int id = data.getIntExtra(AddExpenseActivity.EXTRA_ID, -1);
             if (id == -1) {
