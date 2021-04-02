@@ -14,14 +14,15 @@ public class CategoryExpenseRepository {
     public void insert(CategoryExpense categoryExpense) {
         new CategoryExpenseAsyncTask(categoryExpenseDao).execute(categoryExpense);
     }
+
+
     private static class CategoryExpenseAsyncTask extends AsyncTask<CategoryExpense, Void, Void >{
         CategoryExpenseDao categoryExpenseDao;
         public CategoryExpenseAsyncTask(CategoryExpenseDao categoryExpenseDao) { this.categoryExpenseDao = categoryExpenseDao; }
         @Override
         protected Void doInBackground(CategoryExpense... categoryExpenses) {
-            long identifier = categoryExpenseDao.insertCategory(categoryExpenses[0].category);
             for (Expense expense : categoryExpenses[0].expenses) {
-                expense.setCategoryId(identifier);
+                expense.setCategoryId(categoryExpenses[0].category.getCid());
             }
             return null;
     }

@@ -2,6 +2,7 @@ package com.example.budgetapp.CategoryExpense;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.example.budgetapp.categoryDatabase.Category;
@@ -13,8 +14,8 @@ import java.util.List;
 public interface CategoryExpenseDao {
 
     @Transaction
-    @Insert
-    long insertCategory(Category category);
+    @Query("SELECT * from category_table WHERE cid=:cid")
+    long setCategory(long cid);
 
     @Insert
     void insertExpense(List<Expense> expenses);

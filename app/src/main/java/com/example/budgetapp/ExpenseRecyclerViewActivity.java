@@ -104,9 +104,10 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             Expense expense = new Expense(title, description, amount, date);
             ArrayList<Expense> expenses = new ArrayList<>();
             expenses.add(expense);
-            Category category = (Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY);
+            CategoryExpense categoryExpense = new CategoryExpense((Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY),expenses);
+            categoryExpenseViewModel.InsertCategoryWithExpense(categoryExpense);
             expenseViewModel.insert(expense);
-            Toast.makeText(this, String.valueOf(category.getCid()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, String.valueOf(expense.getCategoryId()), Toast.LENGTH_SHORT).show();
         } else if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == RESULT_OK) {
             int id = data.getIntExtra(AddExpenseActivity.EXTRA_ID, -1);
             if (id == -1) {
