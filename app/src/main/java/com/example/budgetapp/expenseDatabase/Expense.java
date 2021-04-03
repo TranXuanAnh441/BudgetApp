@@ -31,16 +31,16 @@ public class Expense {
 
     private String date;
 
-    public void setCategoryId(long categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
-    public long getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
     @Nullable
-    private long categoryId;
+    private int categoryId;
 
     @ForeignKey(entity = Category.class,
             parentColumns = "cid",

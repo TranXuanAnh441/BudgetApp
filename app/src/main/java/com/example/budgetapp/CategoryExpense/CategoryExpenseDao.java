@@ -12,7 +12,7 @@ import java.util.List;
 
 @Dao
 public interface CategoryExpenseDao {
-
+    @Transaction
     @Query("SELECT * from expense_table WHERE categoryId=:cid")
     Expense findExpense(long cid);
 
