@@ -104,11 +104,8 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             int amount = data.getIntExtra(AddExpenseActivity.EXTRA_AMOUNT, 0);
             String description = data.getStringExtra(AddExpenseActivity.EXTRA_DESCRIPTION);
             Expense expense = new Expense(title, description, amount, date);
-            category = (Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY);
-            if(category!=null){ ArrayList<Expense> expenses = new ArrayList<>();
-            expenses.add(expense);
-            CategoryExpense categoryExpense = new CategoryExpense(category,expenses);
-            categoryExpenseViewModel.SetCategoryWithExpense(categoryExpense);}
+            int categoryId = data.getIntExtra(AddExpenseActivity.EXTRA_CATEGORY, 0);
+            expense.setCategoryId(categoryId);
             expenseViewModel.insert(expense);
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         } else if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == RESULT_OK) {
@@ -121,12 +118,10 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             String date = data.getStringExtra(AddExpenseActivity.EXTRA_DATE);
             String description = data.getStringExtra(AddExpenseActivity.EXTRA_DESCRIPTION);
             int amount = data.getIntExtra(AddExpenseActivity.EXTRA_AMOUNT, 1);
+            int categoryId = data.getIntExtra(AddExpenseActivity.EXTRA_CATEGORY, 0);
             Expense expense = new Expense(title, description, amount, date);
             expense.setEid(id);
-            category = (Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY);
-            if(category!=null){ ArrayList<Expense> expenses = new ArrayList<>();
-                expenses.add(expense);
-                CategoryExpense categoryExpense = new CategoryExpense(category,expenses);}
+            expense.setCategoryId(categoryId);
             expenseViewModel.update(expense);
             Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
         } else Toast.makeText(this, "Not saved", Toast.LENGTH_SHORT).show();
