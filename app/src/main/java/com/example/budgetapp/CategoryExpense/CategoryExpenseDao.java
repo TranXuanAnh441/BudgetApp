@@ -12,12 +12,9 @@ import java.util.List;
 
 @Dao
 public interface CategoryExpenseDao {
+
     @Transaction
     @Query("SELECT * from expense_table WHERE categoryId=:cid")
-    Expense findExpense(long cid);
-
-    @Query("SELECT * from category_table WHERE cid=:categoryId")
-    Category findCategory(long categoryId);
-
+    List<Expense> listExpenseByCategory(long cid);
 
 }

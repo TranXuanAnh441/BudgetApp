@@ -30,7 +30,6 @@ import java.util.List;
 public class ExpenseRecyclerViewActivity extends AppCompatActivity {
     private ExpenseViewModel expenseViewModel;
     public static final int RESULT_OK = 100;
-    private CategoryExpenseViewModel categoryExpenseViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,6 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_expense_recycler_view);
         Intent dateIntent = getIntent();
         String date = dateIntent.getStringExtra(CalendarActivity.DATE_VALUE);
-        categoryExpenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(CategoryExpenseViewModel.class);
 
         FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_expense);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +47,7 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
                 startActivityForResult(intent, AddExpenseActivity.ADD_REQUEST_CODE);
             }
         });
+
         androidx.recyclerview.widget.RecyclerView recyclerView = findViewById(R.id.expense_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);

@@ -15,7 +15,4 @@ public class CategoryExpenseViewModel extends AndroidViewModel {
         super(application);
         categoryExpenseRepository = new CategoryExpenseRepository(application);
     }
-    public void SetCategoryWithExpense(CategoryExpense categoryExpense){
-        categoryExpenseRepository.SetCategoryExpense(categoryExpense);
-    }
 }
