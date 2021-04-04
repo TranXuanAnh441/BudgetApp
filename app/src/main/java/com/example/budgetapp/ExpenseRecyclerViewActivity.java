@@ -38,7 +38,7 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_expense_recycler_view);
         Intent dateIntent = getIntent();
         String date = dateIntent.getStringExtra(CalendarActivity.DATE_VALUE);
-        categoryExpenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(CategoryExpenseViewModel.class); ;
+        categoryExpenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(CategoryExpenseViewModel.class);
 
         FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_expense);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +86,7 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
                 intent.putExtra(AddExpenseActivity.EXTRA_DATE, expense.getDate());
                 intent.putExtra(AddExpenseActivity.EXTRA_TITLE, expense.getTitle());
                 intent.putExtra(AddExpenseActivity.EXTRA_DESCRIPTION, expense.getDescription());
+                intent.putExtra(AddExpenseActivity.EXTRA_CATEGORY, expense.getCategoryId());
                 startActivityForResult(intent, AddExpenseActivity.UPDATE_REQUEST_CODE);
             }
         });

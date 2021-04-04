@@ -2,6 +2,8 @@ package com.example.budgetapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.budgetapp.CategoryExpense.CategoryExpenseViewModel;
 import com.example.budgetapp.categoryDatabase.Category;
+import com.example.budgetapp.categoryDatabase.CategoryViewModel;
 
 import java.io.Serializable;
 
@@ -23,7 +27,8 @@ public class AddExpenseActivity extends AppCompatActivity {
     private EditText addAmount;
     private EditText addDescription;
     private TextView addDate;
-    private Category category;
+    private Category thiscategory;
+    private CategoryViewModel categoryViewModel;
     public static final int ADD_REQUEST_CODE = 1;
     public static final int UPDATE_REQUEST_CODE = 2;
     public static final String EXTRA_ID = "com.example.budgetapp.EXTRA_ID";
@@ -31,12 +36,13 @@ public class AddExpenseActivity extends AppCompatActivity {
     public static final String EXTRA_AMOUNT = "com.example.budgetapp.EXTRA_AMOUNT";
     public static final String EXTRA_DATE = "com.example.budgetapp.EXTRA_DATE";
     public static final String EXTRA_DESCRIPTION = "com.example.budgetapp.EXTRA_DESCRIPTION";
+    public static final String EXTRA_CATEGORY = "com.example.budgetapp.EXTRA_CATEGORY";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
         Button addCategoryBtn = findViewById(R.id.addCategoryBtn);
-
+        categoryViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(CategoryViewModel.class); ;
         addCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +50,13 @@ public class AddExpenseActivity extends AppCompatActivity {
                 startActivityForResult(categoryIntent, ADD_REQUEST_CODE);
             }
         });
-
+        categoryViewModel.getCategoryResult().observe(this, new Observer<Category>() {
+            @Override
+            public void onChanged(Category category) {
+                thiscategory = category;
+                Toast.makeText(AddExpenseActivity.this, thiscategory.getName(), Toast.LENGTH_LONG).show();
+            }
+        });
         addAmount = findViewById(R.id.edit_text_amount);
         addTitle = findViewById(R.id.edit_text_title);
         addDescription = findViewById(R.id.edit_text_description);
@@ -59,6 +71,8 @@ public class AddExpenseActivity extends AppCompatActivity {
             addDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
             addAmount.setText(String.valueOf(intent.getIntExtra(EXTRA_AMOUNT, 0)));
             addDate.setText(intent.getStringExtra(EXTRA_DATE));
+            int id = intent.getIntExtra(EXTRA_CATEGORY, 0);
+            categoryViewModel.findCategoryId(id);
         } else { addDate.setText(intent.getStringExtra(CalendarActivity.DATE_VALUE)); setTitle("Add Expense");}
     }
     @Override
@@ -95,7 +109,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         data.putExtra(EXTRA_DATE, date);
         data.putExtra(EXTRA_DESCRIPTION, description);
         data.putExtra(EXTRA_AMOUNT, amount);
-        data.putExtra(CategoryRecyclerViewActivity.ADD_CATEGORY, (Serializable) category);
+        data.putExtra(CategoryRecyclerViewActivity.ADD_CATEGORY, (Serializable) thiscategory);
         int id = getIntent().getIntExtra(EXTRA_ID, -1);
         if (id != -1) {
             data.putExtra(EXTRA_ID, id);
@@ -109,8 +123,8 @@ public class AddExpenseActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_REQUEST_CODE && resultCode == ExpenseRecyclerViewActivity.RESULT_OK){
             TextView categoryTextView = findViewById(R.id.categoryTextView);
-            category = (Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY);
-            categoryTextView.setText(category.getName());
+            thiscategory = (Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY);
+            categoryTextView.setText(thiscategory.getName());
             }
         }
     }

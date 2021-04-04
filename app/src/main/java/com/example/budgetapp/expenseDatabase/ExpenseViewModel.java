@@ -8,8 +8,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.example.budgetapp.categoryDatabase.Category;
-
 import java.util.List;
 
 public class ExpenseViewModel extends AndroidViewModel {
@@ -41,5 +39,8 @@ public class ExpenseViewModel extends AndroidViewModel {
     }
     public LiveData<List<Expense>> getAllExpense(){
         return allExpense;
-    }}
+    }
+
+    }
+
 
