@@ -123,7 +123,7 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             expense.setCategoryId(categoryId);
             expenseViewModel.update(expense);
             Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, "Not saved", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
