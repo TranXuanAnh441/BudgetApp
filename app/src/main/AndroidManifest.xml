@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BudgetApp.All">
+        android:theme="@style/Theme.BudgetApp">
         <activity android:name=".AddCategoryActivity"
             android:parentActivityName=".CategoryRecyclerViewActivity" />
         <activity android:name=".CategoryRecyclerViewActivity" />
@@ -20,7 +20,7 @@
             android:name=".ExpenseRecyclerViewActivity"
             android:launchMode="singleTop" />
         <activity android:name=".MainActivity"
-            android:theme="@style/Theme.BudgetApp">
+            android:theme="@style/Theme.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

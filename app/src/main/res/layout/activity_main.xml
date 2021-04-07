@@ -9,7 +9,8 @@
     android:orientation="vertical"
     android:clickable="true"
     android:fitsSystemWindows="true"
-    android:theme="@style/Theme.BudgetApp">
+    android:theme="@style/Theme.MainActivity"
+    android:background="@color/purple_200">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,7 +29,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="left"
             android:fitsSystemWindows="true"
-            android:id="@+id/navigation_view">
+            android:id="@+id/navigation_view"
+            app:menu="@menu/drawer_menu"
+            app:headerLayout="@layout/header_layout">
 
         </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
