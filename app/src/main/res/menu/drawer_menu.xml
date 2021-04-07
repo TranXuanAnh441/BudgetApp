@@ -4,10 +4,10 @@
     tools:showIn="navigation_view">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_message"
+            android:id="@+id/nav_category"
             android:title="Category" />
         <item
-            android:id="@+id/nav_chat"
+            android:id="@+id/nav_expense"
             android:title="Expense" />
         <item
             android:id="@+id/nav_profile"
