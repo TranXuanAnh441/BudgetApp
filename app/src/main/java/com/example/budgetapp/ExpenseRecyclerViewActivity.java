@@ -16,15 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.budgetapp.CategoryExpense.CategoryExpense;
-import com.example.budgetapp.CategoryExpense.CategoryExpenseViewModel;
 import com.example.budgetapp.categoryDatabase.Category;
 import com.example.budgetapp.expenseDatabase.Expense;
 import com.example.budgetapp.expenseDatabase.ExpenseViewModel;
 import com.example.budgetapp.recyclerviewAdapter.ExpenseAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseRecyclerViewActivity extends AppCompatActivity {
@@ -38,7 +35,7 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
         Intent dateIntent = getIntent();
         String date = dateIntent.getStringExtra(CalendarActivity.DATE_VALUE);
 
-        FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_expense);
+        FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_category1);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,21 +1,19 @@
 package com.example.budgetapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
-
 
 public class AddCategoryActivity extends AppCompatActivity {
     public static final String EXTRA_NAME = "com.example.budgetapp.AddCategoryActivity.EXTRA_NAME";
     public static final int RESULT_CODE = 100;
     public static final int ADD_REQUEST_CODE = 1;
     private EditText editTextName;
+    String categoryName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +44,11 @@ public class AddCategoryActivity extends AppCompatActivity {
     }
 
     private void saveCategory() {
-
         String name = editTextName.getText().toString();
         if (name.trim().isEmpty()) return;
-        Intent data = new Intent(this, CategoryRecyclerViewActivity.class);
-        data.putExtra(EXTRA_NAME, name);
-        setResult(RESULT_CODE, data);
+        Bundle bundle = new Bundle();
+        bundle.putString("this", name);
+        setResult(RESULT_CODE);
         finish();
     }
 }
