@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.example.budgetapp.AddCategoryActivity;
 import com.example.budgetapp.AddExpenseActivity;
 import com.example.budgetapp.CategoryRecyclerViewActivity;
 import com.example.budgetapp.ExpenseRecyclerViewActivity;
+import com.example.budgetapp.MainActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.categoryDatabase.Category;
 import com.example.budgetapp.categoryDatabase.CategoryViewModel;
@@ -34,13 +36,10 @@ public class CategoryFragment extends Fragment {
     public static final int RESULT_OK = 100;
     public static final String CATEGORY = "com.example.budgetapp.Fragments.CATEGORY";
     private CategoryViewModel categoryViewModel;
-    String categoryName;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(savedInstanceState != null){
-        categoryName = getArguments().getString("this");}
         View view = inflater.inflate(R.layout.category_fragment, container, false);
         return view;}
 
@@ -53,7 +52,7 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddCategoryActivity.class);
-                startActivityForResult(intent, ADD_CATEGORY);
+                startActivity(intent);
             }
         });
 
@@ -82,14 +81,4 @@ public class CategoryFragment extends Fragment {
             }
         });
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        if ( requestCode == AddCategoryActivity.ADD_REQUEST_CODE && resultCode == AddCategoryActivity.RESULT_CODE){
-            String name = categoryName;
-            Category category = new Category(name);
-            categoryViewModel.insert(category);
-        } else Toast.makeText(getActivity(), "failed", Toast.LENGTH_LONG).show();
-    }
-
 }

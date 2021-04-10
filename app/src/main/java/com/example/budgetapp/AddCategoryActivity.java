@@ -1,6 +1,8 @@
 package com.example.budgetapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,9 +48,8 @@ public class AddCategoryActivity extends AppCompatActivity {
     private void saveCategory() {
         String name = editTextName.getText().toString();
         if (name.trim().isEmpty()) return;
-        Bundle bundle = new Bundle();
-        bundle.putString("this", name);
-        setResult(RESULT_CODE);
-        finish();
+        Intent intent = new Intent(AddCategoryActivity.this, MainActivity.class);
+        intent.putExtra(EXTRA_NAME, name);
+        startActivity(intent);
     }
 }

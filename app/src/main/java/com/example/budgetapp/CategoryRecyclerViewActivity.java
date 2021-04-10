@@ -30,15 +30,6 @@ public class CategoryRecyclerViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_recycler_view);
 
-        FloatingActionButton buttonAddCategory = findViewById(R.id.button_add_category1);
-        buttonAddCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CategoryRecyclerViewActivity.this, AddCategoryActivity.class);
-                startActivityForResult(intent, AddCategoryActivity.ADD_REQUEST_CODE);
-            }
-        });
-
         RecyclerView recyclerView = findViewById(R.id.category_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
@@ -64,16 +55,4 @@ public class CategoryRecyclerViewActivity extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if ( requestCode == AddCategoryActivity.ADD_REQUEST_CODE && resultCode == AddCategoryActivity.RESULT_CODE){
-            String name = data.getStringExtra(AddCategoryActivity.EXTRA_NAME);
-            Category category = new Category(name);
-            categoryViewModel.insert(category);
-            Toast.makeText(this, name, Toast.LENGTH_LONG).show();
-        } else Toast.makeText(this, "failed", Toast.LENGTH_LONG).show();
-    }
-
 }
