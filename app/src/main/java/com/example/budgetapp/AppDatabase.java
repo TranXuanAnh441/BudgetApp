@@ -12,14 +12,18 @@ import com.example.budgetapp.categoryDatabase.Category;
 import com.example.budgetapp.categoryDatabase.CategoryDao;
 import com.example.budgetapp.expenseDatabase.Expense;
 import com.example.budgetapp.expenseDatabase.ExpenseDao;
+import com.example.budgetapp.incomeDatabase.Income;
+import com.example.budgetapp.incomeDatabase.IncomeDao;
 
-@Database(entities = {Expense.class, Category.class}, version = 2)
+@Database(entities = {Expense.class, Category.class, Income.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     private static com.example.budgetapp.AppDatabase instance;
 
     public abstract CategoryDao categoryDao();
 
     public abstract ExpenseDao expenseDao();
+
+    public abstract IncomeDao incomeDao();
 
     public abstract CategoryExpenseDao categoryExpenseDao();
 

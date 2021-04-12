@@ -60,7 +60,7 @@ public class ExpenseFragment extends Fragment {
         customCalendar.setMapDescToProp(descHashMap);
         HashMap<Integer, Object> dateHashMap = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
-        dateHashMap.put(calendar.get(Calendar.DAY_OF_MONTH),"current");
+        dateHashMap.put(11,"current");
         dateHashMap.put(1,"present");
         dateHashMap.put(2,"present");
         dateHashMap.put(3,"present");

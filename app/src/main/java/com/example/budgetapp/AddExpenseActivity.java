@@ -12,7 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     private TextView addDate;
     private TextView addCategory;
     private Category thiscategory;
+    private RadioButton radio_income, radio_expense;
     private CategoryViewModel categoryViewModel;
     public static final int ADD_REQUEST_CODE = 1;
     public static final int UPDATE_REQUEST_CODE = 2;
@@ -43,6 +46,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
         Button addCategoryBtn = findViewById(R.id.addCategoryBtn);
+        addCategoryBtn.setClickable(true);
         categoryViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(CategoryViewModel.class); ;
         addCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +67,12 @@ public class AddExpenseActivity extends AppCompatActivity {
         addDescription = findViewById(R.id.edit_text_description);
         addDate = findViewById(R.id.edit_text_date);
         addCategory = findViewById(R.id.categoryTextView);
+        radio_income = findViewById(R.id.radio_income);
+        radio_expense =findViewById(R.id.radio_expense);
+        radio_income.setOnCheckedChangeListener(listenerRadio);
+        radio_expense.setOnCheckedChangeListener(listenerRadio);
+
+
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close);
         Intent intent = getIntent();
@@ -75,6 +85,22 @@ public class AddExpenseActivity extends AppCompatActivity {
             categoryViewModel.findCategoryId(intent.getIntExtra(EXTRA_CATEGORY, 0));
         } else { addDate.setText(intent.getStringExtra(CalendarActivity.DATE_VALUE)); setTitle("Add Expense");}
     }
+
+    CompoundButton.OnCheckedChangeListener listenerRadio
+            = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(radio_income.isChecked()){
+                Button btn = findViewById(R.id.addCategoryBtn);
+                btn.setClickable(false);
+            }
+            else if(radio_expense.isChecked()){
+                Button btn = findViewById(R.id.addCategoryBtn);
+                btn.setClickable(true);
+            }
+        }
+    };
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
