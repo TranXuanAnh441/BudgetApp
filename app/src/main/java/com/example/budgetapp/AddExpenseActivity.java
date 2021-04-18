@@ -18,29 +18,35 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.budgetapp.CategoryExpense.CategoryExpenseViewModel;
+import com.example.budgetapp.Fragments.ExpenseFragment;
 import com.example.budgetapp.categoryDatabase.Category;
 import com.example.budgetapp.categoryDatabase.CategoryViewModel;
 
-import java.io.Serializable;
 
 public class AddExpenseActivity extends AppCompatActivity {
+    public static final int INCOME_RESULT = 101;
+    public static final int EXPENSE_RESULT = 100;
     private EditText addTitle;
     private EditText addAmount;
     private EditText addDescription;
-    private TextView addDate;
     private TextView addCategory;
-    private Category thiscategory;
+    private Category thisCategory;
     private RadioButton radio_income, radio_expense;
     private CategoryViewModel categoryViewModel;
+    private String date;
     public static final int ADD_REQUEST_CODE = 1;
     public static final int UPDATE_REQUEST_CODE = 2;
-    public static final String EXTRA_ID = "com.example.budgetapp.EXTRA_ID";
-    public static final String EXTRA_TITLE = "com.example.budgetapp.EXTRA_TITLE";
-    public static final String EXTRA_AMOUNT = "com.example.budgetapp.EXTRA_AMOUNT";
-    public static final String EXTRA_DATE = "com.example.budgetapp.EXTRA_DATE";
-    public static final String EXTRA_DESCRIPTION = "com.example.budgetapp.EXTRA_DESCRIPTION";
+    public static final String EXPENSE_ID = "com.example.budgetapp.EXTRA_ID";
+    public static final String EXPENSE_TITLE = "com.example.budgetapp.EXTRA_TITLE";
+    public static final String EXPENSE_AMOUNT = "com.example.budgetapp.EXTRA_AMOUNT";
+    public static final String EXPENSE_DATE = "com.example.budgetapp.EXTRA_DATE";
+    public static final String EXPENSE_DESCRIPTION = "com.example.budgetapp.EXTRA_DESCRIPTION";
     public static final String EXTRA_CATEGORY = "com.example.budgetapp.EXTRA_CATEGORY";
+    public static final String INCOME_ID = "com.example.budgetapp.EXTRA_ID";
+    public static final String INCOME_TITLE = "com.example.budgetapp.EXTRA_TITLE";
+    public static final String INCOME_AMOUNT = "com.example.budgetapp.EXTRA_AMOUNT";
+    public static final String INCOME_DATE = "com.example.budgetapp.EXTRA_DATE";
+    public static final String INCOME_DESCRIPTION = "com.example.budgetapp.EXTRA_DESCRIPTION";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,25 +71,22 @@ public class AddExpenseActivity extends AppCompatActivity {
         addAmount = findViewById(R.id.edit_text_amount);
         addTitle = findViewById(R.id.edit_text_title);
         addDescription = findViewById(R.id.edit_text_description);
-        addDate = findViewById(R.id.edit_text_date);
         addCategory = findViewById(R.id.categoryTextView);
         radio_income = findViewById(R.id.radio_income);
         radio_expense =findViewById(R.id.radio_expense);
         radio_income.setOnCheckedChangeListener(listenerRadio);
         radio_expense.setOnCheckedChangeListener(listenerRadio);
 
-
-
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close);
         Intent intent = getIntent();
-        if (intent.hasExtra(EXTRA_ID)) {
+        date = intent.getStringExtra(ExpenseFragment.DATE_VALUE);
+        if (intent.hasExtra(EXPENSE_ID)) {
             setTitle("Edit Note");
-            addTitle.setText(intent.getStringExtra(EXTRA_TITLE));
-            addDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
-            addAmount.setText(String.valueOf(intent.getIntExtra(EXTRA_AMOUNT, 0)));
-            addDate.setText(intent.getStringExtra(EXTRA_DATE));
+            addTitle.setText(intent.getStringExtra(EXPENSE_TITLE));
+            addDescription.setText(intent.getStringExtra(EXPENSE_DESCRIPTION));
+            addAmount.setText(String.valueOf(intent.getIntExtra(EXPENSE_AMOUNT, 0)));
             categoryViewModel.findCategoryId(intent.getIntExtra(EXTRA_CATEGORY, 0));
-        } else { addDate.setText(intent.getStringExtra(CalendarActivity.DATE_VALUE)); setTitle("Add Expense");}
+        } else { setTitle("Add Expense");}
     }
 
     CompoundButton.OnCheckedChangeListener listenerRadio
@@ -112,34 +115,55 @@ public class AddExpenseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.save_expense:
-                saveExpense();
+                if(radio_expense.isChecked()) saveExpense();
+                else if(radio_income.isChecked()) saveIncome();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }}
 
-
-    private void saveExpense() {
-        String date = addDate.getText().toString();
+    private void saveIncome() {
         String title = addTitle.getText().toString();
         String description = addDescription.getText().toString();
         int amount = Integer.parseInt(addAmount.getText().toString());
-        if (title.trim().isEmpty() || String.valueOf(amount).trim().isEmpty() || date.trim().isEmpty()) {
+        if (title.trim().isEmpty() || String.valueOf(amount).trim().isEmpty()) {
             Toast.makeText(this, "Please insert properly", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent data = new Intent(this, ExpenseRecyclerViewActivity.class);
-        data.putExtra(EXTRA_TITLE, title);
-        data.putExtra(EXTRA_DATE, date);
-        data.putExtra(EXTRA_DESCRIPTION, description);
-        data.putExtra(EXTRA_AMOUNT, amount);
-        if(thiscategory != null){
-        data.putExtra(EXTRA_CATEGORY, thiscategory.getCid());}
-        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        data.putExtra(INCOME_TITLE, title);
+        data.putExtra(INCOME_DESCRIPTION, description);
+        data.putExtra(INCOME_DATE, date);
+        int id = getIntent().getIntExtra(INCOME_ID, -1);
         if (id != -1) {
-            data.putExtra(EXTRA_ID, id);
+            data.putExtra(INCOME_ID, id);
         }
-        setResult(ExpenseRecyclerViewActivity.RESULT_OK, data);
+        setResult(INCOME_RESULT, data);
+        finish();
+    }
+
+
+    private void saveExpense() {
+        String title = addTitle.getText().toString();
+        String description = addDescription.getText().toString();
+
+        int amount = Integer.parseInt(addAmount.getText().toString());
+        if (title.trim().isEmpty() || String.valueOf(amount).trim().isEmpty()) {
+            Toast.makeText(this, "Please insert properly", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent data = new Intent(this, ExpenseRecyclerViewActivity.class);
+        data.putExtra(EXPENSE_TITLE, title);
+        data.putExtra(EXPENSE_DESCRIPTION, description);
+        data.putExtra(EXPENSE_AMOUNT, amount);
+        data.putExtra(EXPENSE_DATE, date);
+        if(thisCategory != null){
+        data.putExtra(EXTRA_CATEGORY, thisCategory.getCid());}
+        int id = getIntent().getIntExtra(EXPENSE_ID, -1);
+        if (id != -1) {
+            data.putExtra(EXPENSE_ID, id);
+        }
+        setResult(EXPENSE_RESULT, data);
         finish();
     }
 
@@ -148,8 +172,8 @@ public class AddExpenseActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_REQUEST_CODE && resultCode == ExpenseRecyclerViewActivity.RESULT_OK){
             TextView categoryTextView = findViewById(R.id.categoryTextView);
-            thiscategory = (Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY);
-            categoryTextView.setText(thiscategory.getName());
+            thisCategory = (Category) data.getExtras().getSerializable(CategoryRecyclerViewActivity.ADD_CATEGORY);
+            categoryTextView.setText(thisCategory.getName());
             }
         }
     }

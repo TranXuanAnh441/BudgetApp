@@ -20,6 +20,11 @@
         android:layout_margin="32dp"
         android:src="@drawable/ic_baseline_add"
     />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/income_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/income_item" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

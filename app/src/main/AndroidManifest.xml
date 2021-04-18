@@ -12,7 +12,6 @@
         <activity android:name=".AddCategoryActivity"
             android:parentActivityName=".CategoryRecyclerViewActivity" />
         <activity android:name=".CategoryRecyclerViewActivity" />
-        <activity android:name=".CalendarActivity" />
         <activity
             android:name=".AddExpenseActivity"
             android:parentActivityName=".ExpenseRecyclerViewActivity" />

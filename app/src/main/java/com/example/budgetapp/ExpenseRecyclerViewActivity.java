@@ -16,16 +16,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.budgetapp.categoryDatabase.Category;
+import com.example.budgetapp.Fragments.ExpenseFragment;
 import com.example.budgetapp.expenseDatabase.Expense;
 import com.example.budgetapp.expenseDatabase.ExpenseViewModel;
+import com.example.budgetapp.incomeDatabase.Income;
+import com.example.budgetapp.incomeDatabase.IncomeViewModel;
 import com.example.budgetapp.recyclerviewAdapter.ExpenseAdapter;
+import com.example.budgetapp.recyclerviewAdapter.IncomeAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 public class ExpenseRecyclerViewActivity extends AppCompatActivity {
     private ExpenseViewModel expenseViewModel;
+    private IncomeViewModel incomeViewModel;
     public static final int RESULT_OK = 100;
 
     @Override
@@ -33,14 +37,16 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_recycler_view);
         Intent dateIntent = getIntent();
-        String date = dateIntent.getStringExtra(CalendarActivity.DATE_VALUE);
+        String date = dateIntent.getStringExtra(ExpenseFragment.DATE_VALUE);
 
         FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_category1);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent dateIntent = getIntent();
+                String date = dateIntent.getStringExtra(ExpenseFragment.DATE_VALUE);
                 Intent intent = new Intent(ExpenseRecyclerViewActivity.this, AddExpenseActivity.class);
-                intent.putExtra(CalendarActivity.DATE_VALUE, date);
+                intent.putExtra(ExpenseFragment.DATE_VALUE, date);
                 startActivityForResult(intent, AddExpenseActivity.ADD_REQUEST_CODE);
             }
         });
@@ -50,6 +56,13 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         ExpenseAdapter expenseAdapter = new ExpenseAdapter();
         recyclerView.setAdapter(expenseAdapter);
+        androidx.recyclerview.widget.RecyclerView recyclerView1 = findViewById(R.id.income_recycler_view);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView1.setHasFixedSize(true);
+        IncomeAdapter incomeAdapter = new IncomeAdapter();
+        recyclerView1.setAdapter(incomeAdapter);
+
+        incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(IncomeViewModel.class);
 
         expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(ExpenseViewModel.class);
         expenseViewModel.setFilter(date);
@@ -77,11 +90,11 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Expense expense) {
                 Intent intent = new Intent(ExpenseRecyclerViewActivity.this, AddExpenseActivity.class);
-                intent.putExtra(AddExpenseActivity.EXTRA_ID, expense.getEid());
-                intent.putExtra(AddExpenseActivity.EXTRA_AMOUNT, expense.getAmount());
-                intent.putExtra(AddExpenseActivity.EXTRA_DATE, expense.getDate());
-                intent.putExtra(AddExpenseActivity.EXTRA_TITLE, expense.getTitle());
-                intent.putExtra(AddExpenseActivity.EXTRA_DESCRIPTION, expense.getDescription());
+                intent.putExtra(AddExpenseActivity.EXPENSE_ID, expense.getEid());
+                intent.putExtra(AddExpenseActivity.EXPENSE_AMOUNT, expense.getAmount());
+                intent.putExtra(AddExpenseActivity.EXPENSE_DATE, expense.getDate());
+                intent.putExtra(AddExpenseActivity.EXPENSE_TITLE, expense.getTitle());
+                intent.putExtra(AddExpenseActivity.EXPENSE_DESCRIPTION, expense.getDescription());
                 intent.putExtra(AddExpenseActivity.EXTRA_CATEGORY, expense.getCategoryId());
                 startActivityForResult(intent, AddExpenseActivity.UPDATE_REQUEST_CODE);
             }
@@ -92,34 +105,37 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int request_code, int result_code, Intent data) {
         super.onActivityResult(request_code, result_code, data);
-        Category category;
-        if (request_code == AddExpenseActivity.ADD_REQUEST_CODE && result_code == RESULT_OK) {
+        if (request_code == AddExpenseActivity.ADD_REQUEST_CODE && result_code == AddExpenseActivity.EXPENSE_RESULT) {
 
-            String title = data.getStringExtra(AddExpenseActivity.EXTRA_TITLE);
-            String date = data.getStringExtra(AddExpenseActivity.EXTRA_DATE);
-            int amount = data.getIntExtra(AddExpenseActivity.EXTRA_AMOUNT, 0);
-            String description = data.getStringExtra(AddExpenseActivity.EXTRA_DESCRIPTION);
+            String title = data.getStringExtra(AddExpenseActivity.EXPENSE_TITLE);
+            String date = data.getStringExtra(AddExpenseActivity.EXPENSE_DATE);
+            int amount = data.getIntExtra(AddExpenseActivity.EXPENSE_AMOUNT, 0);
+            String description = data.getStringExtra(AddExpenseActivity.EXPENSE_DESCRIPTION);
             Expense expense = new Expense(title, description, amount, date);
             int categoryId = data.getIntExtra(AddExpenseActivity.EXTRA_CATEGORY, 0);
             expense.setCategoryId(categoryId);
             expenseViewModel.insert(expense);
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-        } else if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == RESULT_OK) {
-            int id = data.getIntExtra(AddExpenseActivity.EXTRA_ID, -1);
+        } else if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == AddExpenseActivity.EXPENSE_RESULT) {
+            int id = data.getIntExtra(AddExpenseActivity.EXPENSE_ID, -1);
             if (id == -1) {
-                Toast.makeText(this, "Can't be updated", Toast.LENGTH_SHORT).show();
                 return;
             }
-            String title = data.getStringExtra(AddExpenseActivity.EXTRA_TITLE);
-            String date = data.getStringExtra(AddExpenseActivity.EXTRA_DATE);
-            String description = data.getStringExtra(AddExpenseActivity.EXTRA_DESCRIPTION);
-            int amount = data.getIntExtra(AddExpenseActivity.EXTRA_AMOUNT, 1);
+            String title = data.getStringExtra(AddExpenseActivity.EXPENSE_TITLE);
+            String date = data.getStringExtra(AddExpenseActivity.EXPENSE_DATE);
+            String description = data.getStringExtra(AddExpenseActivity.EXPENSE_DESCRIPTION);
+            int amount = data.getIntExtra(AddExpenseActivity.EXPENSE_AMOUNT, 1);
             int categoryId = data.getIntExtra(AddExpenseActivity.EXTRA_CATEGORY, 0);
             Expense expense = new Expense(title, description, amount, date);
             expense.setEid(id);
             expense.setCategoryId(categoryId);
             expenseViewModel.update(expense);
-            Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+        } else if (request_code == AddExpenseActivity.ADD_REQUEST_CODE && result_code == AddExpenseActivity.INCOME_RESULT){
+            String title = data.getStringExtra(AddExpenseActivity.INCOME_TITLE);
+            String date = data.getStringExtra(AddExpenseActivity.INCOME_DATE);
+            int amount = data.getIntExtra(AddExpenseActivity.INCOME_AMOUNT, 0);
+            String description = data.getStringExtra(AddExpenseActivity.INCOME_DESCRIPTION);
+            Income income = new Income(title, description, amount, date);
+            incomeViewModel.insert(income);
         }
     }
 

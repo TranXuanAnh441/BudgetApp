@@ -37,12 +37,6 @@ public class Income {
 
     private String date;
 
-    @ForeignKey(entity = Category.class,
-            parentColumns = "cid",
-            childColumns = "categoryId",
-            onDelete = CASCADE
-    )
-
     public Income(String title, String description, int amount, String date) {
         this.title = title;
         this.description = description;
