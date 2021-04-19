@@ -2,11 +2,7 @@ package com.example.budgetapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,29 +12,37 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.budgetapp.Fragments.CategoryFragment;
 import com.example.budgetapp.Fragments.ExpenseFragment;
+import com.example.budgetapp.Fragments.ExpenseRecyclerViewFragment;
+import com.example.budgetapp.Fragments.IncomeRecyclerViewFragment;
 import com.example.budgetapp.expenseDatabase.Expense;
 import com.example.budgetapp.expenseDatabase.ExpenseViewModel;
 import com.example.budgetapp.incomeDatabase.Income;
 import com.example.budgetapp.incomeDatabase.IncomeViewModel;
-import com.example.budgetapp.recyclerviewAdapter.ExpenseAdapter;
-import com.example.budgetapp.recyclerviewAdapter.IncomeAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 public class ExpenseRecyclerViewActivity extends AppCompatActivity {
     private ExpenseViewModel expenseViewModel;
     private IncomeViewModel incomeViewModel;
+
+    public String getDate() {
+        return date;
+    }
+
+    private String date;
     public static final int RESULT_OK = 100;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_recycler_view);
         Intent dateIntent = getIntent();
-        String date = dateIntent.getStringExtra(ExpenseFragment.DATE_VALUE);
-
+        date = dateIntent.getStringExtra(ExpenseFragment.DATE_VALUE);
+        expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(ExpenseViewModel.class);
+        incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(IncomeViewModel.class);
         FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_category1);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,54 +55,28 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             }
         });
 
-        androidx.recyclerview.widget.RecyclerView recyclerView = findViewById(R.id.expense_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        ExpenseAdapter expenseAdapter = new ExpenseAdapter();
-        recyclerView.setAdapter(expenseAdapter);
-        androidx.recyclerview.widget.RecyclerView recyclerView1 = findViewById(R.id.income_recycler_view);
-        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView1.setHasFixedSize(true);
-        IncomeAdapter incomeAdapter = new IncomeAdapter();
-        recyclerView1.setAdapter(incomeAdapter);
+        if (savedInstanceState == null){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new ExpenseRecyclerViewFragment()).commit();}
 
-        incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(IncomeViewModel.class);
-
-        expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(ExpenseViewModel.class);
-        expenseViewModel.setFilter(date);
-        expenseViewModel.getDateExpense().observe(this, new Observer<List<Expense>>() {
+        bottomNavigationView = findViewById(R.id.top_menu);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onChanged(List<Expense> expenses) {
-                expenseAdapter.submitList(expenses);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.expense_menu:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new ExpenseRecyclerViewFragment()).commit();
+                        break;
+                    case R.id.income_menu:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new IncomeRecyclerViewFragment()).commit();
+                        break;
+                }
+                return true;
             }
         });
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                expenseViewModel.delete(expenseAdapter.getExpenseAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(ExpenseRecyclerViewActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
-            }
-        }).attachToRecyclerView(recyclerView);
-
-        expenseAdapter.setOnItemClickListener(new ExpenseAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Expense expense) {
-                Intent intent = new Intent(ExpenseRecyclerViewActivity.this, AddExpenseActivity.class);
-                intent.putExtra(AddExpenseActivity.EXPENSE_ID, expense.getEid());
-                intent.putExtra(AddExpenseActivity.EXPENSE_AMOUNT, expense.getAmount());
-                intent.putExtra(AddExpenseActivity.EXPENSE_DATE, expense.getDate());
-                intent.putExtra(AddExpenseActivity.EXPENSE_TITLE, expense.getTitle());
-                intent.putExtra(AddExpenseActivity.EXPENSE_DESCRIPTION, expense.getDescription());
-                intent.putExtra(AddExpenseActivity.EXTRA_CATEGORY, expense.getCategoryId());
-                startActivityForResult(intent, AddExpenseActivity.UPDATE_REQUEST_CODE);
-            }
-        });
     }
 
 
@@ -106,7 +84,6 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
     public void onActivityResult(int request_code, int result_code, Intent data) {
         super.onActivityResult(request_code, result_code, data);
         if (request_code == AddExpenseActivity.ADD_REQUEST_CODE && result_code == AddExpenseActivity.EXPENSE_RESULT) {
-
             String title = data.getStringExtra(AddExpenseActivity.EXPENSE_TITLE);
             String date = data.getStringExtra(AddExpenseActivity.EXPENSE_DATE);
             int amount = data.getIntExtra(AddExpenseActivity.EXPENSE_AMOUNT, 0);
@@ -115,6 +92,7 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             int categoryId = data.getIntExtra(AddExpenseActivity.EXTRA_CATEGORY, 0);
             expense.setCategoryId(categoryId);
             expenseViewModel.insert(expense);
+            Toast.makeText(this, "saved", Toast.LENGTH_LONG).show();
         } else if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == AddExpenseActivity.EXPENSE_RESULT) {
             int id = data.getIntExtra(AddExpenseActivity.EXPENSE_ID, -1);
             if (id == -1) {

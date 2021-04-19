@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.budgetapp.Fragments.CategoryFragment;
 import com.example.budgetapp.Fragments.ExpenseFragment;
+import com.example.budgetapp.Fragments.ExpenseRecyclerViewFragment;
 import com.example.budgetapp.categoryDatabase.Category;
 import com.example.budgetapp.categoryDatabase.CategoryViewModel;
 import com.google.android.material.navigation.NavigationView;
@@ -73,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         new ExpenseFragment()).commit();
                 break;
             }
-        DrawerLayout drawer = findViewById(R.id.main_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
 }
 }

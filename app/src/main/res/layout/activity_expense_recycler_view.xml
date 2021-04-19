@@ -6,11 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ExpenseRecyclerViewActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/expense_recycler_view"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/top_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/expense_item" />
+        android:layout_height="wrap_content"
+        app:menu="@menu/top_menu"
+        android:background="@color/white"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_height="wrap_content"
@@ -19,12 +20,12 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="32dp"
         android:src="@drawable/ic_baseline_add"
-    />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/income_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/income_item" />
+        />
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_gravity="bottom"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

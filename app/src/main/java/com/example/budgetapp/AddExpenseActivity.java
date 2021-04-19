@@ -134,6 +134,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         data.putExtra(INCOME_TITLE, title);
         data.putExtra(INCOME_DESCRIPTION, description);
         data.putExtra(INCOME_DATE, date);
+        data.putExtra(INCOME_AMOUNT, amount);
         int id = getIntent().getIntExtra(INCOME_ID, -1);
         if (id != -1) {
             data.putExtra(INCOME_ID, id);
