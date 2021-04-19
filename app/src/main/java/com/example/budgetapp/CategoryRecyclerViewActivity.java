@@ -9,13 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.budgetapp.categoryDatabase.Category;
 import com.example.budgetapp.categoryDatabase.CategoryViewModel;
 import com.example.budgetapp.recyclerviewAdapter.CategoryAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
 import java.util.List;
@@ -50,7 +47,7 @@ public class CategoryRecyclerViewActivity extends AppCompatActivity {
             public void onItemClick(Category category) {
                 Intent categoryIntent = new Intent(CategoryRecyclerViewActivity.this, AddExpenseActivity.class);
                 categoryIntent.putExtra(ADD_CATEGORY, (Serializable) category);
-                setResult(ExpenseRecyclerViewActivity.RESULT_OK, categoryIntent);
+                setResult(ExpenseIncomeRCVActivity.RESULT_OK, categoryIntent);
                 finish();
             }
         });

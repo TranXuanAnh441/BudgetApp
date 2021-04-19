@@ -2,6 +2,7 @@ package com.example.budgetapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -12,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.budgetapp.Fragments.CategoryFragment;
 import com.example.budgetapp.Fragments.ExpenseFragment;
 import com.example.budgetapp.Fragments.ExpenseRecyclerViewFragment;
 import com.example.budgetapp.Fragments.IncomeRecyclerViewFragment;
@@ -20,10 +20,11 @@ import com.example.budgetapp.expenseDatabase.Expense;
 import com.example.budgetapp.expenseDatabase.ExpenseViewModel;
 import com.example.budgetapp.incomeDatabase.Income;
 import com.example.budgetapp.incomeDatabase.IncomeViewModel;
+import com.example.budgetapp.recyclerviewAdapter.ExpenseAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ExpenseRecyclerViewActivity extends AppCompatActivity {
+public class ExpenseIncomeRCVActivity extends AppCompatActivity {
     private ExpenseViewModel expenseViewModel;
     private IncomeViewModel incomeViewModel;
 
@@ -49,7 +50,7 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent dateIntent = getIntent();
                 String date = dateIntent.getStringExtra(ExpenseFragment.DATE_VALUE);
-                Intent intent = new Intent(ExpenseRecyclerViewActivity.this, AddExpenseActivity.class);
+                Intent intent = new Intent(ExpenseIncomeRCVActivity.this, AddExpenseActivity.class);
                 intent.putExtra(ExpenseFragment.DATE_VALUE, date);
                 startActivityForResult(intent, AddExpenseActivity.ADD_REQUEST_CODE);
             }
@@ -76,7 +77,6 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
 
@@ -93,21 +93,8 @@ public class ExpenseRecyclerViewActivity extends AppCompatActivity {
             expense.setCategoryId(categoryId);
             expenseViewModel.insert(expense);
             Toast.makeText(this, "saved", Toast.LENGTH_LONG).show();
-        } else if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == AddExpenseActivity.EXPENSE_RESULT) {
-            int id = data.getIntExtra(AddExpenseActivity.EXPENSE_ID, -1);
-            if (id == -1) {
-                return;
-            }
-            String title = data.getStringExtra(AddExpenseActivity.EXPENSE_TITLE);
-            String date = data.getStringExtra(AddExpenseActivity.EXPENSE_DATE);
-            String description = data.getStringExtra(AddExpenseActivity.EXPENSE_DESCRIPTION);
-            int amount = data.getIntExtra(AddExpenseActivity.EXPENSE_AMOUNT, 1);
-            int categoryId = data.getIntExtra(AddExpenseActivity.EXTRA_CATEGORY, 0);
-            Expense expense = new Expense(title, description, amount, date);
-            expense.setEid(id);
-            expense.setCategoryId(categoryId);
-            expenseViewModel.update(expense);
-        } else if (request_code == AddExpenseActivity.ADD_REQUEST_CODE && result_code == AddExpenseActivity.INCOME_RESULT){
+        }
+        else if (request_code == AddExpenseActivity.ADD_REQUEST_CODE && result_code == AddExpenseActivity.INCOME_RESULT){
             String title = data.getStringExtra(AddExpenseActivity.INCOME_TITLE);
             String date = data.getStringExtra(AddExpenseActivity.INCOME_DATE);
             int amount = data.getIntExtra(AddExpenseActivity.INCOME_AMOUNT, 0);

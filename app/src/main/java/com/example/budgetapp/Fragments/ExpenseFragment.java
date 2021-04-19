@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.budgetapp.ExpenseRecyclerViewActivity;
+import com.example.budgetapp.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
 
 import org.naishadhparmar.zcustomcalendar.CustomCalendar;
@@ -66,7 +66,7 @@ public class ExpenseFragment extends Fragment {
                 String sDate = selectedDate.get(Calendar.DAY_OF_MONTH) + "/"
                         + (selectedDate.get(Calendar.MONTH)+1) + "/"
                         + selectedDate.get(Calendar.YEAR);
-                Intent intent = new Intent(view.getContext(), ExpenseRecyclerViewActivity.class);
+                Intent intent = new Intent(view.getContext(), ExpenseIncomeRCVActivity.class);
                 intent.putExtra(DATE_VALUE, sDate);
                 startActivity(intent);
             }

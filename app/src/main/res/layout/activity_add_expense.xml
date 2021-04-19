@@ -50,12 +50,16 @@
         android:layout_height="wrap_content"
         android:hint="Category is..."
         android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
-
     <Button
         android:id="@+id/addCategoryBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ADD EXPENSE CATEGORY" />
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
 
 
 </LinearLayout>

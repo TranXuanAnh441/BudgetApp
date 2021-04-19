@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,10 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.AddCategoryActivity;
-import com.example.budgetapp.AddExpenseActivity;
-import com.example.budgetapp.CategoryRecyclerViewActivity;
-import com.example.budgetapp.ExpenseRecyclerViewActivity;
-import com.example.budgetapp.MainActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.categoryDatabase.Category;
 import com.example.budgetapp.categoryDatabase.CategoryViewModel;

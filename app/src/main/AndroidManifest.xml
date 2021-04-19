@@ -14,9 +14,9 @@
         <activity android:name=".CategoryRecyclerViewActivity" />
         <activity
             android:name=".AddExpenseActivity"
-            android:parentActivityName=".ExpenseRecyclerViewActivity" />
+            android:parentActivityName=".ExpenseIncomeRCVActivity" />
         <activity
-            android:name=".ExpenseRecyclerViewActivity"
+            android:name=".ExpenseIncomeRCVActivity"
             android:launchMode="singleTop" />
         <activity android:name=".MainActivity"
             android:theme="@style/Theme.MainActivity">

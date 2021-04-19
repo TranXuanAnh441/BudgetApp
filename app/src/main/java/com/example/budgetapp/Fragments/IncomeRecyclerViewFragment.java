@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,10 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.AddExpenseActivity;
-import com.example.budgetapp.ExpenseRecyclerViewActivity;
+import com.example.budgetapp.CategoryRecyclerViewActivity;
+import com.example.budgetapp.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
+import com.example.budgetapp.categoryDatabase.Category;
 import com.example.budgetapp.expenseDatabase.Expense;
-import com.example.budgetapp.expenseDatabase.ExpenseViewModel;
 import com.example.budgetapp.incomeDatabase.Income;
 import com.example.budgetapp.incomeDatabase.IncomeViewModel;
 import com.example.budgetapp.recyclerviewAdapter.ExpenseAdapter;
@@ -50,7 +52,7 @@ public class IncomeRecyclerViewFragment extends Fragment {
 
         recyclerView.setAdapter(incomeAdapter);
 
-        ExpenseRecyclerViewActivity expenseRecyclerViewActivity = (ExpenseRecyclerViewActivity) getActivity();
+        ExpenseIncomeRCVActivity expenseRecyclerViewActivity = (ExpenseIncomeRCVActivity) getActivity();
         String date = expenseRecyclerViewActivity.getDate();
 
         incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(IncomeViewModel.class);
@@ -75,5 +77,34 @@ public class IncomeRecyclerViewFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
 
-    }
+      incomeAdapter.setOnItemClickListener(new IncomeAdapter.OnItemClickListener() {
+          @Override
+          public void onItemClick(Income income) {
+              Intent intent = new Intent(getActivity(), AddExpenseActivity.class);
+              intent.putExtra(AddExpenseActivity.INCOME_ID, income.getIid());
+              intent.putExtra(AddExpenseActivity.INCOME_AMOUNT, income.getAmount());
+              intent.putExtra(AddExpenseActivity.INCOME_DATE, income.getDate());
+              intent.putExtra(AddExpenseActivity.INCOME_TITLE, income.getTitle());
+              intent.putExtra(AddExpenseActivity.INCOME_DESCRIPTION, income.getDescription());
+              startActivityForResult(intent, AddExpenseActivity.UPDATE_REQUEST_CODE);
+          }
+    });
 }
+    @Override
+    public void onActivityResult(int request_code, int result_code, Intent data) {
+        if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == AddExpenseActivity.INCOME_RESULT){
+            int income_id = data.getIntExtra(AddExpenseActivity.INCOME_ID, -1);
+            if (income_id == -1 ) {
+                return;
+            }
+            String title = data.getStringExtra(AddExpenseActivity.INCOME_TITLE);
+            String date = data.getStringExtra(AddExpenseActivity.INCOME_DATE);
+            String description = data.getStringExtra(AddExpenseActivity.INCOME_DESCRIPTION);
+            int amount = data.getIntExtra(AddExpenseActivity.INCOME_AMOUNT, 1);
+            Income income = new Income(title, description, amount, date);
+            income.setIid(income_id);
+            incomeViewModel.update(income);
+        }
+}}
+
+
