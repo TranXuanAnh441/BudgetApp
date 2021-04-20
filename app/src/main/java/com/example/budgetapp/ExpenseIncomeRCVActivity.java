@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.budgetapp.Fragments.ExpenseFragment;
+import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.Fragments.ExpenseRecyclerViewFragment;
 import com.example.budgetapp.Fragments.IncomeRecyclerViewFragment;
 import com.example.budgetapp.ExpenseDatabase.Expense;
@@ -39,7 +39,7 @@ public class ExpenseIncomeRCVActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_recycler_view);
         Intent dateIntent = getIntent();
-        date = dateIntent.getStringExtra(ExpenseFragment.DATE_VALUE);
+        date = dateIntent.getStringExtra(CalendarFragment.DATE_VALUE);
         expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(ExpenseViewModel.class);
         incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(IncomeViewModel.class);
         FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_category1);
@@ -47,9 +47,9 @@ public class ExpenseIncomeRCVActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent dateIntent = getIntent();
-                String date = dateIntent.getStringExtra(ExpenseFragment.DATE_VALUE);
+                String date = dateIntent.getStringExtra(CalendarFragment.DATE_VALUE);
                 Intent intent = new Intent(ExpenseIncomeRCVActivity.this, AddExpenseActivity.class);
-                intent.putExtra(ExpenseFragment.DATE_VALUE, date);
+                intent.putExtra(CalendarFragment.DATE_VALUE, date);
                 startActivityForResult(intent, AddExpenseActivity.ADD_REQUEST_CODE);
             }
         });

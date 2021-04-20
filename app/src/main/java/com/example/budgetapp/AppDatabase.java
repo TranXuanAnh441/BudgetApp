@@ -9,12 +9,14 @@ import androidx.room.RoomDatabase;
 import com.example.budgetapp.CategoryExpense.CategoryExpenseDao;
 import com.example.budgetapp.CategoryDatabase.Category;
 import com.example.budgetapp.CategoryDatabase.CategoryDao;
+import com.example.budgetapp.DailyBalanceDatabase.DailyBalance;
+import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceDao;
 import com.example.budgetapp.ExpenseDatabase.Expense;
 import com.example.budgetapp.ExpenseDatabase.ExpenseDao;
 import com.example.budgetapp.IncomeDatabase.Income;
 import com.example.budgetapp.IncomeDatabase.IncomeDao;
 
-@Database(entities = {Expense.class, Category.class, Income.class}, version = 3)
+@Database(entities = {Expense.class, Category.class, Income.class, DailyBalance.class}, version = 4)
 public abstract class AppDatabase extends RoomDatabase {
     private static com.example.budgetapp.AppDatabase instance;
 
@@ -23,6 +25,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ExpenseDao expenseDao();
 
     public abstract IncomeDao incomeDao();
+
+    public abstract DailyBalanceDao dailyBalanceDao();
 
     public abstract CategoryExpenseDao categoryExpenseDao();
 

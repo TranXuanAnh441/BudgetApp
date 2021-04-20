@@ -18,7 +18,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.budgetapp.Fragments.ExpenseFragment;
+import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.CategoryDatabase.Category;
 import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
 
@@ -81,7 +81,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close);
         Intent intent = getIntent();
-        date = intent.getStringExtra(ExpenseFragment.DATE_VALUE);
+        date = intent.getStringExtra(CalendarFragment.DATE_VALUE);
         addDate.setText(date);
         if (intent.hasExtra(EXPENSE_ID)) {
             setTitle("Edit expense");
@@ -92,6 +92,7 @@ public class AddExpenseActivity extends AppCompatActivity {
             addDate.setText(intent.getStringExtra(EXPENSE_DATE));
             ((RadioButton)findViewById(R.id.radio_income)).setChecked(false);
             ((RadioButton)findViewById(R.id.radio_expense)).setChecked(true);
+            ((RadioButton)findViewById(R.id.radio_income)).setEnabled(false);
         }
         else if (intent.hasExtra(INCOME_ID)) {
             setTitle("Edit income");
@@ -101,6 +102,8 @@ public class AddExpenseActivity extends AppCompatActivity {
             addDate.setText(intent.getStringExtra(INCOME_DATE));
             ((RadioButton)findViewById(R.id.radio_income)).setChecked(true);
             ((RadioButton)findViewById(R.id.radio_expense)).setChecked(false);
+            ((RadioButton)findViewById(R.id.radio_expense)).setEnabled(false);
+
         }
         else { setTitle("Add");}
 

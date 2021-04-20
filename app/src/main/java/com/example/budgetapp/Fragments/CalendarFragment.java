@@ -20,9 +20,9 @@ import org.naishadhparmar.zcustomcalendar.Property;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class ExpenseFragment extends Fragment {
+public class CalendarFragment extends Fragment {
     CustomCalendar customCalendar;
-    public static final String DATE_VALUE = "com.example.budgetapp.Fragments.ExpenseFragment.DATE_VALUE";
+    public static final String DATE_VALUE = "com.example.budgetapp.Fragments.CalendarFragment.DATE_VALUE";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

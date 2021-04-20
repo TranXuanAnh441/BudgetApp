@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.example.budgetapp.Fragments.CategoryFragment;
-import com.example.budgetapp.Fragments.ExpenseFragment;
-import com.example.budgetapp.CategoryDatabase.Category;
+import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
 import com.google.android.material.navigation.NavigationView;
 ;
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ExpenseFragment()).commit();
+                    new CalendarFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_expense);
         }
     }
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_expense:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ExpenseFragment()).commit();
+                        new CalendarFragment()).commit();
                 break;
             }
         return true;
