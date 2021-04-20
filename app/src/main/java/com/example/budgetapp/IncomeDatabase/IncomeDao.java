@@ -1,4 +1,4 @@
-package com.example.budgetapp.incomeDatabase;
+package com.example.budgetapp.IncomeDatabase;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

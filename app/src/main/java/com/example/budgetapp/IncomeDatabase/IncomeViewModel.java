@@ -1,4 +1,4 @@
-package com.example.budgetapp.incomeDatabase;
+package com.example.budgetapp.IncomeDatabase;
 
 import android.app.Application;
 
@@ -7,8 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
-
-import com.example.budgetapp.expenseDatabase.Expense;
 
 import java.util.List;
 

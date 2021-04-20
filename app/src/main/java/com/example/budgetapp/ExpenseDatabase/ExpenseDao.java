@@ -1,4 +1,4 @@
-package com.example.budgetapp.expenseDatabase;
+package com.example.budgetapp.ExpenseDatabase;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -6,8 +6,6 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-
-import com.example.budgetapp.categoryDatabase.Category;
 
 import java.util.List;
 

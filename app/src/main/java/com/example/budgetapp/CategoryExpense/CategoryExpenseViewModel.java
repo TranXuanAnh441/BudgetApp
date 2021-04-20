@@ -5,8 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.budgetapp.categoryDatabase.Category;
-import com.example.budgetapp.expenseDatabase.Expense;
+import com.example.budgetapp.CategoryDatabase.Category;
 
 public class CategoryExpenseViewModel extends AndroidViewModel {
     private CategoryExpenseRepository categoryExpenseRepository;

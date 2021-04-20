@@ -4,23 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import com.example.budgetapp.Fragments.CategoryFragment;
 import com.example.budgetapp.Fragments.ExpenseFragment;
-import com.example.budgetapp.Fragments.ExpenseRecyclerViewFragment;
-import com.example.budgetapp.categoryDatabase.Category;
-import com.example.budgetapp.categoryDatabase.CategoryViewModel;
+import com.example.budgetapp.CategoryDatabase.Category;
+import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
 import com.google.android.material.navigation.NavigationView;
 ;
 
@@ -31,10 +26,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Intent intent = getIntent();
-        String name = intent.getStringExtra(AddCategoryActivity.EXTRA_NAME);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         DrawerLayout drawerLayout = findViewById(R.id.main_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
@@ -49,16 +40,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        if(name != null){
-            categoryViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(CategoryViewModel.class);
-            Category category = new Category(name);
-            categoryViewModel.insert(category);
-        }
-
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new CategoryFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_category);
+                    new ExpenseFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_expense);
         }
     }
 
@@ -76,4 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         return true;
 }
+    @Override
+    public void onActivityResult(int request_code, int result_code, Intent data) {
+        super.onActivityResult(request_code, result_code, data);}
 }

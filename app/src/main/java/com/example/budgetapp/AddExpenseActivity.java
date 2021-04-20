@@ -19,9 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.budgetapp.Fragments.ExpenseFragment;
-import com.example.budgetapp.categoryDatabase.Category;
-import com.example.budgetapp.categoryDatabase.CategoryViewModel;
-import com.example.budgetapp.expenseDatabase.Expense;
+import com.example.budgetapp.CategoryDatabase.Category;
+import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
 
 
 public class AddExpenseActivity extends AppCompatActivity {

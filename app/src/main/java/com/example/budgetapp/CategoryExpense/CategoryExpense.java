@@ -3,8 +3,8 @@ package com.example.budgetapp.CategoryExpense;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-import com.example.budgetapp.categoryDatabase.Category;
-import com.example.budgetapp.expenseDatabase.Expense;
+import com.example.budgetapp.CategoryDatabase.Category;
+import com.example.budgetapp.ExpenseDatabase.Expense;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.budgetapp.categoryDatabase;
+package com.example.budgetapp.CategoryDatabase;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

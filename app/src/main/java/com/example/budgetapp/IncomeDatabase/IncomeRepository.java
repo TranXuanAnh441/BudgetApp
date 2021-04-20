@@ -1,14 +1,11 @@
-package com.example.budgetapp.incomeDatabase;
+package com.example.budgetapp.IncomeDatabase;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.loader.content.AsyncTaskLoader;
 
 import com.example.budgetapp.AppDatabase;
-import com.example.budgetapp.expenseDatabase.Expense;
-import com.example.budgetapp.expenseDatabase.ExpenseDao;
 
 import java.util.List;
 
@@ -24,17 +21,17 @@ public class IncomeRepository {
     }
 
     public void insert(Income income){
-        new com.example.budgetapp.incomeDatabase.IncomeRepository.InsertIncomeAsyncTask(incomeDao).execute(income);
+        new com.example.budgetapp.IncomeDatabase.IncomeRepository.InsertIncomeAsyncTask(incomeDao).execute(income);
     };
     public void update(Income income){
-        new com.example.budgetapp.incomeDatabase.IncomeRepository.UpdateIncomeAsyncTask(incomeDao).execute(income);
+        new com.example.budgetapp.IncomeDatabase.IncomeRepository.UpdateIncomeAsyncTask(incomeDao).execute(income);
     };
     public void delete(Income income){
-        new com.example.budgetapp.incomeDatabase.IncomeRepository.DeleteIncomeAsyncTask(incomeDao).execute(income);
+        new com.example.budgetapp.IncomeDatabase.IncomeRepository.DeleteIncomeAsyncTask(incomeDao).execute(income);
     };
 
     public void deleteAll(){
-        new com.example.budgetapp.incomeDatabase.IncomeRepository.DeleteAllIncomeAsyncTask(incomeDao).execute();
+        new com.example.budgetapp.IncomeDatabase.IncomeRepository.DeleteAllIncomeAsyncTask(incomeDao).execute();
     };
 
     public LiveData<List<Income>> getAllIncome(){

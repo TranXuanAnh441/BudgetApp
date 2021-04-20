@@ -2,7 +2,6 @@ package com.example.budgetapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -16,11 +15,10 @@ import android.widget.Toast;
 import com.example.budgetapp.Fragments.ExpenseFragment;
 import com.example.budgetapp.Fragments.ExpenseRecyclerViewFragment;
 import com.example.budgetapp.Fragments.IncomeRecyclerViewFragment;
-import com.example.budgetapp.expenseDatabase.Expense;
-import com.example.budgetapp.expenseDatabase.ExpenseViewModel;
-import com.example.budgetapp.incomeDatabase.Income;
-import com.example.budgetapp.incomeDatabase.IncomeViewModel;
-import com.example.budgetapp.recyclerviewAdapter.ExpenseAdapter;
+import com.example.budgetapp.ExpenseDatabase.Expense;
+import com.example.budgetapp.ExpenseDatabase.ExpenseViewModel;
+import com.example.budgetapp.IncomeDatabase.Income;
+import com.example.budgetapp.IncomeDatabase.IncomeViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

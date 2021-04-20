@@ -10,8 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.budgetapp.categoryDatabase.Category;
-import com.example.budgetapp.categoryDatabase.CategoryViewModel;
+import com.example.budgetapp.CategoryDatabase.Category;
+import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
 import com.example.budgetapp.recyclerviewAdapter.CategoryAdapter;
 
 import java.io.Serializable;

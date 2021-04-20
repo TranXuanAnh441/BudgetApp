@@ -1,18 +1,9 @@
-package com.example.budgetapp.categoryDatabase;
+package com.example.budgetapp.CategoryDatabase;
 
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
-
-import com.example.budgetapp.expenseDatabase.Expense;
 
 import java.io.Serializable;
-import java.util.List;
-
-import static androidx.room.ForeignKey.CASCADE;
-
 
 
 @Entity(tableName = "category_table")

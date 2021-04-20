@@ -1,12 +1,11 @@
-package com.example.budgetapp.expenseDatabase;
+package com.example.budgetapp.ExpenseDatabase;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import com.example.budgetapp.categoryDatabase.Category;
+import com.example.budgetapp.CategoryDatabase.Category;
 
 import static androidx.room.ForeignKey.CASCADE;
 

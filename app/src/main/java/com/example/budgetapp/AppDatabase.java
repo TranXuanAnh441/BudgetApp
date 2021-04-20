@@ -6,14 +6,13 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.budgetapp.CategoryExpense.CategoryExpense;
 import com.example.budgetapp.CategoryExpense.CategoryExpenseDao;
-import com.example.budgetapp.categoryDatabase.Category;
-import com.example.budgetapp.categoryDatabase.CategoryDao;
-import com.example.budgetapp.expenseDatabase.Expense;
-import com.example.budgetapp.expenseDatabase.ExpenseDao;
-import com.example.budgetapp.incomeDatabase.Income;
-import com.example.budgetapp.incomeDatabase.IncomeDao;
+import com.example.budgetapp.CategoryDatabase.Category;
+import com.example.budgetapp.CategoryDatabase.CategoryDao;
+import com.example.budgetapp.ExpenseDatabase.Expense;
+import com.example.budgetapp.ExpenseDatabase.ExpenseDao;
+import com.example.budgetapp.IncomeDatabase.Income;
+import com.example.budgetapp.IncomeDatabase.IncomeDao;
 
 @Database(entities = {Expense.class, Category.class, Income.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {

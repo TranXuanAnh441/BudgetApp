@@ -3,15 +3,13 @@ package com.example.budgetapp.recyclerviewAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.R;
-import com.example.budgetapp.categoryDatabase.Category;
-import com.example.budgetapp.expenseDatabase.Expense;
+import com.example.budgetapp.CategoryDatabase.Category;
 
 import java.util.ArrayList;
 import java.util.List;

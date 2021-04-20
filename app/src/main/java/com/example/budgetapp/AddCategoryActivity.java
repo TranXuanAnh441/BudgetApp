@@ -9,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.example.budgetapp.Fragments.CategoryFragment;
+
 public class AddCategoryActivity extends AppCompatActivity {
     public static final String EXTRA_NAME = "com.example.budgetapp.AddCategoryActivity.EXTRA_NAME";
     public static final int RESULT_CODE = 100;
@@ -50,6 +52,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         if (name.trim().isEmpty()) return;
         Intent intent = new Intent(AddCategoryActivity.this, MainActivity.class);
         intent.putExtra(EXTRA_NAME, name);
-        startActivity(intent);
+        setResult(CategoryFragment.RESULT_OK, intent);
+        finish();
     }
 }

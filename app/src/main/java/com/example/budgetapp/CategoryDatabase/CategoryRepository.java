@@ -1,4 +1,4 @@
-package com.example.budgetapp.categoryDatabase;
+package com.example.budgetapp.CategoryDatabase;
 import android.app.Application;
 import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;

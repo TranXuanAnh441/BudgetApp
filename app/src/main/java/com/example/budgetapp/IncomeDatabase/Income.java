@@ -1,20 +1,6 @@
-package com.example.budgetapp.incomeDatabase;
-import androidx.annotation.Nullable;
+package com.example.budgetapp.IncomeDatabase;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-import com.example.budgetapp.categoryDatabase.Category;
-
-
-        import androidx.annotation.NonNull;
-        import androidx.annotation.Nullable;
-        import androidx.room.Entity;
-        import androidx.room.ForeignKey;
-        import androidx.room.PrimaryKey;
-
-        import com.example.budgetapp.categoryDatabase.Category;
-
-        import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "income_table")
 public class Income {

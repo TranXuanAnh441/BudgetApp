@@ -16,13 +16,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.budgetapp.AddCategoryActivity;
 import com.example.budgetapp.AddExpenseActivity;
 import com.example.budgetapp.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
-import com.example.budgetapp.expenseDatabase.Expense;
-import com.example.budgetapp.expenseDatabase.ExpenseViewModel;
-import com.example.budgetapp.incomeDatabase.Income;
+import com.example.budgetapp.ExpenseDatabase.Expense;
+import com.example.budgetapp.ExpenseDatabase.ExpenseViewModel;
 import com.example.budgetapp.recyclerviewAdapter.ExpenseAdapter;
 
 import java.util.List;

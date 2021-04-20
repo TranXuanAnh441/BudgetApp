@@ -9,11 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.example.budgetapp.R;
-import com.example.budgetapp.expenseDatabase.Expense;
-import com.example.budgetapp.incomeDatabase.Income;
+import com.example.budgetapp.IncomeDatabase.Income;
 
 public class IncomeAdapter extends ListAdapter<Income, IncomeAdapter.IncomeHolder> {
     private IncomeAdapter.OnItemClickListener listener;

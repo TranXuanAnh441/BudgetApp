@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.R;
-import com.example.budgetapp.expenseDatabase.Expense;
+import com.example.budgetapp.ExpenseDatabase.Expense;
 
 public class ExpenseAdapter extends ListAdapter<Expense, ExpenseAdapter.ExpenseHolder> {
     private OnItemClickListener listener;

@@ -1,4 +1,4 @@
-package com.example.budgetapp.categoryDatabase;
+package com.example.budgetapp.CategoryDatabase;
 
 import android.app.Application;
 
@@ -6,9 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import com.example.budgetapp.categoryDatabase.Category;
-import com.example.budgetapp.categoryDatabase.CategoryRepository;
 
 import java.util.List;
 
