@@ -2,6 +2,7 @@ package com.example.budgetapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.budgetapp.DailyBalanceDatabase.DailyBalance;
+import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceViewModel;
 import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.Fragments.ExpenseRecyclerViewFragment;
 import com.example.budgetapp.Fragments.IncomeRecyclerViewFragment;
@@ -25,6 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class ExpenseIncomeRCVActivity extends AppCompatActivity {
     private ExpenseViewModel expenseViewModel;
     private IncomeViewModel incomeViewModel;
+    private DailyBalanceViewModel dailyBalanceViewModel;
 
     public String getDate() {
         return date;
@@ -42,6 +46,18 @@ public class ExpenseIncomeRCVActivity extends AppCompatActivity {
         date = dateIntent.getStringExtra(CalendarFragment.DATE_VALUE);
         expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(ExpenseViewModel.class);
         incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(IncomeViewModel.class);
+        dailyBalanceViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(DailyBalanceViewModel.class);
+        dailyBalanceViewModel.setDateFilter(date);
+        dailyBalanceViewModel.getDateBalance().observe(this, new Observer<DailyBalance>() {
+            @Override
+            public void onChanged(DailyBalance dailyBalance) {
+                if(dailyBalance == null){
+                    Intent dateIntent = getIntent();
+                    String date = dateIntent.getStringExtra(CalendarFragment.DATE_VALUE);
+                    DailyBalance dailyBalance1 = new DailyBalance(date, 0, 0);
+                    dailyBalanceViewModel.insert(dailyBalance1);}
+            }
+        });
         FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_category1);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
             @Override

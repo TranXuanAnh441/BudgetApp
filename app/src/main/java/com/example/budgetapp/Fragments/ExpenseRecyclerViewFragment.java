@@ -2,9 +2,11 @@ package com.example.budgetapp.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.AddExpenseActivity;
+import com.example.budgetapp.DailyBalanceDatabase.DailyBalance;
+import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceViewModel;
 import com.example.budgetapp.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.ExpenseDatabase.Expense;
@@ -25,8 +29,13 @@ import com.example.budgetapp.recyclerviewAdapter.ExpenseAdapter;
 
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 public class ExpenseRecyclerViewFragment extends Fragment {
     private ExpenseViewModel expenseViewModel;
+    private DailyBalanceViewModel dailyBalanceViewModel;
+    private int expense_sum = 0;
+    TextView sumTextView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,7 +46,7 @@ public class ExpenseRecyclerViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        sumTextView = view.findViewById(R.id.sumTextView);
         androidx.recyclerview.widget.RecyclerView recyclerView = view.findViewById(R.id.expense_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -50,43 +59,57 @@ public class ExpenseRecyclerViewFragment extends Fragment {
         ExpenseIncomeRCVActivity expenseRecyclerViewActivity = (ExpenseIncomeRCVActivity) getActivity();
         String date = expenseRecyclerViewActivity.getDate();
 
+        dailyBalanceViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(DailyBalanceViewModel.class);
+        dailyBalanceViewModel.setDateFilter(date);
+        dailyBalanceViewModel.getDateBalance().observe(getActivity(), new Observer<DailyBalance>() {
+            @Override
+            public void onChanged(DailyBalance dailyBalance) {
+                if (dailyBalance == null) {
+                    DailyBalance dailyBalance1 = new DailyBalance(date, 0, 0);
+                    dailyBalanceViewModel.insert(dailyBalance1);
+                }
+            }
+        });
         expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(ExpenseViewModel.class);
         expenseViewModel.setFilter(date);
         expenseViewModel.getDateExpense().observe(getActivity(), new Observer<List<Expense>>() {
             @Override
             public void onChanged(List<Expense> expenses) {
                 expenseAdapter.submitList(expenses);
-            }
-        });
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                for (int i = 0; i < expenses.size(); i++) {
+                    expense_sum += expenses.get(i).getAmount();
+                    sumTextView.setText(String.valueOf(expense_sum));
+                }
+                }});
 
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+                new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                expenseViewModel.delete(expenseAdapter.getExpenseAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
-            }
-        }).attachToRecyclerView(recyclerView);
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                        return false;
+                    }
 
-        expenseAdapter.setOnItemClickListener(new ExpenseAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Expense expense) {
-                Intent intent = new Intent(getActivity(), AddExpenseActivity.class);
-                intent.putExtra(AddExpenseActivity.EXPENSE_ID, expense.getEid());
-                intent.putExtra(AddExpenseActivity.EXPENSE_AMOUNT, expense.getAmount());
-                intent.putExtra(AddExpenseActivity.EXPENSE_DATE, expense.getDate());
-                intent.putExtra(AddExpenseActivity.EXPENSE_TITLE, expense.getTitle());
-                intent.putExtra(AddExpenseActivity.EXPENSE_DESCRIPTION, expense.getDescription());
-                intent.putExtra(AddExpenseActivity.EXTRA_CATEGORY, expense.getCategoryId());
-                startActivityForResult(intent, AddExpenseActivity.UPDATE_REQUEST_CODE);
-            }
-        });
-    }
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                        expenseViewModel.delete(expenseAdapter.getExpenseAt(viewHolder.getAdapterPosition()));
+                        Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                    }
+                }).attachToRecyclerView(recyclerView);
 
+                expenseAdapter.setOnItemClickListener(new ExpenseAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Expense expense) {
+                        Intent intent = new Intent(getActivity(), AddExpenseActivity.class);
+                        intent.putExtra(AddExpenseActivity.EXPENSE_ID, expense.getEid());
+                        intent.putExtra(AddExpenseActivity.EXPENSE_AMOUNT, expense.getAmount());
+                        intent.putExtra(AddExpenseActivity.EXPENSE_DATE, expense.getDate());
+                        intent.putExtra(AddExpenseActivity.EXPENSE_TITLE, expense.getTitle());
+                        intent.putExtra(AddExpenseActivity.EXPENSE_DESCRIPTION, expense.getDescription());
+                        intent.putExtra(AddExpenseActivity.EXTRA_CATEGORY, expense.getCategoryId());
+                        startActivityForResult(intent, AddExpenseActivity.UPDATE_REQUEST_CODE);
+                    }
+                });
+            }
     @Override
     public void onActivityResult(int request_code, int result_code, Intent data) {
         if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == AddExpenseActivity.EXPENSE_RESULT) {

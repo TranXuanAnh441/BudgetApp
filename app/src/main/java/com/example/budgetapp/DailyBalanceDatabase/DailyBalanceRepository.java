@@ -2,10 +2,14 @@ package com.example.budgetapp.DailyBalanceDatabase;
 
 import android.app.Application;
 import android.os.AsyncTask;
+
+import androidx.lifecycle.LiveData;
+
 import com.example.budgetapp.AppDatabase;
 
 public class DailyBalanceRepository {
-    DailyBalanceDao dailyBalanceDao;
+    private DailyBalanceDao dailyBalanceDao;
+    private LiveData<DailyBalance> dateBalance;
 
     public DailyBalanceRepository(Application application){
         AppDatabase balanceDatabase = AppDatabase.getInstance(application);
@@ -20,6 +24,10 @@ public class DailyBalanceRepository {
     public void delete(DailyBalance dailyBalance){
         new InsertBalanceAsyncTask(dailyBalanceDao).execute(dailyBalance);
     };
+    public LiveData<DailyBalance> getDateBalance(String v){
+        dateBalance = dailyBalanceDao.getDateBalance(v);
+        return dateBalance;
+    }
 
     public static class InsertBalanceAsyncTask extends AsyncTask<DailyBalance, Void, Void> {
         DailyBalanceDao dailyBalanceDao;

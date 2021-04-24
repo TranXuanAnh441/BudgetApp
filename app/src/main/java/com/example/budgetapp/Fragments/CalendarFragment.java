@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.budgetapp.DailyBalanceDatabase.DailyBalance;
+import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceViewModel;
 import com.example.budgetapp.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
 
@@ -21,7 +25,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class CalendarFragment extends Fragment {
-    CustomCalendar customCalendar;
+    private CustomCalendar customCalendar;
     public static final String DATE_VALUE = "com.example.budgetapp.Fragments.CalendarFragment.DATE_VALUE";
     @Nullable
     @Override
@@ -35,7 +39,6 @@ public class CalendarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         customCalendar = view.findViewById(R.id.calendarView);
-
         HashMap<Object, Property> descHashMap = new HashMap<>();
         Property defaultProperty = new Property();
         defaultProperty.layoutResource = R.layout.default_view;
@@ -63,11 +66,11 @@ public class CalendarFragment extends Fragment {
         customCalendar.setOnDateSelectedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(View view, Calendar selectedDate, Object desc) {
-                String sDate = selectedDate.get(Calendar.DAY_OF_MONTH) + "/"
+                String date = selectedDate.get(Calendar.DAY_OF_MONTH) + "/"
                         + (selectedDate.get(Calendar.MONTH)+1) + "/"
                         + selectedDate.get(Calendar.YEAR);
                 Intent intent = new Intent(view.getContext(), ExpenseIncomeRCVActivity.class);
-                intent.putExtra(DATE_VALUE, sDate);
+                intent.putExtra(DATE_VALUE, date);
                 startActivity(intent);
             }
         });

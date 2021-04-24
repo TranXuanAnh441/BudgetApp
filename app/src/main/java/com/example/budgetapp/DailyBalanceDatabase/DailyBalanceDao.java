@@ -1,5 +1,6 @@
 package com.example.budgetapp.DailyBalanceDatabase;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,5 +16,5 @@ public interface DailyBalanceDao {
     @Delete
     void delete(DailyBalance dailyBalance);
     @Query("SELECT * FROM balance_table WHERE date =:date")
-    void getDateBalance(String date);
+    LiveData<DailyBalance> getDateBalance(String date);
 }

@@ -5,8 +5,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-@Entity(tableName = "balance_table", indices = {@Index(value =
-        {"date"}, unique = true)})
+@Entity(tableName = "balance_table")
 public class DailyBalance implements Serializable {
 
     public DailyBalance(String date, int income, int expense) {
@@ -41,6 +40,14 @@ public class DailyBalance implements Serializable {
     }
 
     public int income;
+
+    public void setIncome(int income) {
+        this.income = income;
+    }
+
+    public void setExpense(int expense) {
+        this.expense = expense;
+    }
 
     public int expense;
 }

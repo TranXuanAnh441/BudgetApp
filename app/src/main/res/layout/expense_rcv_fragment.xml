@@ -10,4 +10,8 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/expense_item"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sumTextView"/>
 </RelativeLayout>
