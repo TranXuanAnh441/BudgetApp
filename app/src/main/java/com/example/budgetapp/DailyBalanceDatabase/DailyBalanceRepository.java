@@ -10,6 +10,7 @@ import com.example.budgetapp.AppDatabase;
 public class DailyBalanceRepository {
     private DailyBalanceDao dailyBalanceDao;
     private LiveData<DailyBalance> dateBalance;
+    private LiveData<Boolean> checkBalance;
 
     public DailyBalanceRepository(Application application){
         AppDatabase balanceDatabase = AppDatabase.getInstance(application);
@@ -19,14 +20,18 @@ public class DailyBalanceRepository {
         new InsertBalanceAsyncTask(dailyBalanceDao).execute(dailyBalance);
     };
     public void update(DailyBalance dailyBalance){
-        new InsertBalanceAsyncTask(dailyBalanceDao).execute(dailyBalance);
+        new UpdateBalanceAsyncTask(dailyBalanceDao).execute(dailyBalance);
     };
     public void delete(DailyBalance dailyBalance){
-        new InsertBalanceAsyncTask(dailyBalanceDao).execute(dailyBalance);
+        new DeleteBalanceAsyncTask(dailyBalanceDao).execute(dailyBalance);
     };
     public LiveData<DailyBalance> getDateBalance(String v){
         dateBalance = dailyBalanceDao.getDateBalance(v);
         return dateBalance;
+    }
+    public LiveData<Boolean> getCheckBalance(String v){
+        checkBalance = dailyBalanceDao.checkBalance(v);
+        return checkBalance;
     }
 
     public static class InsertBalanceAsyncTask extends AsyncTask<DailyBalance, Void, Void> {

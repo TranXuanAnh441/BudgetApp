@@ -13,6 +13,7 @@ public class IncomeRepository {
     private IncomeDao incomeDao;
     private LiveData<List<Income>> allIncome;
     private LiveData<List<Income>> dateIncome;
+    private LiveData<Integer> dateSum;
 
     public IncomeRepository(Application application){
         AppDatabase incomeDatabase = AppDatabase.getInstance(application);
@@ -36,6 +37,11 @@ public class IncomeRepository {
 
     public LiveData<List<Income>> getAllIncome(){
         return allIncome;
+    }
+
+    public LiveData<Integer> getDateSum(String v){
+        dateSum = incomeDao.getDateSum(v);
+        return dateSum;
     }
 
     public LiveData<List<Income>> getDateIncome(String v){

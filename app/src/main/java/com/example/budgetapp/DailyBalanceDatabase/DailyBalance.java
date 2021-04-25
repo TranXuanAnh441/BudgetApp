@@ -6,8 +6,7 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 @Entity(tableName = "balance_table")
-public class DailyBalance implements Serializable {
-
+public class DailyBalance  {
     public DailyBalance(String date, int income, int expense) {
         this.date = date;
         this.income = income;

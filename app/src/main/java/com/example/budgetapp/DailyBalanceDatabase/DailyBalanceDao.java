@@ -17,4 +17,6 @@ public interface DailyBalanceDao {
     void delete(DailyBalance dailyBalance);
     @Query("SELECT * FROM balance_table WHERE date =:date")
     LiveData<DailyBalance> getDateBalance(String date);
+    @Query("SELECT EXISTS (SELECT * FROM balance_table WHERE date = :date)")
+    LiveData<Boolean> checkBalance(String date);
 }

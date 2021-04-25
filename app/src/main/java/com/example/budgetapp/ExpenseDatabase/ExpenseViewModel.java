@@ -14,6 +14,7 @@ public class ExpenseViewModel extends AndroidViewModel {
     private ExpenseRepository expenseRepository;
     private LiveData<List<Expense>> allExpense;
     private LiveData<List<Expense>> dateExpense;
+    private LiveData<Integer> dateSum;
     private MutableLiveData<String> filterLiveData = new MutableLiveData<>();
 
     public ExpenseViewModel(@NonNull Application application) {
@@ -22,7 +23,10 @@ public class ExpenseViewModel extends AndroidViewModel {
         allExpense = expenseRepository.getAllExpense();
         dateExpense = Transformations.switchMap(filterLiveData,
                 v -> expenseRepository.getDateExpense(v));
+        dateSum = Transformations.switchMap(filterLiveData,
+                v -> expenseRepository.getDateSum(v));
     }
+    public LiveData<Integer> getDateSum() { return dateSum; }
     public LiveData<List<Expense>> getDateExpense() { return dateExpense; }
     public void setFilter(String filter) { filterLiveData.setValue(filter);}
     public void insert(Expense expense){

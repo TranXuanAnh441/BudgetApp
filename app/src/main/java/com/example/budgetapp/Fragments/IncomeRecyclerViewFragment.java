@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.AddExpenseActivity;
+import com.example.budgetapp.DailyBalanceDatabase.DailyBalance;
+import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceViewModel;
 import com.example.budgetapp.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.IncomeDatabase.Income;
@@ -27,6 +29,7 @@ import java.util.List;
 
 public class IncomeRecyclerViewFragment extends Fragment {
     private IncomeViewModel incomeViewModel;
+    private DailyBalanceViewModel dailyBalanceViewModel;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +54,8 @@ public class IncomeRecyclerViewFragment extends Fragment {
         String date = expenseRecyclerViewActivity.getDate();
 
         incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(IncomeViewModel.class);
+        dailyBalanceViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(DailyBalanceViewModel.class);
+
         incomeViewModel.setFilter(date);
         incomeViewModel.getDateIncome().observe(getActivity(), new Observer<List<Income>>() {
             @Override
@@ -58,6 +63,7 @@ public class IncomeRecyclerViewFragment extends Fragment {
                 incomeAdapter.submitList(incomes);
             }
         });
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override

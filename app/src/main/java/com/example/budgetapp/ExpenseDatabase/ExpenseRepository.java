@@ -13,6 +13,7 @@ public class ExpenseRepository {
     private ExpenseDao expenseDao;
     private LiveData<List<Expense>> allExpense;
     private LiveData<List<Expense>> dateExpense;
+    private LiveData<Integer> dateSum;
 
     public ExpenseRepository(Application application){
         AppDatabase expenseDatabase = AppDatabase.getInstance(application);
@@ -35,6 +36,11 @@ public class ExpenseRepository {
 
     public LiveData<List<Expense>> getAllExpense(){
         return allExpense;
+    }
+
+    public LiveData<Integer> getDateSum(String v) {
+        dateSum = expenseDao.getDateSum(v);
+        return dateSum;
     }
 
     public LiveData<List<Expense>> getDateExpense(String v){

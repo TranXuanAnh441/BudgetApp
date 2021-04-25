@@ -34,7 +34,7 @@ import static android.content.ContentValues.TAG;
 public class ExpenseRecyclerViewFragment extends Fragment {
     private ExpenseViewModel expenseViewModel;
     private DailyBalanceViewModel dailyBalanceViewModel;
-    private int expense_sum = 0;
+    private DailyBalance dailyBalance;
     TextView sumTextView;
     @Nullable
     @Override
@@ -60,29 +60,24 @@ public class ExpenseRecyclerViewFragment extends Fragment {
         String date = expenseRecyclerViewActivity.getDate();
 
         dailyBalanceViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(DailyBalanceViewModel.class);
-        dailyBalanceViewModel.setDateFilter(date);
-        dailyBalanceViewModel.getDateBalance().observe(getActivity(), new Observer<DailyBalance>() {
-            @Override
-            public void onChanged(DailyBalance dailyBalance) {
-                if (dailyBalance == null) {
-                    DailyBalance dailyBalance1 = new DailyBalance(date, 0, 0);
-                    dailyBalanceViewModel.insert(dailyBalance1);
-                }
-            }
-        });
         expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(ExpenseViewModel.class);
+
         expenseViewModel.setFilter(date);
         expenseViewModel.getDateExpense().observe(getActivity(), new Observer<List<Expense>>() {
             @Override
             public void onChanged(List<Expense> expenses) {
                 expenseAdapter.submitList(expenses);
-                for (int i = 0; i < expenses.size(); i++) {
-                    expense_sum += expenses.get(i).getAmount();
-                    sumTextView.setText(String.valueOf(expense_sum));
-                }
                 }});
-
-                new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        expenseViewModel.getDateSum().observe(getActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if(integer==null){
+                    sumTextView.setText("0");
+                }
+                else sumTextView.setText(String.valueOf(integer));
+            }
+        });
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
                     @Override
                     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -96,7 +91,7 @@ public class ExpenseRecyclerViewFragment extends Fragment {
                     }
                 }).attachToRecyclerView(recyclerView);
 
-                expenseAdapter.setOnItemClickListener(new ExpenseAdapter.OnItemClickListener() {
+        expenseAdapter.setOnItemClickListener(new ExpenseAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Expense expense) {
                         Intent intent = new Intent(getActivity(), AddExpenseActivity.class);

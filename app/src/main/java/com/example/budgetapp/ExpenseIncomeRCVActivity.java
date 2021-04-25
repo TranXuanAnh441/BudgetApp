@@ -35,6 +35,8 @@ public class ExpenseIncomeRCVActivity extends AppCompatActivity {
     }
 
     private String date;
+    private int expenseSum;
+    private int incomeSum;
     public static final int RESULT_OK = 100;
     private BottomNavigationView bottomNavigationView;
 
@@ -44,20 +46,14 @@ public class ExpenseIncomeRCVActivity extends AppCompatActivity {
         setContentView(R.layout.activity_expense_recycler_view);
         Intent dateIntent = getIntent();
         date = dateIntent.getStringExtra(CalendarFragment.DATE_VALUE);
+
+
         expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(ExpenseViewModel.class);
         incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(IncomeViewModel.class);
         dailyBalanceViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(DailyBalanceViewModel.class);
-        dailyBalanceViewModel.setDateFilter(date);
-        dailyBalanceViewModel.getDateBalance().observe(this, new Observer<DailyBalance>() {
-            @Override
-            public void onChanged(DailyBalance dailyBalance) {
-                if(dailyBalance == null){
-                    Intent dateIntent = getIntent();
-                    String date = dateIntent.getStringExtra(CalendarFragment.DATE_VALUE);
-                    DailyBalance dailyBalance1 = new DailyBalance(date, 0, 0);
-                    dailyBalanceViewModel.insert(dailyBalance1);}
-            }
-        });
+
+
+
         FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_category1);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
             @Override
