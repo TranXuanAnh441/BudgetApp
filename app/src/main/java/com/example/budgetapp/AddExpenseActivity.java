@@ -148,7 +148,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         String description = addDescription.getText().toString();
         String date = addDate.getText().toString();
         int amount = Integer.parseInt(addAmount.getText().toString());
-        if (title.trim().isEmpty() || String.valueOf(amount).trim().isEmpty()) {
+        if (title.trim().isEmpty() || description.trim().isEmpty() || String.valueOf(amount).trim().isEmpty()) {
             Toast.makeText(this, "Please insert properly", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -171,7 +171,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         String description = addDescription.getText().toString();
         String date = addDate.getText().toString();
         int amount = Integer.parseInt(addAmount.getText().toString());
-        if (title.trim().isEmpty() || String.valueOf(amount).trim().isEmpty()) {
+        if (title.trim().isEmpty() || description.trim().isEmpty() || String.valueOf(amount).trim().isEmpty() ) {
             Toast.makeText(this, "Please insert properly", Toast.LENGTH_SHORT).show();
             return;
         }

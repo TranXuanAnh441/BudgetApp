@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/expense_fragment">
-
-    <org.naishadhparmar.zcustomcalendar.CustomCalendar
-        android:id="@+id/calendarView"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         />
+        android:layout_height="58dp"
+        android:id="@+id/monthTextView"
+        android:textColor="@color/purple_200"
+
+        />
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+        android:id="@+id/compactcalendar_view"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="58dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:compactCalendarBackgroundColor="#ffe95451"
+        app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
+        app:compactCalendarMultiEventIndicatorColor="#fff"
+        app:compactCalendarTargetHeight="250dp"
+        app:compactCalendarTextColor="#fff"
+        app:compactCalendarTextSize="12sp" />
 
     <TextView
         android:id="@+id/expense_sum"
@@ -18,7 +36,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="66dp"
-        android:layout_marginBottom="66dp"/>
+        android:layout_marginBottom="66dp"
+        android:background="@color/teal_200"/>
 
     <TextView
         android:id="@+id/income_sum"
@@ -28,5 +47,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="62dp"
-        android:layout_marginBottom="160dp" />
+        android:layout_marginBottom="160dp"
+        android:background="@color/teal_200"/>
 </RelativeLayout>

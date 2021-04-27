@@ -15,7 +15,7 @@ import com.example.budgetapp.Fragments.CategoryFragment;
 import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
 import com.google.android.material.navigation.NavigationView;
-;
+
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

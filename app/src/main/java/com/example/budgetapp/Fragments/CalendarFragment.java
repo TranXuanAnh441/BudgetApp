@@ -1,15 +1,24 @@
 package com.example.budgetapp.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,24 +28,27 @@ import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceViewModel;
 import com.example.budgetapp.ExpenseDatabase.ExpenseViewModel;
 import com.example.budgetapp.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.IncomeDatabase.IncomeViewModel;
+import com.example.budgetapp.MainActivity;
 import com.example.budgetapp.R;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 
-import org.naishadhparmar.zcustomcalendar.CustomCalendar;
-import org.naishadhparmar.zcustomcalendar.OnDateSelectedListener;
-import org.naishadhparmar.zcustomcalendar.Property;
-
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.Date;
+import java.util.Locale;
 
 public class CalendarFragment extends Fragment {
-    private CustomCalendar customCalendar;
+    private CompactCalendarView compactCalendarView;
     private DailyBalanceViewModel dailyBalanceViewModel;
     private TextView expenseSumTextView;
     private TextView incomeSumTextView;
+    private TextView monthTextView;
     private ExpenseViewModel expenseViewModel;
     private IncomeViewModel incomeViewModel;
     private Integer count = 0;
     private String clicked_date;
+    private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
     public static final String DATE_VALUE = "com.example.budgetapp.Fragments.CalendarFragment.DATE_VALUE";
 
     @Nullable
@@ -53,38 +65,22 @@ public class CalendarFragment extends Fragment {
         expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(ExpenseViewModel.class);
         incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(IncomeViewModel.class);
 
-        customCalendar = view.findViewById(R.id.calendarView);
+
+
+        monthTextView = view.findViewById(R.id.monthTextView);
+
         expenseSumTextView = view.findViewById(R.id.expense_sum);
         incomeSumTextView = view.findViewById(R.id.income_sum);
 
-        HashMap<Object, Property> descHashMap = new HashMap<>();
-        Property defaultProperty = new Property();
-        defaultProperty.layoutResource = R.layout.default_view;
-        defaultProperty.dateTextViewResource = R.id.text_view;
-        descHashMap.put("default", defaultProperty);
+        Calendar cal = Calendar.getInstance();
+        monthTextView.setText(dateFormatMonth.format(cal.getTime()));
 
-        Property currentProperty = new Property();
-        currentProperty.layoutResource = R.layout.current_view;
-        currentProperty.dateTextViewResource = R.id.text_view;
-        descHashMap.put("current", currentProperty);
-
-        Property presentProperty = new Property();
-        presentProperty.layoutResource = R.layout.present;
-        presentProperty.dateTextViewResource = R.id.text_view;
-        descHashMap.put("present", presentProperty);
-
-        customCalendar.setMapDescToProp(descHashMap);
-        HashMap<Integer, Object> dateHashMap = new HashMap<>();
-        Calendar calendar = Calendar.getInstance();
-        dateHashMap.put(11,"current");
-        customCalendar.setDate(calendar, dateHashMap);
-
-        customCalendar.setOnDateSelectedListener(new OnDateSelectedListener() {
+        compactCalendarView = (CompactCalendarView) view.findViewById(R.id.compactcalendar_view);
+        compactCalendarView.setUseThreeLetterAbbreviation(true);
+        compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
-            public void onDateSelected(View view, Calendar selectedDate, Object desc) {
-                String date = selectedDate.get(Calendar.DAY_OF_MONTH) + "/"
-                        + (selectedDate.get(Calendar.MONTH)+1) + "/"
-                        + selectedDate.get(Calendar.YEAR);
+            public void onDayClick(Date dateClicked) {
+                String date = String.valueOf(dateClicked);
                 if(clicked_date != null && clicked_date.equals(date) ){
                     count ++;
                 }
@@ -108,12 +104,15 @@ public class CalendarFragment extends Fragment {
                     }
                 });
                 if(count == 2){ count = 0;
-                Intent intent = new Intent(view.getContext(), ExpenseIncomeRCVActivity.class);
-                intent.putExtra(DATE_VALUE, date);
-                startActivity(intent);}
+                    Intent intent = new Intent(view.getContext(), ExpenseIncomeRCVActivity.class);
+                    intent.putExtra(DATE_VALUE, date);
+                    startActivity(intent);}
+            }
+
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+                monthTextView.setText(dateFormatMonth.format(firstDayOfNewMonth));
             }
         });
     }
-
-
 }
