@@ -7,14 +7,20 @@
             android:id="@+id/nav_category"
             android:title="Category" />
         <item
-            android:id="@+id/nav_expense"
-            android:title="Expense" />
+            android:id="@+id/nav_calendar"
+            android:title="Daily" />
         <item
-            android:id="@+id/nav_profile"
-            android:title="Personal Profile" />
+            android:id="@+id/nav_monthly"
+            android:title="Monthly" />
+        <item
+            android:id="@+id/nav_searchBar"
+            android:title="searchBar" />
     </group>
     <item android:title="Media">
         <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:title="Personal profile" />
             <item
                 android:id="@+id/nav_share"
                 android:title="Share" />

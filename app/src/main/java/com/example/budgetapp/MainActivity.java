@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new CalendarFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_expense);
+            navigationView.setCheckedItem(R.id.nav_calendar);
         }
     }
 
@@ -52,9 +52,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new CategoryFragment()).commit();
                 break;
-            case R.id.nav_expense:
+            case R.id.nav_calendar:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new CalendarFragment()).commit();
+                break;
+            case R.id.nav_monthly:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MonthlyFragment()).commit();
+            break;
+            case R.id.nav_searchBar:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new searchBarFragment()).commit();
                 break;
             }
         return true;

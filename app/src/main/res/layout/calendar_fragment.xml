@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="58dp"
         android:id="@+id/monthTextView"
-        android:textColor="@color/purple_200"
-
-        />
+        android:textColor="#B71C1C"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     <com.github.sundeepk.compactcalendarview.CompactCalendarView
         android:id="@+id/compactcalendar_view"
         android:layout_width="fill_parent"
@@ -37,7 +37,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="66dp"
         android:layout_marginBottom="66dp"
-        android:background="@color/teal_200"/>
+        android:background="#E57373"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
         android:id="@+id/income_sum"
@@ -48,5 +50,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="62dp"
         android:layout_marginBottom="160dp"
-        android:background="@color/teal_200"/>
+        android:background="#E57373"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 </RelativeLayout>
