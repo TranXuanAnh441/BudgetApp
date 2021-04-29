@@ -34,8 +34,6 @@ import static android.content.ContentValues.TAG;
 public class ExpenseRecyclerViewFragment extends Fragment {
     private ExpenseViewModel expenseViewModel;
     private DailyBalanceViewModel dailyBalanceViewModel;
-    private DailyBalance dailyBalance;
-    TextView sumTextView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,7 +44,6 @@ public class ExpenseRecyclerViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sumTextView = view.findViewById(R.id.sumTextView);
         androidx.recyclerview.widget.RecyclerView recyclerView = view.findViewById(R.id.expense_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -68,15 +65,7 @@ public class ExpenseRecyclerViewFragment extends Fragment {
             public void onChanged(List<Expense> expenses) {
                 expenseAdapter.submitList(expenses);
                 }});
-        expenseViewModel.getDateSum().observe(getActivity(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                if(integer==null){
-                    sumTextView.setText("0");
-                }
-                else sumTextView.setText(String.valueOf(integer));
-            }
-        });
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
                     @Override

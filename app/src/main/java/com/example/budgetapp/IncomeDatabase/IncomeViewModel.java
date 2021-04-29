@@ -15,7 +15,9 @@ public class IncomeViewModel extends AndroidViewModel {
     private LiveData<List<Income>> allIncome;
     private LiveData<List<Income>> dateIncome;
     private LiveData<Integer> dateSum;
+    private LiveData<Integer> monthSum;
     private MutableLiveData<String> filterLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> monthLiveData = new MutableLiveData<>();
     public IncomeViewModel(@NonNull Application application) {
         super(application);
         incomeRepository = new IncomeRepository(application);
@@ -24,10 +26,14 @@ public class IncomeViewModel extends AndroidViewModel {
                 v -> incomeRepository.getDateIncome(v));
         dateSum = Transformations.switchMap(filterLiveData,
                 v -> incomeRepository.getDateSum(v));
+        monthSum = Transformations.switchMap(monthLiveData,
+                v -> incomeRepository.getMonthSum(v));
     }
 
     public LiveData<List<Income>> getDateIncome() { return dateIncome; }
     public LiveData<Integer> getDateSum(){return dateSum;}
+    public LiveData<Integer> getMonthSum(){return monthSum;}
+    public void setMonthFilter(String filter) { monthLiveData.setValue(filter);}
     public void setFilter(String filter) { filterLiveData.setValue(filter);}
     public void insert(Income income ){
         incomeRepository.insert(income);

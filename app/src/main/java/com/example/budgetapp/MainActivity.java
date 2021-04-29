@@ -14,6 +14,8 @@ import android.view.View.OnClickListener;
 import com.example.budgetapp.Fragments.CategoryFragment;
 import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
+import com.example.budgetapp.Fragments.MonthlyFragment;
+import com.example.budgetapp.Fragments.searchBarFragment;
 import com.google.android.material.navigation.NavigationView;
 
 

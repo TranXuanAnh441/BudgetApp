@@ -6,9 +6,11 @@
     >
 
     <TextView
-        android:id="@+id/monthTextView"
+        android:id="@+id/headingTextView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_above="@+id/category_recycler_view"
+        android:layout_marginBottom="40dp"
         android:gravity="center"
         android:text="CATEGORIES"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -17,11 +19,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="617dp"
+        android:layout_height="530dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        tools:listitem="@layout/category_item"
-        />
+        android:background="@android:color/darker_gray"
+        tools:listitem="@layout/category_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_add_category"

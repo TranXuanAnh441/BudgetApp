@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetapp.R;
 import com.example.budgetapp.ExpenseDatabase.Expense;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExpenseAdapter extends ListAdapter<Expense, ExpenseAdapter.ExpenseHolder> {
     private OnItemClickListener listener;
     private static final DiffUtil.ItemCallback<Expense> DIFF_CALLBACK = new DiffUtil.ItemCallback<Expense>() {

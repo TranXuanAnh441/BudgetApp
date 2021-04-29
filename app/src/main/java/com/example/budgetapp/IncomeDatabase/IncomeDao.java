@@ -24,4 +24,6 @@ public interface IncomeDao {
     LiveData<List<Income>> getDateIncome(String date);
     @Query("SELECT SUM(amount) FROM income_table WHERE date=:date")
     LiveData<Integer> getDateSum(String date);
+    @Query("Select SUM(amount) FROM income_table where date  LIKE :date ")
+    LiveData<Integer> getMonthSum(String date);
 }

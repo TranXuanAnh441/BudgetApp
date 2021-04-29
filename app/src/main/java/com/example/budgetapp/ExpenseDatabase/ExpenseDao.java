@@ -25,4 +25,6 @@ public interface ExpenseDao {
     LiveData<List<Expense>> getDateExpense(String date);
     @Query("Select SUM(amount) FROM expense_table where date=:date")
     LiveData<Integer> getDateSum(String date);
+    @Query("Select SUM(amount) FROM expense_table where date  LIKE :date ")
+    LiveData<Integer> getMonthExpense(String date);
 }

@@ -14,21 +14,31 @@ public class ExpenseViewModel extends AndroidViewModel {
     private ExpenseRepository expenseRepository;
     private LiveData<List<Expense>> allExpense;
     private LiveData<List<Expense>> dateExpense;
+    private LiveData<Integer> monthExpense;
     private LiveData<Integer> dateSum;
-    private MutableLiveData<String> filterLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> dateLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> monthLiveData = new MutableLiveData<>();
 
     public ExpenseViewModel(@NonNull Application application) {
         super(application);
         expenseRepository = new ExpenseRepository(application);
         allExpense = expenseRepository.getAllExpense();
-        dateExpense = Transformations.switchMap(filterLiveData,
+        dateExpense = Transformations.switchMap(dateLiveData,
                 v -> expenseRepository.getDateExpense(v));
-        dateSum = Transformations.switchMap(filterLiveData,
+        dateSum = Transformations.switchMap(dateLiveData,
                 v -> expenseRepository.getDateSum(v));
+        monthExpense = Transformations.switchMap(monthLiveData,
+                v -> expenseRepository.getMonthExpense(v));
+
     }
     public LiveData<Integer> getDateSum() { return dateSum; }
-    public LiveData<List<Expense>> getDateExpense() { return dateExpense; }
-    public void setFilter(String filter) { filterLiveData.setValue(filter);}
+    public LiveData<List<Expense>> getAllExpense(){
+        return allExpense;
+    }
+    public LiveData<List<Expense>> getDateExpense(){ return dateExpense;}
+    public LiveData<Integer> getMonthSum(){ return monthExpense;}
+    public void setMonthFilter(String filter) { monthLiveData.setValue(filter);}
+    public void setFilter(String filter) { dateLiveData.setValue(filter);}
     public void insert(Expense expense){
         expenseRepository.insert(expense);
     }
@@ -41,10 +51,6 @@ public class ExpenseViewModel extends AndroidViewModel {
     public void deleteAll(){
         expenseRepository.deleteAll();
     }
-    public LiveData<List<Expense>> getAllExpense(){
-        return allExpense;
-    }
-
     }
 
 

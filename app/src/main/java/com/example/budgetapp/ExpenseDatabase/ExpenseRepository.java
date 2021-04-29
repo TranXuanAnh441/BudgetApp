@@ -14,6 +14,7 @@ public class ExpenseRepository {
     private LiveData<List<Expense>> allExpense;
     private LiveData<List<Expense>> dateExpense;
     private LiveData<Integer> dateSum;
+    private LiveData<Integer> monthSum;
 
     public ExpenseRepository(Application application){
         AppDatabase expenseDatabase = AppDatabase.getInstance(application);
@@ -46,6 +47,11 @@ public class ExpenseRepository {
     public LiveData<List<Expense>> getDateExpense(String v){
         dateExpense = expenseDao.getDateExpense(v);
         return dateExpense;
+    }
+
+    public LiveData<Integer> getMonthExpense(String v){
+        monthSum = expenseDao.getMonthExpense(v);
+        return monthSum;
     }
 
     private static class InsertExpenseAsyncTask extends AsyncTask<Expense, Void, Void> {
