@@ -9,6 +9,10 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+
+
 @Dao
 public interface CategoryDao {
     @Insert
@@ -21,4 +25,8 @@ public interface CategoryDao {
     LiveData<List<Category>> getAllCategory();
     @Query("SELECT * FROM category_table WHERE cid=:id")
     Category getCategoryById(int id);
+    @Query("SELECT * FROM category_table")
+    List<Category> getListCategory();
+    @Query("SELECT SUM(amount) FROM expense_table WHERE categoryId =:id and date LIKE :date")
+    Integer getMonthlyCategorySum(int id, String date);
 }

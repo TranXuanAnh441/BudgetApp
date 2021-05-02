@@ -8,11 +8,14 @@ import com.example.budgetapp.AppDatabase;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 public class CategoryRepository {
     private CategoryDao categoryDao;
     private LiveData<List<Category>> allCategory;
     private MutableLiveData<Category> categoryMutableLiveData = new MutableLiveData<>();
 
+    private List<Category> listCategory ;
     public CategoryRepository(Application application) {
         AppDatabase categoryDatabase = AppDatabase.getInstance(application);
         categoryDao = categoryDatabase.categoryDao();
@@ -21,6 +24,7 @@ public class CategoryRepository {
     private void AsyncFinished(Category category){
         categoryMutableLiveData.setValue(category);
     }
+
 
     public MutableLiveData<Category> getCategoryById() { return categoryMutableLiveData; }
     public LiveData<List<Category>> getAllCategory(){ return allCategory; }

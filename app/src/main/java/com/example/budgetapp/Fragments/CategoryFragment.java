@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.AddCategoryActivity;
 import com.example.budgetapp.AddExpenseActivity;
+import com.example.budgetapp.AppDatabase;
 import com.example.budgetapp.ExpenseDatabase.ExpenseViewModel;
 import com.example.budgetapp.R;
 import com.example.budgetapp.CategoryDatabase.Category;
@@ -27,6 +28,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
 import java.util.List;
+
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class CategoryFragment extends Fragment {
     public static final int UPDATE_CATEGORY = 2;
@@ -64,14 +70,12 @@ public class CategoryFragment extends Fragment {
         final CategoryAdapter categoryAdapter = new CategoryAdapter();
         recyclerView.setAdapter(categoryAdapter);
 
-
-
-
         categoryViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(CategoryViewModel.class);
         categoryViewModel.getAllCategory().observe(getActivity(), new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> categories) {
                 categoryAdapter.setCategories(categories);
+
             }
         });
 

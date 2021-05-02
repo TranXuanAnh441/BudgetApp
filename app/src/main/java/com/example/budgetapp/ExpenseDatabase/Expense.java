@@ -41,11 +41,6 @@ public class Expense {
     @Nullable
     private int categoryId;
 
-    @ForeignKey(entity = Category.class,
-            parentColumns = "cid",
-            childColumns = "categoryId",
-            onDelete = CASCADE
-    )
 
     public Expense(String title, String description, int amount, String date) {
         this.title = title;
