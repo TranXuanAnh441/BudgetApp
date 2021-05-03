@@ -76,6 +76,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         addDate = findViewById(R.id.dateTextView);
         radio_income = findViewById(R.id.radio_income);
         radio_expense =findViewById(R.id.radio_expense);
+
         radio_income.setOnCheckedChangeListener(listenerRadio);
         radio_expense.setOnCheckedChangeListener(listenerRadio);
 
