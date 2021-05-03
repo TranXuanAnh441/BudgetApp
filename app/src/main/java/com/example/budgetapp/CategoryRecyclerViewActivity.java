@@ -9,12 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Filter;
-import android.widget.Filterable;
 
 import com.example.budgetapp.CategoryDatabase.Category;
 import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
-import com.example.budgetapp.recyclerviewAdapter.CategoryAdapter;
+import com.example.budgetapp.recyclerviewAdapter.CategoryRCVAdapter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -33,18 +31,18 @@ public class CategoryRecyclerViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        final CategoryAdapter categoryAdapter = new CategoryAdapter();
-        recyclerView.setAdapter(categoryAdapter);
+        final CategoryRCVAdapter categoryRCVAdapter = new CategoryRCVAdapter();
+        recyclerView.setAdapter(categoryRCVAdapter);
 
         categoryViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(CategoryViewModel.class);
         categoryViewModel.getAllCategory().observe(this, new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> categories) {
-                categoryAdapter.setCategories(categories);
+                categoryRCVAdapter.setCategories(categories);
             }
         });
 
-        categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener(){
+        categoryRCVAdapter.setOnItemClickListener(new CategoryRCVAdapter.OnItemClickListener(){
             @Override
             public void onItemClick(Category category) {
                 Intent categoryIntent = new Intent(CategoryRecyclerViewActivity.this, AddExpenseActivity.class);

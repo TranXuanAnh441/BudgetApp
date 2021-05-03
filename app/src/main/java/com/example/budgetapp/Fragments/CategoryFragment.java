@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,22 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.AddCategoryActivity;
-import com.example.budgetapp.AddExpenseActivity;
-import com.example.budgetapp.AppDatabase;
-import com.example.budgetapp.ExpenseDatabase.ExpenseViewModel;
 import com.example.budgetapp.R;
 import com.example.budgetapp.CategoryDatabase.Category;
 import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
-import com.example.budgetapp.recyclerviewAdapter.CategoryAdapter;
+import com.example.budgetapp.recyclerviewAdapter.CategoryRCVAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
 import java.util.List;
-
-import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class CategoryFragment extends Fragment {
     public static final int UPDATE_CATEGORY = 2;
@@ -67,19 +58,19 @@ public class CategoryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
 
-        final CategoryAdapter categoryAdapter = new CategoryAdapter();
-        recyclerView.setAdapter(categoryAdapter);
+        final CategoryRCVAdapter categoryRCVAdapter = new CategoryRCVAdapter();
+        recyclerView.setAdapter(categoryRCVAdapter);
 
         categoryViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(CategoryViewModel.class);
         categoryViewModel.getAllCategory().observe(getActivity(), new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> categories) {
-                categoryAdapter.setCategories(categories);
+                categoryRCVAdapter.setCategories(categories);
 
             }
         });
 
-        categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener(){
+        categoryRCVAdapter.setOnItemClickListener(new CategoryRCVAdapter.OnItemClickListener(){
             @Override
             public void onItemClick(Category category) {
                 Intent categoryIntent = new Intent(getActivity(), AddCategoryActivity.class);

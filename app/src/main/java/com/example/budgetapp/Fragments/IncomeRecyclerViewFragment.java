@@ -17,13 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.AddExpenseActivity;
-import com.example.budgetapp.DailyBalanceDatabase.DailyBalance;
 import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceViewModel;
 import com.example.budgetapp.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.IncomeDatabase.Income;
 import com.example.budgetapp.IncomeDatabase.IncomeViewModel;
-import com.example.budgetapp.recyclerviewAdapter.IncomeAdapter;
+import com.example.budgetapp.recyclerviewAdapter.IncomeListAdapter;
 
 import java.util.List;
 
@@ -46,9 +45,9 @@ public class IncomeRecyclerViewFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        IncomeAdapter incomeAdapter = new IncomeAdapter();
+        IncomeListAdapter incomeListAdapter = new IncomeListAdapter();
 
-        recyclerView.setAdapter(incomeAdapter);
+        recyclerView.setAdapter(incomeListAdapter);
 
         ExpenseIncomeRCVActivity expenseRecyclerViewActivity = (ExpenseIncomeRCVActivity) getActivity();
         String date = expenseRecyclerViewActivity.getDate();
@@ -60,7 +59,7 @@ public class IncomeRecyclerViewFragment extends Fragment {
         incomeViewModel.getDateIncome().observe(getActivity(), new Observer<List<Income>>() {
             @Override
             public void onChanged(List<Income> incomes) {
-                incomeAdapter.submitList(incomes);
+                incomeListAdapter.submitList(incomes);
             }
         });
 
@@ -73,12 +72,12 @@ public class IncomeRecyclerViewFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                incomeViewModel.delete(incomeAdapter.getIncomeAt(viewHolder.getAdapterPosition()));
+                incomeViewModel.delete(incomeListAdapter.getIncomeAt(viewHolder.getAdapterPosition()));
                 Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
 
-      incomeAdapter.setOnItemClickListener(new IncomeAdapter.OnItemClickListener() {
+      incomeListAdapter.setOnItemClickListener(new IncomeListAdapter.OnItemClickListener() {
           @Override
           public void onItemClick(Income income) {
               Intent intent = new Intent(getActivity(), AddExpenseActivity.class);

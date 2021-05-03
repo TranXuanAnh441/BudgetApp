@@ -2,11 +2,9 @@ package com.example.budgetapp.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,17 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.AddExpenseActivity;
-import com.example.budgetapp.DailyBalanceDatabase.DailyBalance;
 import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceViewModel;
 import com.example.budgetapp.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.ExpenseDatabase.Expense;
 import com.example.budgetapp.ExpenseDatabase.ExpenseViewModel;
-import com.example.budgetapp.recyclerviewAdapter.ExpenseAdapter;
+import com.example.budgetapp.recyclerviewAdapter.ExpenseListAdapter;
 
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class ExpenseRecyclerViewFragment extends Fragment {
     private ExpenseViewModel expenseViewModel;
@@ -49,9 +44,9 @@ public class ExpenseRecyclerViewFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        ExpenseAdapter expenseAdapter = new ExpenseAdapter();
+        ExpenseListAdapter expenseListAdapter = new ExpenseListAdapter();
 
-        recyclerView.setAdapter(expenseAdapter);
+        recyclerView.setAdapter(expenseListAdapter);
 
         ExpenseIncomeRCVActivity expenseRecyclerViewActivity = (ExpenseIncomeRCVActivity) getActivity();
         String date = expenseRecyclerViewActivity.getDate();
@@ -63,7 +58,7 @@ public class ExpenseRecyclerViewFragment extends Fragment {
         expenseViewModel.getDateExpense().observe(getActivity(), new Observer<List<Expense>>() {
             @Override
             public void onChanged(List<Expense> expenses) {
-                expenseAdapter.submitList(expenses);
+                expenseListAdapter.submitList(expenses);
                 }});
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -75,12 +70,12 @@ public class ExpenseRecyclerViewFragment extends Fragment {
 
                     @Override
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                        expenseViewModel.delete(expenseAdapter.getExpenseAt(viewHolder.getAdapterPosition()));
+                        expenseViewModel.delete(expenseListAdapter.getExpenseAt(viewHolder.getAdapterPosition()));
                         Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
                     }
                 }).attachToRecyclerView(recyclerView);
 
-        expenseAdapter.setOnItemClickListener(new ExpenseAdapter.OnItemClickListener() {
+        expenseListAdapter.setOnItemClickListener(new ExpenseListAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Expense expense) {
                         Intent intent = new Intent(getActivity(), AddExpenseActivity.class);

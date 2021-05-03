@@ -14,10 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetapp.R;
 import com.example.budgetapp.ExpenseDatabase.Expense;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ExpenseAdapter extends ListAdapter<Expense, ExpenseAdapter.ExpenseHolder> {
+public class ExpenseListAdapter extends ListAdapter<Expense, ExpenseListAdapter.ExpenseHolder> {
     private OnItemClickListener listener;
     private static final DiffUtil.ItemCallback<Expense> DIFF_CALLBACK = new DiffUtil.ItemCallback<Expense>() {
         @Override
@@ -33,7 +30,7 @@ public class ExpenseAdapter extends ListAdapter<Expense, ExpenseAdapter.ExpenseH
                     oldItem.getAmount() == newItem.getAmount();
         }};
 
-    public ExpenseAdapter() {
+    public ExpenseListAdapter() {
         super(DIFF_CALLBACK);
     }
 

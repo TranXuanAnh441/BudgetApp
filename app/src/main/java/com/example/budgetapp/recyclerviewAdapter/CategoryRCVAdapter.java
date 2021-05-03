@@ -16,7 +16,11 @@ import com.example.budgetapp.CategoryDatabase.Category;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter< CategoryAdapter.CategoryHolder> implements Filterable {
+public class CategoryRCVAdapter extends RecyclerView.Adapter< CategoryRCVAdapter.CategoryHolder> implements Filterable {
+    public List<Category> getCategories() {
+        return categories;
+    }
+
     private List<Category> categories = new ArrayList<>();
     private List<Category> searchedCategories = new ArrayList<>();
     private OnItemClickListener listener;

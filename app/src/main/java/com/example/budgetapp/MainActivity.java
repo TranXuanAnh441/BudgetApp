@@ -21,16 +21,15 @@ import android.widget.SearchView;
 import com.example.budgetapp.Fragments.CategoryFragment;
 import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.Fragments.MonthlyFragment;
-import com.example.budgetapp.recyclerviewAdapter.CategoryAdapter;
+import com.example.budgetapp.recyclerviewAdapter.CategoryRCVAdapter;
 import com.google.android.material.navigation.NavigationView;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    public CategoryAdapter getCategoryAdapter() {
-        return categoryAdapter;
+    public CategoryRCVAdapter getCategoryRCVAdapter() {
+        return categoryRCVAdapter;
     }
-
-    CategoryAdapter categoryAdapter;
+    CategoryRCVAdapter categoryRCVAdapter;
     SearchView searchView;
 
 
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new CalendarFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_calendar);
         }
-        categoryAdapter = new CategoryAdapter();
+        categoryRCVAdapter = new CategoryRCVAdapter();
     }
 
 

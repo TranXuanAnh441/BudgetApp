@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetapp.R;
 import com.example.budgetapp.IncomeDatabase.Income;
 
-public class IncomeAdapter extends ListAdapter<Income, IncomeAdapter.IncomeHolder> {
-    private IncomeAdapter.OnItemClickListener listener;
+public class IncomeListAdapter extends ListAdapter<Income, IncomeListAdapter.IncomeHolder> {
+    private IncomeListAdapter.OnItemClickListener listener;
 
     private static final DiffUtil.ItemCallback<Income> DIFF_CALLBACK = new DiffUtil.ItemCallback<Income>() {
         @Override
@@ -29,7 +29,7 @@ public class IncomeAdapter extends ListAdapter<Income, IncomeAdapter.IncomeHolde
                     oldItem.getDescription().equals(newItem.getDescription()) &&
                     oldItem.getAmount() == newItem.getAmount();
         }};
-    public IncomeAdapter() {
+    public IncomeListAdapter() {
         super(DIFF_CALLBACK);
     }
 
@@ -39,13 +39,13 @@ public class IncomeAdapter extends ListAdapter<Income, IncomeAdapter.IncomeHolde
 
     @NonNull
     @Override
-    public IncomeAdapter.IncomeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public IncomeListAdapter.IncomeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.income_item, parent, false);
-        return new IncomeAdapter.IncomeHolder(itemView);
+        return new IncomeListAdapter.IncomeHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull IncomeAdapter.IncomeHolder holder, int position) {
+    public void onBindViewHolder(@NonNull IncomeListAdapter.IncomeHolder holder, int position) {
         Income currentIncome = getItem(position);
         holder.textViewDate.setText(currentIncome.getDate());
         holder.textViewTitle.setText(currentIncome.getTitle());
@@ -78,7 +78,7 @@ public class IncomeAdapter extends ListAdapter<Income, IncomeAdapter.IncomeHolde
     public interface OnItemClickListener {
         void onItemClick(Income income);
     }
-    public void setOnItemClickListener(IncomeAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(IncomeListAdapter.OnItemClickListener listener) {
         this.listener = listener;
     }
 

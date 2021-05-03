@@ -1,20 +1,13 @@
 package com.example.budgetapp.Fragments;
 
 import android.os.Bundle;
-import android.os.HandlerThread;
-import android.telephony.IccOpenLogicalChannelResponse;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-
-import androidx.lifecycle.ViewModelProvider;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -23,10 +16,7 @@ import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
 import com.example.budgetapp.AppDatabase;
 import com.example.budgetapp.CategoryDatabase.Category;
-import com.example.budgetapp.CategoryDatabase.CategoryDao;
-import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
 import com.example.budgetapp.R;
-import com.example.budgetapp.recyclerviewAdapter.CategoryAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +24,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
-import static android.content.ContentValues.TAG;
 
 
 public class MonthlyFragment extends Fragment {
