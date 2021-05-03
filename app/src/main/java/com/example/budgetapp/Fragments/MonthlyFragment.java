@@ -85,7 +85,6 @@ public class MonthlyFragment extends Fragment {
         List<DataEntry> dataEntries = new ArrayList<>();
         for(int i = 0; i < categoryNames.size(); i ++){
             dataEntries.add(new ValueDataEntry(categoryNames.get(i), sum.get(i)));
-
         }
         pie.data(dataEntries);
         anyChartView.setChart(pie);

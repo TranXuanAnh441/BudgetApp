@@ -3,6 +3,8 @@ package com.example.budgetapp.recyclerviewAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,8 +16,9 @@ import com.example.budgetapp.CategoryDatabase.Category;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter< CategoryAdapter.CategoryHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter< CategoryAdapter.CategoryHolder> implements Filterable {
     private List<Category> categories = new ArrayList<>();
+    private List<Category> searchedCategories = new ArrayList<>();
     private OnItemClickListener listener;
 
     public Category getCategoryAt(int position) {
@@ -30,6 +33,7 @@ public class CategoryAdapter extends RecyclerView.Adapter< CategoryAdapter.Categ
     }
     public void setCategories (List < Category > categories) {
         this.categories = categories;
+        this.searchedCategories = categories;
         notifyDataSetChanged();
     }
 
@@ -41,6 +45,35 @@ public class CategoryAdapter extends RecyclerView.Adapter< CategoryAdapter.Categ
 
     @Override
     public int getItemCount() { return categories.size(); }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String strSearched = constraint.toString();
+                if(strSearched.isEmpty()){
+                    categories = searchedCategories;
+                }else{
+                    List<Category> list = new ArrayList<>();
+                    for(Category category: searchedCategories){
+                        if(category.getName().toLowerCase().contains(strSearched.toLowerCase())){
+                            list.add(category);
+                        }
+                    }
+                    categories = list;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = categories;
+                return filterResults;
+            }
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                categories = (List<Category>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
 
     class CategoryHolder extends RecyclerView.ViewHolder {
         private TextView textViewName;

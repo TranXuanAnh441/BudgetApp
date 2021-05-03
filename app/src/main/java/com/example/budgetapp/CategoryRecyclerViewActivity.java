@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import com.example.budgetapp.CategoryDatabase.Category;
 import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
@@ -51,5 +53,4 @@ public class CategoryRecyclerViewActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-}
+    }}

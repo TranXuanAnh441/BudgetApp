@@ -1,40 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:id="@+id/main_layout"
     android:orientation="vertical"
-    android:clickable="true"
-    android:fitsSystemWindows="true"
-    android:theme="@style/Theme.MainActivity"
-    android:background="@color/white">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:id="@+id/linear_layout">
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
-                android:id="@+id/toolbar"/>
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <com.google.android.material.navigation.NavigationView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:fitsSystemWindows="true"
-            android:id="@+id/navigation_view"
-            app:menu="@menu/drawer_menu"
-            app:headerLayout="@layout/header_layout">
-
-        </com.google.android.material.navigation.NavigationView>
-</androidx.drawerlayout.widget.DrawerLayout>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/main_layout"
+    android:theme="@style/Theme.NoActionBar"
+    android:background="@color/white"
+    android:icon="@drawable/ic_baseline_menu"
+    tools:context=".MainActivity">
+</RelativeLayout>

@@ -12,9 +12,6 @@
         <item
             android:id="@+id/nav_monthly"
             android:title="Monthly" />
-        <item
-            android:id="@+id/nav_searchBar"
-            android:title="searchBar" />
     </group>
     <item android:title="Media">
         <menu>
