@@ -8,30 +8,14 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+import com.example.budgetapp.Database.AppDao;
+import com.example.budgetapp.Database.Category.Category;
+import com.example.budgetapp.Database.ExpenseIncome.ExpenseIncome;
 
-import com.example.budgetapp.CategoryExpense.CategoryExpenseDao;
-import com.example.budgetapp.CategoryDatabase.Category;
-import com.example.budgetapp.CategoryDatabase.CategoryDao;
-import com.example.budgetapp.DailyBalanceDatabase.DailyBalance;
-import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceDao;
-import com.example.budgetapp.ExpenseDatabase.Expense;
-import com.example.budgetapp.ExpenseDatabase.ExpenseDao;
-import com.example.budgetapp.IncomeDatabase.Income;
-import com.example.budgetapp.IncomeDatabase.IncomeDao;
-
-@Database(entities = {Expense.class, Category.class, Income.class, DailyBalance.class}, version = 4)
+@Database(entities = {ExpenseIncome.class, Category.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     private static com.example.budgetapp.AppDatabase instance;
-
-    public abstract CategoryDao categoryDao();
-
-    public abstract ExpenseDao expenseDao();
-
-    public abstract IncomeDao incomeDao();
-
-    public abstract DailyBalanceDao dailyBalanceDao();
-
-    public abstract CategoryExpenseDao categoryExpenseDao();
+    public abstract AppDao appDao();
 
     public static synchronized com.example.budgetapp.AppDatabase getInstance(Context context){
         if (instance == null){
@@ -49,18 +33,18 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
-        private CategoryDao categoryDao;
+        private AppDao categoryDao;
         private PopulateDbAsyncTask(AppDatabase db) {
-            categoryDao = db.categoryDao();
+            categoryDao = db.appDao();
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            categoryDao.insert(new Category("Renting"));
-            categoryDao.insert(new Category("Eating"));
-            categoryDao.insert(new Category("Transport"));
-            categoryDao.insert(new Category("Entertainment"));
-            categoryDao.insert(new Category("Health care"));
-            categoryDao.insert(new Category("Education"));
+            categoryDao.insertCategory(new Category("Renting"));
+            categoryDao.insertCategory(new Category("Eating"));
+            categoryDao.insertCategory(new Category("Transport"));
+            categoryDao.insertCategory(new Category("Entertainment"));
+            categoryDao.insertCategory(new Category("Health care"));
+            categoryDao.insertCategory(new Category("Education"));
             return null;
         }
     }

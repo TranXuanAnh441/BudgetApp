@@ -11,20 +11,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BudgetApp">
         <activity
-            android:name=".SearchActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".Activities.SearchActivity"
+            android:parentActivityName=".Activities.MainActivity">
             </activity>
         <activity
-            android:name=".AddCategoryActivity"
-            android:parentActivityName=".CategoryRecyclerViewActivity" />
-        <activity android:name=".CategoryRecyclerViewActivity" />
+            android:name=".Activities.AddCategoryActivity"
+            android:parentActivityName=".Activities.CategoryRecyclerViewActivity" />
+        <activity android:name=".Activities.CategoryRecyclerViewActivity" />
         <activity
-            android:name=".AddExpenseActivity"
-            android:parentActivityName=".ExpenseIncomeRCVActivity" />
+            android:name=".Activities.AddExpenseIncomeActivity"
+            android:parentActivityName=".Activities.ExpenseIncomeRCVActivity" />
         <activity
-            android:name=".ExpenseIncomeRCVActivity"
+            android:name=".Activities.ExpenseIncomeRCVActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

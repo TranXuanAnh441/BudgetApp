@@ -10,5 +10,5 @@
     android:theme="@style/Theme.NoActionBar"
     android:background="@color/white"
     android:icon="@drawable/ic_baseline_menu"
-    tools:context=".MainActivity">
+    tools:context=".Activities.MainActivity">
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.budgetapp;
+package com.example.budgetapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,9 +10,10 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.example.budgetapp.Fragments.CategoryFragment;
+import com.example.budgetapp.R;
 
 public class AddCategoryActivity extends AppCompatActivity {
-    public static final String EXTRA_NAME = "com.example.budgetapp.AddCategoryActivity.EXTRA_NAME";
+    public static final String EXTRA_NAME = "com.example.budgetapp.Activities.AddCategoryActivity.EXTRA_NAME";
     public static final int RESULT_CODE = 100;
     public static final int ADD_REQUEST_CODE = 1;
     private EditText editTextName;

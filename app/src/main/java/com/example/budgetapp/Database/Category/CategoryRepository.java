@@ -1,25 +1,27 @@
-package com.example.budgetapp.CategoryDatabase;
+package com.example.budgetapp.Database.Category;
+
 import android.app.Application;
 import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.budgetapp.AppDatabase;
+import com.example.budgetapp.Database.AppDao;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
 
 public class CategoryRepository {
-    private CategoryDao categoryDao;
+    private AppDao appDao;
     private LiveData<List<Category>> allCategory;
     private MutableLiveData<Category> categoryMutableLiveData = new MutableLiveData<>();
 
     private List<Category> listCategory ;
+
     public CategoryRepository(Application application) {
-        AppDatabase categoryDatabase = AppDatabase.getInstance(application);
-        categoryDao = categoryDatabase.categoryDao();
-        allCategory = categoryDao.getAllCategory();
+        AppDatabase appDatabase = AppDatabase.getInstance(application);
+        appDao = appDatabase.appDao();
+        allCategory = appDao.getAllCategory();
     }
     private void AsyncFinished(Category category){
         categoryMutableLiveData.setValue(category);
@@ -30,33 +32,33 @@ public class CategoryRepository {
     public LiveData<List<Category>> getAllCategory(){ return allCategory; }
 
     public void insert(Category category) {
-        new InsertCategoryAsyncTask(categoryDao).execute(category);
+        new com.example.budgetapp.Database.Category.CategoryRepository.InsertCategoryAsyncTask(appDao).execute(category);
     }
 
     public void update(Category category) {
-        new UpdateCategoryAsyncTask(categoryDao).execute(category);
+        new com.example.budgetapp.Database.Category.CategoryRepository.UpdateCategoryAsyncTask(appDao).execute(category);
     }
 
     public void delete(Category category) {
-        new DeleteCategoryAsyncTask(categoryDao).execute(category);
+        new com.example.budgetapp.Database.Category.CategoryRepository.DeleteCategoryAsyncTask(appDao).execute(category);
     }
     public void findCategory(Integer id) {
-        findCategoryAsyncTask task = new findCategoryAsyncTask(categoryDao);
+        com.example.budgetapp.Database.Category.CategoryRepository.findCategoryAsyncTask task = new com.example.budgetapp.Database.Category.CategoryRepository.findCategoryAsyncTask(appDao);
         task.delegate = this;
         task.execute(id);
     }
 
     private static class findCategoryAsyncTask extends AsyncTask<Integer, Void, Category>{
-        private CategoryDao categoryDao;
+        private AppDao appDao;
         private CategoryRepository delegate = null;
 
-        public findCategoryAsyncTask(CategoryDao categoryDao) {
-            this.categoryDao = categoryDao;
+        public findCategoryAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
         }
 
         @Override
         protected Category doInBackground(Integer... integers) {
-            return categoryDao.getCategoryById(integers[0]);
+            return appDao.getCategoryById(integers[0]);
         }
 
         @Override
@@ -67,42 +69,42 @@ public class CategoryRepository {
 
 
     private static class InsertCategoryAsyncTask extends AsyncTask<Category, Void, Void>{
-        private CategoryDao categoryDao;
+        private AppDao appDao;
 
-        public InsertCategoryAsyncTask(CategoryDao categoryDao) {
-            this.categoryDao = categoryDao;
+        public InsertCategoryAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
         }
 
         @Override
         protected Void doInBackground(Category... categories) {
-            categoryDao.insert(categories[0]);
+            appDao.insertCategory(categories[0]);
             return null;
         }
     }
 
     private static class UpdateCategoryAsyncTask extends AsyncTask<Category, Void, Void>{
-        private CategoryDao categoryDao;
+        private AppDao appDao;
 
-        public UpdateCategoryAsyncTask(CategoryDao categoryDao) {
-            this.categoryDao = categoryDao;
+        public UpdateCategoryAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
         }
 
         @Override
         protected Void doInBackground(Category... categories) {
-            categoryDao.update(categories[0]);
+            appDao.updateCategory(categories[0]);
             return null;
         }
     }
 
     private static class DeleteCategoryAsyncTask extends AsyncTask<Category, Void, Void>{
-        private CategoryDao categoryDao;
+        private AppDao appDao;
 
-        public DeleteCategoryAsyncTask(CategoryDao categoryDao) {
-            this.categoryDao = categoryDao;
+        public DeleteCategoryAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
         }
         @Override
         protected Void doInBackground(Category... categories) {
-            categoryDao.delete(categories[0]);
+            appDao.deleteCategory(categories[0]);
             return null;
         }
     }

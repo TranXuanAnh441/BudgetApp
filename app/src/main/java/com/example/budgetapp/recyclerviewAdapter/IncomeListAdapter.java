@@ -10,20 +10,20 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.budgetapp.Database.ExpenseIncome.ExpenseIncome;
 import com.example.budgetapp.R;
-import com.example.budgetapp.IncomeDatabase.Income;
 
-public class IncomeListAdapter extends ListAdapter<Income, IncomeListAdapter.IncomeHolder> {
+public class IncomeListAdapter extends ListAdapter<ExpenseIncome, IncomeListAdapter.IncomeHolder> {
     private IncomeListAdapter.OnItemClickListener listener;
 
-    private static final DiffUtil.ItemCallback<Income> DIFF_CALLBACK = new DiffUtil.ItemCallback<Income>() {
+    private static final DiffUtil.ItemCallback<ExpenseIncome> DIFF_CALLBACK = new DiffUtil.ItemCallback<ExpenseIncome>() {
         @Override
-        public boolean areItemsTheSame(@NonNull Income oldItem, @NonNull Income newItem) {
-            return oldItem.getIid() == newItem.getIid();
+        public boolean areItemsTheSame(@NonNull ExpenseIncome oldItem, @NonNull ExpenseIncome newItem) {
+            return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Income oldItem, @NonNull Income newItem) {
+        public boolean areContentsTheSame(@NonNull ExpenseIncome oldItem, @NonNull ExpenseIncome newItem) {
             return oldItem.getDate().equals(newItem.getDate()) &&
                     oldItem.getTitle().equals(newItem.getTitle()) &&
                     oldItem.getDescription().equals(newItem.getDescription()) &&
@@ -33,7 +33,7 @@ public class IncomeListAdapter extends ListAdapter<Income, IncomeListAdapter.Inc
         super(DIFF_CALLBACK);
     }
 
-    public Income getIncomeAt(int position) {
+    public ExpenseIncome getIncomeAt(int position) {
         return getItem(position);
     }
 
@@ -46,7 +46,7 @@ public class IncomeListAdapter extends ListAdapter<Income, IncomeListAdapter.Inc
 
     @Override
     public void onBindViewHolder(@NonNull IncomeListAdapter.IncomeHolder holder, int position) {
-        Income currentIncome = getItem(position);
+        ExpenseIncome currentIncome = getItem(position);
         holder.textViewDate.setText(currentIncome.getDate());
         holder.textViewTitle.setText(currentIncome.getTitle());
         holder.textViewAmount.setText(String.valueOf(currentIncome.getAmount()));
@@ -76,7 +76,7 @@ public class IncomeListAdapter extends ListAdapter<Income, IncomeListAdapter.Inc
             });
         }}
     public interface OnItemClickListener {
-        void onItemClick(Income income);
+        void onItemClick(ExpenseIncome Expenseincome);
     }
     public void setOnItemClickListener(IncomeListAdapter.OnItemClickListener listener) {
         this.listener = listener;

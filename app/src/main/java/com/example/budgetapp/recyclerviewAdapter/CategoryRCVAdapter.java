@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.budgetapp.Database.Category.Category;
 import com.example.budgetapp.R;
-import com.example.budgetapp.CategoryDatabase.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class CategoryRCVAdapter extends RecyclerView.Adapter< CategoryRCVAdapter
 
         return new CategoryHolder(itemView);
     }
-    public void setCategories (List < Category > categories) {
+    public void setCategories (List<Category> categories) {
         this.categories = categories;
         this.searchedCategories = categories;
         notifyDataSetChanged();

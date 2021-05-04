@@ -10,8 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.budgetapp.ExpenseDatabase.Expense;
-import com.example.budgetapp.IncomeDatabase.Income;
+import com.example.budgetapp.Database.ExpenseIncome.ExpenseIncome;
 import com.example.budgetapp.R;
 
 import java.util.ArrayList;
@@ -19,14 +18,14 @@ import java.util.List;
 
 public class IncomeRCVAdapter extends RecyclerView.Adapter<IncomeRCVAdapter.IncomeViewHolder> implements Filterable {
 
-    public List<Income> getIncomes() {
+    public List<ExpenseIncome> getIncomes() {
         return incomes;
     }
 
-    private List<Income> incomes = new ArrayList<>();
-    private List<Income> searchedList = new ArrayList<>();
+    private List<ExpenseIncome> incomes = new ArrayList<>();
+    private List<ExpenseIncome> searchedList = new ArrayList<>();
 
-    public void setIncomes(List<Income> incomes) {
+    public void setIncomes(List<ExpenseIncome> incomes) {
         this.incomes = incomes;
         this.searchedList = incomes;
         notifyDataSetChanged();
@@ -45,7 +44,7 @@ public class IncomeRCVAdapter extends RecyclerView.Adapter<IncomeRCVAdapter.Inco
     public void onBindViewHolder(@NonNull IncomeRCVAdapter.IncomeViewHolder holder, int position) {
 
         if(position < incomes.size() && holder.textViewTitle != null){
-            Income currentIncome = incomes.get(position);
+            ExpenseIncome currentIncome = incomes.get(position);
             holder.textViewDate.setText(currentIncome.getDate());
         holder.textViewTitle.setText(currentIncome.getTitle());
         holder.textViewAmount.setText(String.valueOf(currentIncome.getAmount()));
@@ -66,8 +65,8 @@ public class IncomeRCVAdapter extends RecyclerView.Adapter<IncomeRCVAdapter.Inco
                 if(strSearched.isEmpty()){
                     incomes = searchedList;
                 }else{
-                    List<Income> list = new ArrayList<>();
-                    for(Income income : searchedList){
+                    List<ExpenseIncome> list = new ArrayList<>();
+                    for(ExpenseIncome income : searchedList){
                         if(income.getTitle().toLowerCase().contains(strSearched.toLowerCase())
                                 || income.getDescription().toLowerCase().contains(strSearched.toLowerCase())
                                 || income.getDate().toLowerCase().contains(strSearched.toLowerCase())
@@ -84,7 +83,7 @@ public class IncomeRCVAdapter extends RecyclerView.Adapter<IncomeRCVAdapter.Inco
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                incomes = (List<Income>) results.values;
+                incomes = (List<ExpenseIncome>) results.values;
                 notifyDataSetChanged();
 
             }

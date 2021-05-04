@@ -11,19 +11,19 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.budgetapp.Database.ExpenseIncome.ExpenseIncome;
 import com.example.budgetapp.R;
-import com.example.budgetapp.ExpenseDatabase.Expense;
 
-public class ExpenseListAdapter extends ListAdapter<Expense, ExpenseListAdapter.ExpenseHolder> {
+public class ExpenseListAdapter extends ListAdapter<ExpenseIncome, ExpenseListAdapter.ExpenseHolder> {
     private OnItemClickListener listener;
-    private static final DiffUtil.ItemCallback<Expense> DIFF_CALLBACK = new DiffUtil.ItemCallback<Expense>() {
+    private static final DiffUtil.ItemCallback<ExpenseIncome> DIFF_CALLBACK = new DiffUtil.ItemCallback<ExpenseIncome>() {
         @Override
-        public boolean areItemsTheSame(@NonNull Expense oldItem, @NonNull Expense newItem) {
-            return oldItem.getEid() == newItem.getEid();
+        public boolean areItemsTheSame(@NonNull ExpenseIncome oldItem, @NonNull ExpenseIncome newItem) {
+            return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Expense oldItem, @NonNull Expense newItem) {
+        public boolean areContentsTheSame(@NonNull ExpenseIncome oldItem, @NonNull ExpenseIncome newItem) {
             return oldItem.getDate().equals(newItem.getDate()) &&
                     oldItem.getTitle().equals(newItem.getTitle()) &&
                     oldItem.getDescription().equals(newItem.getDescription()) &&
@@ -34,7 +34,7 @@ public class ExpenseListAdapter extends ListAdapter<Expense, ExpenseListAdapter.
         super(DIFF_CALLBACK);
     }
 
-    public Expense getExpenseAt(int position) {
+    public ExpenseIncome getExpenseAt(int position) {
         return getItem(position);
     }
 
@@ -47,7 +47,7 @@ public class ExpenseListAdapter extends ListAdapter<Expense, ExpenseListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ExpenseHolder holder, int position) {
-        Expense currentExpense = getItem(position);
+        ExpenseIncome currentExpense = getItem(position);
         holder.textViewDate.setText(currentExpense.getDate());
         holder.textViewTitle.setText(currentExpense.getTitle());
         holder.textViewAmount.setText(String.valueOf(currentExpense.getAmount()));
@@ -80,7 +80,7 @@ public class ExpenseListAdapter extends ListAdapter<Expense, ExpenseListAdapter.
     }}
 
     public interface OnItemClickListener {
-        void onItemClick(Expense expense);
+        void onItemClick(ExpenseIncome expenseIncome);
     }
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;

@@ -1,53 +1,34 @@
 package com.example.budgetapp.Fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.budgetapp.DailyBalanceDatabase.DailyBalance;
-import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceViewModel;
-import com.example.budgetapp.ExpenseDatabase.Expense;
-import com.example.budgetapp.ExpenseDatabase.ExpenseViewModel;
-import com.example.budgetapp.ExpenseIncomeRCVActivity;
-import com.example.budgetapp.IncomeDatabase.IncomeViewModel;
-import com.example.budgetapp.MainActivity;
+import com.example.budgetapp.Database.AppViewModel;
+import com.example.budgetapp.Activities.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class CalendarFragment extends Fragment {
     private CompactCalendarView compactCalendarView;
-    private DailyBalanceViewModel dailyBalanceViewModel;
     private TextView expenseSumTextView;
     private TextView incomeSumTextView;
     private TextView monthTextView;
-    private ExpenseViewModel expenseViewModel;
-    private IncomeViewModel incomeViewModel;
+    private AppViewModel appViewModel;
     private Integer count = 0;
     private String clicked_date;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMMM-yyyy", Locale.getDefault());
@@ -64,9 +45,9 @@ public class CalendarFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        dailyBalanceViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(DailyBalanceViewModel.class);
-        expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(ExpenseViewModel.class);
-        incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(IncomeViewModel.class);
+
+        appViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(AppViewModel.class);
+
         monthTextView = view.findViewById(R.id.monthTextView);
         expenseSumTextView = view.findViewById(R.id.expense_sum);
         incomeSumTextView = view.findViewById(R.id.income_sum);
@@ -102,16 +83,16 @@ public class CalendarFragment extends Fragment {
 
 
     public void updateDateSum(String date){
-        expenseViewModel.setFilter(date);
-        expenseViewModel.getDateSum().observe(getActivity(), new Observer<Integer>() {
+        appViewModel.setDateFilter(date);
+        appViewModel.getSumDateExpense().observe(getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 if(integer == null){expenseSumTextView.setText("Expense: 0");}
                 else{expenseSumTextView.setText("Expense: " + String.valueOf(integer));}
             }
         });
-        incomeViewModel.setFilter(date);
-        incomeViewModel.getDateSum().observe(getActivity(), new Observer<Integer>() {
+
+        appViewModel.getSumDateIncome().observe(getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 if(integer == null){incomeSumTextView.setText("Income : 0");}
@@ -120,16 +101,16 @@ public class CalendarFragment extends Fragment {
         });
     }
     public void updateMonthSum(){
-        expenseViewModel.setMonthFilter("%%%" + monthTextView.getText().toString());
-        expenseViewModel.getMonthSum().observe(getActivity(), new Observer<Integer>() {
+        appViewModel.setMonthFilter("%%%" + monthTextView.getText().toString());
+        appViewModel.getSumMonthExpense().observe(getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 if(integer == null){expenseSumTextView.setText("Expense: 0");}
                 else expenseSumTextView.setText("Expense: " + String.valueOf(integer));
             }
         });
-        incomeViewModel.setMonthFilter("%%%" + monthTextView.getText().toString());
-        incomeViewModel.getMonthSum().observe(getActivity(), new Observer<Integer>() {
+
+        appViewModel.getSumMonthIncome().observe(getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 if(integer == null){incomeSumTextView.setText("Income : 0");}

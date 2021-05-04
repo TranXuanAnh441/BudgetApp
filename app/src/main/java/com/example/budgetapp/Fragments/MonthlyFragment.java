@@ -15,7 +15,7 @@ import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
 import com.example.budgetapp.AppDatabase;
-import com.example.budgetapp.CategoryDatabase.Category;
+import com.example.budgetapp.Database.Category.Category;
 import com.example.budgetapp.R;
 
 import java.text.SimpleDateFormat;
@@ -50,9 +50,9 @@ public class MonthlyFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Category> categoryList = categoryDatabase.categoryDao().getListCategory();
+                List<Category> categoryList = categoryDatabase.appDao().getListCategory();
                 for(Category category : categoryList){
-                    Integer monthSum= categoryDatabase.categoryDao().getMonthlyCategorySum(category.getCid(), "%%%" + date);
+                    Integer monthSum= categoryDatabase.appDao().getMonthCategorySum(category.getCid(), "%%%" + date);
                     categoryNames.add(category.getName());
                     categoryIds.add(category.getCid());
                     sum.add(monthSum);}

@@ -8,20 +8,21 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.budgetapp.ExpenseDatabase.Expense;
+
+import com.example.budgetapp.Database.ExpenseIncome.ExpenseIncome;
 import com.example.budgetapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseRCVAdapter extends RecyclerView.Adapter<ExpenseRCVAdapter.ExpenseViewHolder> implements Filterable {
-    public List<Expense> getExpenses() {
+    public List<ExpenseIncome> getExpenses() {
         return expenses;
     }
 
-    private List<Expense> expenses =new ArrayList<>();
-    private List<Expense> searchedList =new ArrayList<>();
+    private List<ExpenseIncome> expenses =new ArrayList<>();
+    private List<ExpenseIncome> searchedList =new ArrayList<>();
 
-    public void setExpenses(List<Expense> expenses) {
+    public void setExpenses(List<ExpenseIncome> expenses) {
         this.expenses = expenses;
         this.searchedList = expenses;
         notifyDataSetChanged();
@@ -38,7 +39,7 @@ public class ExpenseRCVAdapter extends RecyclerView.Adapter<ExpenseRCVAdapter.Ex
     public void onBindViewHolder(@NonNull ExpenseRCVAdapter.ExpenseViewHolder holder, int position) {
 
         if(position < expenses.size() && holder.textViewTitle != null) {
-            Expense currentExpense = expenses.get(position);
+            ExpenseIncome currentExpense = expenses.get(position);
             holder.textViewDate.setText(currentExpense.getDate());
             holder.textViewTitle.setText(currentExpense.getTitle());
             holder.textViewAmount.setText(String.valueOf(currentExpense.getAmount()));
@@ -60,8 +61,8 @@ public class ExpenseRCVAdapter extends RecyclerView.Adapter<ExpenseRCVAdapter.Ex
                 if(strSearched.isEmpty()){
                     expenses = searchedList;
                 }else{
-                    List<Expense> list = new ArrayList<>();
-                    for(Expense expense : searchedList){
+                    List<ExpenseIncome> list = new ArrayList<>();
+                    for(ExpenseIncome expense : searchedList){
                         if(expense.getTitle().toLowerCase().contains(strSearched.toLowerCase())
                             || expense.getDescription().toLowerCase().contains(strSearched.toLowerCase())
                             || expense.getDate().toLowerCase().contains(strSearched.toLowerCase())
@@ -79,7 +80,7 @@ public class ExpenseRCVAdapter extends RecyclerView.Adapter<ExpenseRCVAdapter.Ex
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                expenses = (List<Expense>) results.values;
+                expenses = (List<ExpenseIncome>) results.values;
                 notifyDataSetChanged();
             }
         };

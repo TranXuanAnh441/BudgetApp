@@ -15,10 +15,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.budgetapp.AddCategoryActivity;
+import com.example.budgetapp.Activities.AddCategoryActivity;
+import com.example.budgetapp.Database.AppViewModel;
+import com.example.budgetapp.Database.Category.Category;
 import com.example.budgetapp.R;
-import com.example.budgetapp.CategoryDatabase.Category;
-import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
 import com.example.budgetapp.recyclerviewAdapter.CategoryRCVAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -30,8 +30,8 @@ public class CategoryFragment extends Fragment {
     public static final int ADD_CATEGORY = 1;
     public static final int RESULT_OK = 100;
     public static final String CATEGORY = "com.example.budgetapp.Fragments.CATEGORY";
-    private CategoryViewModel categoryViewModel;
     private TextView headingTextView;
+    private AppViewModel appViewModel;
 
     @Nullable
     @Override
@@ -44,7 +44,6 @@ public class CategoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         headingTextView = view.findViewById(R.id.headingTextView);
         headingTextView.setText("CATEGORY");
-        categoryViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(CategoryViewModel.class);
         FloatingActionButton buttonAddCategory = view.findViewById(R.id.button_add_category);
         buttonAddCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +60,8 @@ public class CategoryFragment extends Fragment {
         final CategoryRCVAdapter categoryRCVAdapter = new CategoryRCVAdapter();
         recyclerView.setAdapter(categoryRCVAdapter);
 
-        categoryViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(CategoryViewModel.class);
-        categoryViewModel.getAllCategory().observe(getActivity(), new Observer<List<Category>>() {
+        appViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(AppViewModel.class);
+        appViewModel.getAllCategory().observe(getActivity(), new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> categories) {
                 categoryRCVAdapter.setCategories(categories);
@@ -85,7 +84,7 @@ public class CategoryFragment extends Fragment {
         super.onActivityResult(request_code, result_code, data);
         if (request_code == ADD_CATEGORY && result_code == RESULT_OK) {
             Category category = new Category(data.getStringExtra(AddCategoryActivity.EXTRA_NAME));
-            categoryViewModel.insert(category);
+            appViewModel.insertCategory(category);
         }
     }
 }

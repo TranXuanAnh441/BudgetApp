@@ -1,8 +1,7 @@
-package com.example.budgetapp;
+package com.example.budgetapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -13,30 +12,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.budgetapp.DailyBalanceDatabase.DailyBalance;
-import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceViewModel;
+import com.example.budgetapp.Database.AppViewModel;
+import com.example.budgetapp.Database.ExpenseIncome.ExpenseIncome;
 import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.Fragments.ExpenseRecyclerViewFragment;
 import com.example.budgetapp.Fragments.IncomeRecyclerViewFragment;
-import com.example.budgetapp.ExpenseDatabase.Expense;
-import com.example.budgetapp.ExpenseDatabase.ExpenseViewModel;
-import com.example.budgetapp.IncomeDatabase.Income;
-import com.example.budgetapp.IncomeDatabase.IncomeViewModel;
+import com.example.budgetapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ExpenseIncomeRCVActivity extends AppCompatActivity {
-    private ExpenseViewModel expenseViewModel;
-    private IncomeViewModel incomeViewModel;
-    private DailyBalanceViewModel dailyBalanceViewModel;
+    private AppViewModel appViewModel;
 
     public String getDate() {
         return date;
     }
 
     private String date;
-    private int expenseSum;
-    private int incomeSum;
     public static final int RESULT_OK = 100;
     private BottomNavigationView bottomNavigationView;
 
@@ -46,13 +38,7 @@ public class ExpenseIncomeRCVActivity extends AppCompatActivity {
         setContentView(R.layout.activity_expense_recycler_view);
         Intent dateIntent = getIntent();
         date = dateIntent.getStringExtra(CalendarFragment.DATE_VALUE);
-
-
-        expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(ExpenseViewModel.class);
-        incomeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(IncomeViewModel.class);
-        dailyBalanceViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(DailyBalanceViewModel.class);
-
-
+        appViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(AppViewModel.class);
 
         FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_category1);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
@@ -60,9 +46,9 @@ public class ExpenseIncomeRCVActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent dateIntent = getIntent();
                 String date = dateIntent.getStringExtra(CalendarFragment.DATE_VALUE);
-                Intent intent = new Intent(ExpenseIncomeRCVActivity.this, AddExpenseActivity.class);
+                Intent intent = new Intent(ExpenseIncomeRCVActivity.this, AddExpenseIncomeActivity.class);
                 intent.putExtra(CalendarFragment.DATE_VALUE, date);
-                startActivityForResult(intent, AddExpenseActivity.ADD_REQUEST_CODE);
+                startActivityForResult(intent, AddExpenseIncomeActivity.ADD_REQUEST_CODE);
             }
         });
 
@@ -93,24 +79,17 @@ public class ExpenseIncomeRCVActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int request_code, int result_code, Intent data) {
         super.onActivityResult(request_code, result_code, data);
-        if (request_code == AddExpenseActivity.ADD_REQUEST_CODE && result_code == AddExpenseActivity.EXPENSE_RESULT) {
-            String title = data.getStringExtra(AddExpenseActivity.EXPENSE_TITLE);
-            String date = data.getStringExtra(AddExpenseActivity.EXPENSE_DATE);
-            int amount = data.getIntExtra(AddExpenseActivity.EXPENSE_AMOUNT, 0);
-            String description = data.getStringExtra(AddExpenseActivity.EXPENSE_DESCRIPTION);
-            Expense expense = new Expense(title, description, amount, date);
-            int categoryId = data.getIntExtra(AddExpenseActivity.EXTRA_CATEGORY, 0);
-            expense.setCategoryId(categoryId);
-            expenseViewModel.insert(expense);
+        if (request_code == AddExpenseIncomeActivity.ADD_REQUEST_CODE && result_code == AddExpenseIncomeActivity.RESULT_OK) {
+            String title = data.getStringExtra(AddExpenseIncomeActivity.EXTRA_TITLE);
+            String date = data.getStringExtra(AddExpenseIncomeActivity.EXTRA_DATE);
+            int amount = data.getIntExtra(AddExpenseIncomeActivity.EXTRA_AMOUNT, 0);
+            String description = data.getStringExtra(AddExpenseIncomeActivity.EXTRA_DESCRIPTION);
+            int typeId = data.getIntExtra(AddExpenseIncomeActivity.EXTRA_TYPE_ID,0);
+            ExpenseIncome expenseIncome = new ExpenseIncome(title, description, amount, date, typeId);
+            int categoryId = data.getIntExtra(AddExpenseIncomeActivity.EXTRA_CATEGORY, 0);
+            expenseIncome.setCategoryId(categoryId);
+            appViewModel.insertExpenseIncome(expenseIncome);
             Toast.makeText(this, "saved", Toast.LENGTH_LONG).show();
-        }
-        else if (request_code == AddExpenseActivity.ADD_REQUEST_CODE && result_code == AddExpenseActivity.INCOME_RESULT){
-            String title = data.getStringExtra(AddExpenseActivity.INCOME_TITLE);
-            String date = data.getStringExtra(AddExpenseActivity.INCOME_DATE);
-            int amount = data.getIntExtra(AddExpenseActivity.INCOME_AMOUNT, 0);
-            String description = data.getStringExtra(AddExpenseActivity.INCOME_DESCRIPTION);
-            Income income = new Income(title, description, amount, date);
-            incomeViewModel.insert(income);
         }
     }
 
@@ -124,7 +103,7 @@ public class ExpenseIncomeRCVActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete_all:
-                expenseViewModel.deleteAll();
+                appViewModel.deleteAllExpense();
                 Toast.makeText(this, "All deleted", Toast.LENGTH_SHORT).show();
                 return true;
             default:

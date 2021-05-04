@@ -16,19 +16,18 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.budgetapp.AddExpenseActivity;
-import com.example.budgetapp.DailyBalanceDatabase.DailyBalanceViewModel;
-import com.example.budgetapp.ExpenseIncomeRCVActivity;
+import com.example.budgetapp.Activities.AddExpenseIncomeActivity;
+import com.example.budgetapp.Database.AppViewModel;
+import com.example.budgetapp.Database.ExpenseIncome.ExpenseIncome;
+import com.example.budgetapp.Activities.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
-import com.example.budgetapp.ExpenseDatabase.Expense;
-import com.example.budgetapp.ExpenseDatabase.ExpenseViewModel;
 import com.example.budgetapp.recyclerviewAdapter.ExpenseListAdapter;
 
 import java.util.List;
 
 public class ExpenseRecyclerViewFragment extends Fragment {
-    private ExpenseViewModel expenseViewModel;
-    private DailyBalanceViewModel dailyBalanceViewModel;
+    private AppViewModel appViewModel;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,13 +50,12 @@ public class ExpenseRecyclerViewFragment extends Fragment {
         ExpenseIncomeRCVActivity expenseRecyclerViewActivity = (ExpenseIncomeRCVActivity) getActivity();
         String date = expenseRecyclerViewActivity.getDate();
 
-        dailyBalanceViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(DailyBalanceViewModel.class);
-        expenseViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(ExpenseViewModel.class);
 
-        expenseViewModel.setFilter(date);
-        expenseViewModel.getDateExpense().observe(getActivity(), new Observer<List<Expense>>() {
+        appViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(AppViewModel.class);
+        appViewModel.setDateFilter(date);
+        appViewModel.getDateExpense().observe(getActivity(), new Observer<List<ExpenseIncome>>() {
             @Override
-            public void onChanged(List<Expense> expenses) {
+            public void onChanged(List<ExpenseIncome> expenses) {
                 expenseListAdapter.submitList(expenses);
                 }});
 
@@ -70,40 +68,41 @@ public class ExpenseRecyclerViewFragment extends Fragment {
 
                     @Override
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                        expenseViewModel.delete(expenseListAdapter.getExpenseAt(viewHolder.getAdapterPosition()));
+                        appViewModel.deleteExpenseIncome(expenseListAdapter.getExpenseAt(viewHolder.getAdapterPosition()));
                         Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
                     }
                 }).attachToRecyclerView(recyclerView);
 
         expenseListAdapter.setOnItemClickListener(new ExpenseListAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Expense expense) {
-                        Intent intent = new Intent(getActivity(), AddExpenseActivity.class);
-                        intent.putExtra(AddExpenseActivity.EXPENSE_ID, expense.getEid());
-                        intent.putExtra(AddExpenseActivity.EXPENSE_AMOUNT, expense.getAmount());
-                        intent.putExtra(AddExpenseActivity.EXPENSE_DATE, expense.getDate());
-                        intent.putExtra(AddExpenseActivity.EXPENSE_TITLE, expense.getTitle());
-                        intent.putExtra(AddExpenseActivity.EXPENSE_DESCRIPTION, expense.getDescription());
-                        intent.putExtra(AddExpenseActivity.EXTRA_CATEGORY, expense.getCategoryId());
-                        startActivityForResult(intent, AddExpenseActivity.UPDATE_REQUEST_CODE);
-                    }
-                });
-            }
+            @Override
+            public void onItemClick(ExpenseIncome expense) {
+                Intent intent = new Intent(getActivity(), AddExpenseIncomeActivity.class);
+                intent.putExtra(AddExpenseIncomeActivity.EXTRA_TYPE_ID, expense.getTypeId());
+                intent.putExtra(AddExpenseIncomeActivity.EXTRA_ID, expense.getId());
+                intent.putExtra(AddExpenseIncomeActivity.EXTRA_AMOUNT, expense.getAmount());
+                intent.putExtra(AddExpenseIncomeActivity.EXTRA_DATE, expense.getDate());
+                intent.putExtra(AddExpenseIncomeActivity.EXTRA_TITLE, expense.getTitle());
+                intent.putExtra(AddExpenseIncomeActivity.EXTRA_DESCRIPTION, expense.getDescription());
+                intent.putExtra(AddExpenseIncomeActivity.EXTRA_CATEGORY, expense.getCategoryId());
+                startActivityForResult(intent, AddExpenseIncomeActivity.UPDATE_REQUEST_CODE);
+            }});}
+
     @Override
     public void onActivityResult(int request_code, int result_code, Intent data) {
-        if (request_code == AddExpenseActivity.UPDATE_REQUEST_CODE && result_code == AddExpenseActivity.EXPENSE_RESULT) {
-            int expense_id = data.getIntExtra(AddExpenseActivity.EXPENSE_ID, -1);
+        if (request_code == AddExpenseIncomeActivity.UPDATE_REQUEST_CODE && result_code == AddExpenseIncomeActivity.RESULT_OK) {
+            long expense_id = data.getLongExtra(AddExpenseIncomeActivity.EXTRA_ID, -1);
             if (expense_id == -1 ) {
                 return;
             }
-            String title = data.getStringExtra(AddExpenseActivity.EXPENSE_TITLE);
-            String date = data.getStringExtra(AddExpenseActivity.EXPENSE_DATE);
-            String description = data.getStringExtra(AddExpenseActivity.EXPENSE_DESCRIPTION);
-            int amount = data.getIntExtra(AddExpenseActivity.EXPENSE_AMOUNT, 1);
-            int categoryId = data.getIntExtra(AddExpenseActivity.EXTRA_CATEGORY, 0);
-            Expense expense = new Expense(title, description, amount, date);
-            expense.setEid(expense_id);
+            String title = data.getStringExtra(AddExpenseIncomeActivity.EXTRA_TITLE);
+            String date = data.getStringExtra(AddExpenseIncomeActivity.EXTRA_DATE);
+            String description = data.getStringExtra(AddExpenseIncomeActivity.EXTRA_DESCRIPTION);
+            int amount = data.getIntExtra(AddExpenseIncomeActivity.EXTRA_AMOUNT, 1);
+            int categoryId = data.getIntExtra(AddExpenseIncomeActivity.EXTRA_CATEGORY, 0);
+            int typeId = data.getIntExtra(AddExpenseIncomeActivity.EXTRA_TYPE_ID, 0);
+            ExpenseIncome expense = new ExpenseIncome(title, description, amount, date,typeId);
+            expense.setId(expense_id);
             expense.setCategoryId(categoryId);
-            expenseViewModel.update(expense);}
+            appViewModel.updateExpenseIncome(expense);}
     }
 }

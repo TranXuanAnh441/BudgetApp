@@ -1,26 +1,20 @@
-package com.example.budgetapp.ExpenseDatabase;
-
+package com.example.budgetapp.Database.ExpenseIncome;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import com.example.budgetapp.CategoryDatabase.Category;
-
-import static androidx.room.ForeignKey.CASCADE;
-
-@Entity(tableName = "expense_table")
-public class Expense {
-    public int getEid() {
-        return eid;
+@Entity(tableName = "expense_income_table")
+public class ExpenseIncome {
+    public long getId() {
+        return id;
     }
 
-    public void setEid(int eid) {
-        this.eid = eid;
+    public void setId(long id) {
+        this.id = id;
     }
 
     @PrimaryKey(autoGenerate = true)
-    private int eid;
+    private long id;
 
     private String title;
 
@@ -41,12 +35,18 @@ public class Expense {
     @Nullable
     private int categoryId;
 
+    public int getTypeId() {
+        return typeId;
+    }
 
-    public Expense(String title, String description, int amount, String date) {
+    private int typeId;
+
+    public ExpenseIncome(String title, String description, int amount, String date, int typeId) {
         this.title = title;
         this.description = description;
         this.amount = amount;
         this.date = date;
+        this.typeId = typeId;
     }
 
     public String getTitle() {
@@ -65,3 +65,4 @@ public class Expense {
         return date;
     }
 }
+

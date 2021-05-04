@@ -1,4 +1,4 @@
-package com.example.budgetapp;
+package com.example.budgetapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -10,15 +10,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.budgetapp.CategoryDatabase.Category;
-import com.example.budgetapp.CategoryDatabase.CategoryViewModel;
+import com.example.budgetapp.Database.AppViewModel;
+import com.example.budgetapp.Database.Category.Category;
+import com.example.budgetapp.R;
 import com.example.budgetapp.recyclerviewAdapter.CategoryRCVAdapter;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class CategoryRecyclerViewActivity extends AppCompatActivity {
-    private CategoryViewModel categoryViewModel;
+    private AppViewModel categoryViewModel;
     private Context context;
     public static final String ADD_CATEGORY = "com.example.budgetapp.ADD_CATEGORY";
 
@@ -34,7 +35,7 @@ public class CategoryRecyclerViewActivity extends AppCompatActivity {
         final CategoryRCVAdapter categoryRCVAdapter = new CategoryRCVAdapter();
         recyclerView.setAdapter(categoryRCVAdapter);
 
-        categoryViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(CategoryViewModel.class);
+        categoryViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(AppViewModel.class);
         categoryViewModel.getAllCategory().observe(this, new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> categories) {
@@ -45,10 +46,11 @@ public class CategoryRecyclerViewActivity extends AppCompatActivity {
         categoryRCVAdapter.setOnItemClickListener(new CategoryRCVAdapter.OnItemClickListener(){
             @Override
             public void onItemClick(Category category) {
-                Intent categoryIntent = new Intent(CategoryRecyclerViewActivity.this, AddExpenseActivity.class);
+                Intent categoryIntent = new Intent(CategoryRecyclerViewActivity.this, AddExpenseIncomeActivity.class);
                 categoryIntent.putExtra(ADD_CATEGORY, (Serializable) category);
                 setResult(ExpenseIncomeRCVActivity.RESULT_OK, categoryIntent);
                 finish();
             }
+
         });
     }}

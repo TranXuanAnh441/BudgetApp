@@ -1,4 +1,4 @@
-package com.example.budgetapp;
+package com.example.budgetapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +21,7 @@ import android.widget.SearchView;
 import com.example.budgetapp.Fragments.CategoryFragment;
 import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.Fragments.MonthlyFragment;
+import com.example.budgetapp.R;
 import com.example.budgetapp.recyclerviewAdapter.CategoryRCVAdapter;
 import com.google.android.material.navigation.NavigationView;
 
