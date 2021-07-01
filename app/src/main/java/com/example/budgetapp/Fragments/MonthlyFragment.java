@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,20 +15,14 @@ import androidx.lifecycle.ViewModelProvider;
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
-import com.example.budgetapp.AppDatabase;
 import com.example.budgetapp.Database.AppViewModel;
-import com.example.budgetapp.Database.Category.Category;
-import com.example.budgetapp.Database.Category.IApiAccessResponse;
 import com.example.budgetapp.R;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
 
 
 public class MonthlyFragment extends Fragment {
