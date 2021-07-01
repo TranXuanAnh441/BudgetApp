@@ -1,4 +1,4 @@
-package com.example.budgetapp.recyclerviewAdapter;
+package com.example.budgetapp.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

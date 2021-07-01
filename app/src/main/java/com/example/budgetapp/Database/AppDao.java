@@ -68,9 +68,12 @@ public interface AppDao {
     @Query("SELECT * FROM category_table WHERE cid=:id")
     Category getCategoryById(int id);
 
-    @Query("SELECT * FROM category_table")
-    List<Category> getListCategory();
+    @Query("SELECT DISTINCT categoryId from expense_income_table WHERE date like :date and typeId = 1 ")
+    List<Integer> getMonthCategory(String date);
 
-    @Query("SELECT SUM(amount) FROM expense_income_table WHERE categoryId =:id and date LIKE :date")
-    Integer getMonthCategorySum(int id, String date);
+    @Query("SELECT SUM(amount) FROM expense_income_table WHERE categoryId = :cid and typeId = 1 ")
+    Integer getMonthCategorySum(Integer cid);
+
+    @Query("SELECT name FROM category_table WHERE cid =:cid")
+    String getCategoryNames(Integer cid);
 }

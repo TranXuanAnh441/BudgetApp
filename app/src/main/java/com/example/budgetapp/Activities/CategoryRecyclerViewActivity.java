@@ -13,7 +13,7 @@ import android.os.Bundle;
 import com.example.budgetapp.Database.AppViewModel;
 import com.example.budgetapp.Database.Category.Category;
 import com.example.budgetapp.R;
-import com.example.budgetapp.recyclerviewAdapter.CategoryRCVAdapter;
+import com.example.budgetapp.Adapters.CategoryRCVAdapter;
 
 import java.io.Serializable;
 import java.util.List;

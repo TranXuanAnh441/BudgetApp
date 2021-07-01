@@ -22,7 +22,7 @@ import com.example.budgetapp.Fragments.CategoryFragment;
 import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.Fragments.MonthlyFragment;
 import com.example.budgetapp.R;
-import com.example.budgetapp.recyclerviewAdapter.CategoryRCVAdapter;
+import com.example.budgetapp.Adapters.CategoryRCVAdapter;
 import com.google.android.material.navigation.NavigationView;
 
 

@@ -21,7 +21,7 @@ import com.example.budgetapp.Database.AppViewModel;
 import com.example.budgetapp.Database.ExpenseIncome.ExpenseIncome;
 import com.example.budgetapp.Activities.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.R;
-import com.example.budgetapp.recyclerviewAdapter.ExpenseListAdapter;
+import com.example.budgetapp.Adapters.ExpenseListAdapter;
 
 import java.util.List;
 

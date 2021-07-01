@@ -17,7 +17,6 @@ public class AddCategoryActivity extends AppCompatActivity {
     public static final int RESULT_CODE = 100;
     public static final int ADD_REQUEST_CODE = 1;
     private EditText editTextName;
-    String categoryName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

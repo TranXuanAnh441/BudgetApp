@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.anychart.chart.common.dataentry.DataEntry;
 import com.example.budgetapp.Database.Category.Category;
 import com.example.budgetapp.Database.Category.CategoryRepository;
 import com.example.budgetapp.Database.ExpenseIncome.ExpenseIncome;
@@ -31,6 +32,7 @@ public class AppViewModel extends AndroidViewModel {
     private CategoryRepository categoryRepository;
     private LiveData<List<Category>> allCategory;
     private MutableLiveData<Category> findCategoryById;
+    private MutableLiveData<List<DataEntry>> dataEntries;
 
 
     public AppViewModel(@NonNull Application application) {
@@ -53,6 +55,8 @@ public class AppViewModel extends AndroidViewModel {
         categoryRepository = new CategoryRepository(application);
         allCategory = categoryRepository.getAllCategory();
         findCategoryById = categoryRepository.getCategoryById();
+        dataEntries = categoryRepository.getMonthPie();
+
     }
     public LiveData<Integer> getSumDateExpense() { return sumDateExpense; }
     public LiveData<Integer> getSumDateIncome() { return sumDateIncome; }
@@ -94,6 +98,7 @@ public class AppViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<Category> getCategoryResult() { return findCategoryById; }
+    public MutableLiveData<List<DataEntry>> getMonthPieResult(){return dataEntries; }
     public LiveData<List<Category>> getAllCategory(){ return allCategory; }
     public void findCategoryId(Integer id ){ categoryRepository.findCategory(id);}
     public void insertCategory(Category category){
@@ -105,4 +110,5 @@ public class AppViewModel extends AndroidViewModel {
     public void deleteCategory(Category category){
         categoryRepository.delete(category);
     }
+    public void getMonthPie(String date){categoryRepository.getMonthPie(date);}
 }

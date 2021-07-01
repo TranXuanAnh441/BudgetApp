@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -15,7 +19,9 @@ import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
 import com.example.budgetapp.AppDatabase;
+import com.example.budgetapp.Database.AppViewModel;
 import com.example.budgetapp.Database.Category.Category;
+import com.example.budgetapp.Database.Category.IApiAccessResponse;
 import com.example.budgetapp.R;
 
 import java.text.SimpleDateFormat;
@@ -29,11 +35,7 @@ import java.util.concurrent.CountDownLatch;
 public class MonthlyFragment extends Fragment {
     AnyChartView anyChartView;
     private SimpleDateFormat monthFormatYear = new SimpleDateFormat("MMMM-yyyy", Locale.getDefault());
-    final private AppDatabase categoryDatabase = AppDatabase.getInstance(getActivity());
-    final CountDownLatch latch = new CountDownLatch(1);
-    private List<String> categoryNames = new ArrayList<>();
-    private List<Integer> categoryIds = new ArrayList<>();
-    private List<Integer> sum = new ArrayList<>();
+    private AppViewModel appViewModel;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,40 +45,22 @@ public class MonthlyFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        appViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(AppViewModel.class);
         anyChartView = view.findViewById(R.id.chartView);
         Calendar cal = Calendar.getInstance();
         String date = monthFormatYear.format(cal.getTime());
-        new Thread(new Runnable() {
+        appViewModel.getMonthPie("%%%" + date);
+        appViewModel.getMonthPieResult().observe(getActivity(), new Observer<List<DataEntry>>() {
             @Override
-            public void run() {
-                List<Category> categoryList = categoryDatabase.appDao().getListCategory();
-                for(Category category : categoryList){
-                    Integer monthSum= categoryDatabase.appDao().getMonthCategorySum(category.getCid(), "%%%" + date);
-                    categoryNames.add(category.getName());
-                    categoryIds.add(category.getCid());
-                    sum.add(monthSum);}
-                latch.countDown();
-
+            public void onChanged(List<DataEntry> dataEntries) {
+                if(dataEntries == null){
+                    Toast.makeText(getActivity(), "null", Toast.LENGTH_LONG).show();
+                }
+                Pie pie = AnyChart.pie();
+                pie.data(dataEntries);
+                anyChartView.setChart(pie);
             }
-        }).start();
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        setUpPie();
-    }
-
-
-    public void setUpPie(){
-        Pie pie = AnyChart.pie();
-        List<DataEntry> dataEntries = new ArrayList<>();
-        for(int i = 0; i < categoryNames.size(); i ++){
-            dataEntries.add(new ValueDataEntry(categoryNames.get(i), sum.get(i)));
-        }
-        pie.data(dataEntries);
-        anyChartView.setChart(pie);
+        });
     }
 }
 
