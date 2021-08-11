@@ -40,7 +40,7 @@ public class ExpenseIncomeRCVActivity extends AppCompatActivity {
         date = dateIntent.getStringExtra(CalendarFragment.DATE_VALUE);
         appViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(AppViewModel.class);
 
-        FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_category1);
+        FloatingActionButton buttonAddExpense = findViewById(R.id.button_add_expenseIncome);
         buttonAddExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

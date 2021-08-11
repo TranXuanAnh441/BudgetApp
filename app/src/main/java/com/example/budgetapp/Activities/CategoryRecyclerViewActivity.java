@@ -9,18 +9,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.budgetapp.Database.AppViewModel;
 import com.example.budgetapp.Database.Category.Category;
+import com.example.budgetapp.Fragments.CalendarFragment;
 import com.example.budgetapp.R;
 import com.example.budgetapp.Adapters.CategoryRCVAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class CategoryRecyclerViewActivity extends AppCompatActivity {
     private AppViewModel categoryViewModel;
-    private Context context;
     public static final String ADD_CATEGORY = "com.example.budgetapp.ADD_CATEGORY";
 
     @Override

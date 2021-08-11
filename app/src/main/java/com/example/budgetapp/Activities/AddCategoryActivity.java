@@ -9,24 +9,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.example.budgetapp.Database.Category.Category;
 import com.example.budgetapp.Fragments.CategoryFragment;
 import com.example.budgetapp.R;
 
 public class AddCategoryActivity extends AppCompatActivity {
     public static final String EXTRA_NAME = "com.example.budgetapp.Activities.AddCategoryActivity.EXTRA_NAME";
+    public static final String EXTRA_ID = "com.example.budgetapp.Activities.AddCategoryActivity.EXTRA_ID";
     public static final int RESULT_CODE = 100;
     public static final int ADD_REQUEST_CODE = 1;
     private EditText editTextName;
-
+    private Category category;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
-
         editTextName = findViewById(R.id.edit_text_name);
-
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close);
-        setTitle("add Category");
+
+        category = (Category) getIntent().getSerializableExtra(CategoryFragment.CATEGORY);
+        if(category!=null){setTitle("update Category"); editTextName.setText(category.getName());}
+        else setTitle("add Category");
     }
 
     @Override
@@ -52,6 +55,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         if (name.trim().isEmpty()) return;
         Intent intent = new Intent(AddCategoryActivity.this, MainActivity.class);
         intent.putExtra(EXTRA_NAME, name);
+        if(category!=null) intent.putExtra(EXTRA_ID,category.getCid());
         setResult(CategoryFragment.RESULT_OK, intent);
         finish();
     }

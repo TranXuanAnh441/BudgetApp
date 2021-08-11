@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return categoryRCVAdapter;
     }
     CategoryRCVAdapter categoryRCVAdapter;
-    SearchView searchView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

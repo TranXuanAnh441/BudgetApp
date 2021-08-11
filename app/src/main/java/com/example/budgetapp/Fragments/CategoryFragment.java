@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.Activities.AddCategoryActivity;
+import com.example.budgetapp.Activities.AddExpenseIncomeActivity;
+import com.example.budgetapp.Activities.CategoryRecyclerViewActivity;
+import com.example.budgetapp.Activities.ExpenseIncomeRCVActivity;
 import com.example.budgetapp.Database.AppViewModel;
 import com.example.budgetapp.Database.Category.Category;
 import com.example.budgetapp.R;
@@ -68,14 +71,12 @@ public class CategoryFragment extends Fragment {
 
             }
         });
-
         categoryRCVAdapter.setOnItemClickListener(new CategoryRCVAdapter.OnItemClickListener(){
             @Override
             public void onItemClick(Category category) {
                 Intent categoryIntent = new Intent(getActivity(), AddCategoryActivity.class);
                 categoryIntent.putExtra(CATEGORY, (Serializable) category);
-                getActivity().setResult(RESULT_OK, categoryIntent);
-                getActivity().finish();
+                startActivityForResult(categoryIntent, UPDATE_CATEGORY);
             }
         });
     }
@@ -85,6 +86,11 @@ public class CategoryFragment extends Fragment {
         if (request_code == ADD_CATEGORY && result_code == RESULT_OK) {
             Category category = new Category(data.getStringExtra(AddCategoryActivity.EXTRA_NAME));
             appViewModel.insertCategory(category);
+        }
+        if (request_code == UPDATE_CATEGORY && result_code==RESULT_OK){
+            Category category = new Category(data.getStringExtra(AddCategoryActivity.EXTRA_NAME));
+            category.setCid(data.getIntExtra(AddCategoryActivity.EXTRA_ID,0));
+            appViewModel.updateCategory(category);
         }
     }
 }
